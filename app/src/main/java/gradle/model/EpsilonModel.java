@@ -1,5 +1,9 @@
 package gradle.model;
 
-public class EpsilonModel {
-    
+
+public class EpsilonModel extends Model {
+    public EpsilonModel() {
+        addItem(this);
+    }
 }
+

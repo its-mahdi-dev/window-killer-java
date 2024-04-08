@@ -5,8 +5,10 @@ package gradle;
 
 import javax.swing.*;
 
+import gradle.controller.Update;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.EpsilonView;
 
 public class App {
     public static void main(String[] args) {
@@ -14,6 +16,11 @@ public class App {
             GameFrame.getINSTANCE();
             GamePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();
+
+            // add items
+            EpsilonView.items.add(new EpsilonView());
+
+            new Update();
         });
     }
 }

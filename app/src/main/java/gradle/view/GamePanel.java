@@ -12,6 +12,8 @@ import java.awt.geom.CubicCurve2D;
 import javax.swing.*;
 
 import gradle.controller.Constants;
+import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.View;
 
 public class GamePanel extends JPanel {
     private static GamePanel INSTANCE;
@@ -38,5 +40,8 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        for (View epsilonView : EpsilonView.items) {
+            epsilonView.draw(g);
+        }
     }
 }

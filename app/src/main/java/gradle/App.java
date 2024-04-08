@@ -6,9 +6,9 @@ package gradle;
 import javax.swing.*;
 
 import gradle.controller.Update;
+import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
-import gradle.view.charecretsView.EpsilonView;
 
 public class App {
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class App {
             GamePanel.getINSTANCE().repaint();
 
             // add items
-            EpsilonView.items.add(new EpsilonView());
+            EpsilonModel.items.add(new EpsilonModel());
 
             new Update();
         });

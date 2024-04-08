@@ -1,10 +1,18 @@
 package gradle.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Model {
     private String Id;
+    public int x;
+    public int y;
+    public int w;
+    public int h;
+
+    public Model() {
+        Id = UUID.randomUUID().toString();
+    }
+
     public static final List<Model> items = new ArrayList<>();
 
     public String getId() {

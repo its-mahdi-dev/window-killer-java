@@ -3,11 +3,10 @@ package gradle.view.charecretsView;
 import java.awt.Graphics;
 
 import gradle.controller.Constants;
+import gradle.model.EpsilonModel;
+import gradle.model.Model;
 
 public class EpsilonView extends View {
-    public int x = 100;
-    public int y = 100;
-    public int diameter = Constants.EPSILON_DIAMETER;
 
     public EpsilonView() {
         items.add(this);
@@ -15,7 +14,15 @@ public class EpsilonView extends View {
 
     @Override
     public void draw(Graphics g) {
-        g.fillOval(x, y, diameter / 2, diameter / 2);
+        g.fillOval(x, y, w, h);
+    }
+
+    @Override
+    public void setUtil(Model epsilonModel) {
+        x = epsilonModel.x;
+        y = epsilonModel.y;
+        w = epsilonModel.w;
+        h = epsilonModel.h;
     }
 
 }

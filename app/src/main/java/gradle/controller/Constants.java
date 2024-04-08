@@ -16,4 +16,6 @@ public class Constants {
 
         // Entities
         public static final int EPSILON_DIAMETER = 70;
+        public static final int MOVE_SPEED = 6;
+        public static final int DIAGONAL_SPEED = 2;
 }

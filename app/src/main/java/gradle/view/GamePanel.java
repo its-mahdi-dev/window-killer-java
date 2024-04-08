@@ -1,22 +1,20 @@
 package gradle.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.CubicCurve2D;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
 import gradle.controller.Constants;
+import gradle.controller.EpsilonController;
+// import gradle.interfaces.KeyListener;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
 public class GamePanel extends JPanel {
     private static GamePanel INSTANCE;
+
+    // private KeyListener kl;
 
     private GamePanel() {
         setOpaque(true);
@@ -24,6 +22,8 @@ public class GamePanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());
+        setFocusable(true);
+        this.addKeyListener(new EpsilonController());
         GameFrame.getINSTANCE().add(this);
     }
 
@@ -44,4 +44,18 @@ public class GamePanel extends JPanel {
             epsilonView.draw(g);
         }
     }
+
+    // public void setKeyListener(KeyListener kl) {
+    // // this.kl = kl;
+    // }
+
+    public class AL extends KeyAdapter {
+        public void keyPressed(KeyEvent e) {
+            // kl.keyPressed(e);
+        }
+
+        public void ketReleased(KeyEvent e) {
+        }
+    }
+
 }

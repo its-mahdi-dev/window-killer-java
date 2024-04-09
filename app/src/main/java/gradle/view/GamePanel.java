@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
+import gradle.controller.MouseController;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
@@ -21,6 +22,8 @@ public class GamePanel extends JPanel {
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         this.addKeyListener(new KeyController());
+        this.addMouseListener(new MouseController());
+        this.addMouseMotionListener(new MouseController());
         GameFrame.getINSTANCE().add(this);
     }
 

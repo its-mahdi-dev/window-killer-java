@@ -84,4 +84,8 @@ public class EpsilonController {
             ableMove.replace("down", false);
         }
     }
+
+    public static void mousePressed(MouseEvent e) {
+        System.out.println(e.getPoint());
+    }
 }

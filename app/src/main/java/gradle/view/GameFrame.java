@@ -11,7 +11,7 @@ public class GameFrame extends JFrame {
 
     private GameFrame() throws HeadlessException {
         setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 128));
+        setBackground(new Color(0, 0, 0, 0));
         setSize(Constants.GAME_FRAME_DIMENSION);
         setLocationRelativeTo(null);
         setVisible(true);

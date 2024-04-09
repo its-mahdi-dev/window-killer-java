@@ -6,15 +6,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import gradle.controller.Constants;
-import gradle.controller.EpsilonController;
-// import gradle.interfaces.KeyListener;
+import gradle.controller.KeyController;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
 public class GamePanel extends JPanel {
     private static GamePanel INSTANCE;
-
-    // private KeyListener kl;
 
     private GamePanel() {
         setOpaque(true);
@@ -23,7 +20,7 @@ public class GamePanel extends JPanel {
         setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
-        this.addKeyListener(new EpsilonController());
+        this.addKeyListener(new KeyController());
         GameFrame.getINSTANCE().add(this);
     }
 
@@ -45,17 +42,5 @@ public class GamePanel extends JPanel {
         }
     }
 
-    // public void setKeyListener(KeyListener kl) {
-    // // this.kl = kl;
-    // }
-
-    public class AL extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            // kl.keyPressed(e);
-        }
-
-        public void ketReleased(KeyEvent e) {
-        }
-    }
 
 }

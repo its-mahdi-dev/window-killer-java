@@ -10,6 +10,9 @@ import gradle.view.charecretsView.View;
 public class EnemyModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public EnemyType type;
+    public int HP;
+    public int power;
+    public List<String> shots = new ArrayList<>();
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {
         this.anchor = anchor;
@@ -19,6 +22,8 @@ public class EnemyModel extends Model {
         double rotationAngle = Math.toRadians(20);
 
         if (type == EnemyType.square) {
+            HP = 10;
+            power = 6;
             w = Constants.ENEMY_SQUARE_DIAMETER;
             h = Constants.ENEMY_SQUARE_DIAMETER;
             xPoints = new int[] {
@@ -34,6 +39,8 @@ public class EnemyModel extends Model {
                     (int) (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
             };
         } else if (type == EnemyType.triangle) {
+            HP = 15;
+            power = 10;
             w = Constants.ENEMY_TRIANGLE_DIAMETER;
             h = Constants.ENEMY_TRIANGLE_DIAMETER;
             double d = Math.sqrt(3) / 2 * h;

@@ -36,6 +36,12 @@ public class Update {
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
             shotView.setUtil(shotModel);
         }
+        for (int i = 0; i < EnemyView.items.size(); i++) {
+            EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
+            EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
+            enemyView.setUtil(enemyModel);
+        }
+
         GameFrame.getINSTANCE().repaint();
     }
 
@@ -45,7 +51,11 @@ public class Update {
             shotModel.move();
             for (int j = 0; j < EnemyModel.items.size(); j++) {
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
-                if (Utils.checkEpsilonShot(enemyModel, shotModel)) {
+                if (Utils.checkEpsilonShot(enemyModel, shotModel) && !enemyModel.shots.contains(shotModel.getId())) {
+                    enemyModel.HP--;
+                    enemyModel.shots.add(shotModel.getId());
+                }
+                if (enemyModel.HP <= 0) {
                     EnemyModel.items.remove(j);
                     EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
                 }

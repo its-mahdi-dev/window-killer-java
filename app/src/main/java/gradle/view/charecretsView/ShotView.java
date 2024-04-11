@@ -2,8 +2,7 @@ package gradle.view.charecretsView;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import gradle.model.Model;
 

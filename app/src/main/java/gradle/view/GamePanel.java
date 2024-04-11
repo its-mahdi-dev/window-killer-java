@@ -8,6 +8,7 @@ import javax.swing.*;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.controller.MouseController;
+import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 import gradle.view.charecretsView.View;
@@ -47,7 +48,10 @@ public class GamePanel extends JPanel {
         for (View shotView : ShotView.items) {
             shotView.draw(g);
         }
-    }
 
+        for (View enemyView : EnemyView.items) {
+            enemyView.draw(g);
+        }
+    }
 
 }

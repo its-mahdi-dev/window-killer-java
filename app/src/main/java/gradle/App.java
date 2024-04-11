@@ -3,9 +3,13 @@
  */
 package gradle;
 
+import java.awt.geom.Point2D;
+
 import javax.swing.*;
 
 import gradle.controller.Update;
+import gradle.model.EnemyModel;
+import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
@@ -19,7 +23,8 @@ public class App {
 
             // add items
             new EpsilonModel();
-
+            new EnemyModel(new Point2D.Double(200, 100) , EnemyType.square);
+            new EnemyModel(new Point2D.Double(300, 100) , EnemyType.triangle);
             new Update();
         });
     }

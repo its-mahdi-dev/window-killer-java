@@ -11,6 +11,8 @@ public abstract class View {
     public Point2D anchor = new Point2D.Double(0, 0);
     public int w;
     public int h;
+    public int[] xPoints;
+    public int[] yPoints;
 
     private String Id;
 

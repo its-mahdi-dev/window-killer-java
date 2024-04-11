@@ -8,6 +8,8 @@ public abstract class Model {
     public Point2D anchor;
     public int w;
     public int h;
+    public int[] xPoints;
+    public int[] yPoints;
 
     public Model() {
         Id = UUID.randomUUID().toString();

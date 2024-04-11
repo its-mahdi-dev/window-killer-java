@@ -18,7 +18,7 @@ public class App {
             GamePanel.getINSTANCE().repaint();
 
             // add items
-            EpsilonModel.items.add(new EpsilonModel());
+            new EpsilonModel();
 
             new Update();
         });

@@ -13,8 +13,6 @@ public abstract class Model {
         Id = UUID.randomUUID().toString();
     }
 
-    public static final List<Model> items = new ArrayList<>();
-
     public String getId() {
         return Id;
     }
@@ -24,15 +22,23 @@ public abstract class Model {
     }
 
     public Model findModel(String Id) {
-        for (Model item : items) {
-            if (item.getId().equals(Id)) {
-                return item;
+        List<Model> items = getItems();
+        if (items != null) {
+            for (Model item : items) {
+                if (item.getId().equals(Id)) {
+                    return item;
+                }
             }
         }
         return null;
     }
 
-    public static void addItem(Model item) {
-        items.add(item);
+    public void addItem(Model item) {
+        List<Model> items = getItems();
+        if (items != null) {
+            items.add(item);
+        }
     }
+
+    protected abstract List<Model> getItems();
 }

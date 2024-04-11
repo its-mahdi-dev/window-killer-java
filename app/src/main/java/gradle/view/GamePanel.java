@@ -9,6 +9,7 @@ import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.controller.MouseController;
 import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.ShotView;
 import gradle.view.charecretsView.View;
 
 public class GamePanel extends JPanel {
@@ -42,6 +43,9 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         for (View epsilonView : EpsilonView.items) {
             epsilonView.draw(g);
+        }
+        for (View shotView : ShotView.items) {
+            shotView.draw(g);
         }
     }
 

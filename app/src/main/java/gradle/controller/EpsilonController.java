@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gradle.model.EpsilonModel;
+import gradle.model.ShotModel;
 import gradle.view.charecretsView.EpsilonView;
 
 public class EpsilonController {
@@ -86,6 +87,8 @@ public class EpsilonController {
     }
 
     public static void mousePressed(MouseEvent e) {
-        System.out.println(e.getPoint());
+        new ShotModel(e.getX(), e.getY(), 10, 10);
+        System.out.println(ShotModel.items.size());
+        System.out.println("epsilon: " + EpsilonModel.items.size());
     }
 }

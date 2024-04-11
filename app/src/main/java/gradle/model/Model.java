@@ -1,11 +1,11 @@
 package gradle.model;
 
+import java.awt.geom.Point2D;
 import java.util.*;
 
 public abstract class Model {
     private String Id;
-    public int x;
-    public int y;
+    public Point2D anchor;
     public int w;
     public int h;
 

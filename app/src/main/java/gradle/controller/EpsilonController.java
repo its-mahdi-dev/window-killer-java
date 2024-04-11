@@ -1,12 +1,14 @@
 package gradle.controller;
 
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.ShotView;
 
 public class EpsilonController {
 
@@ -65,30 +67,28 @@ public class EpsilonController {
             dx -= Constants.MOVE_SPEED;
         }
 
-        EpsilonModel.items.get(0).x += dx;
-        EpsilonModel.items.get(0).y += dy;
+        EpsilonModel.items.get(0).anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + dx , EpsilonModel.items.get(0).anchor.getY()+dy);
 
         EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
     }
 
     private static void setAbleMoves() {
-        if (EpsilonModel.items.get(0).x < 0) {
+        if (EpsilonModel.items.get(0).anchor.getX() < 0) {
             ableMove.replace("left", false);
         }
-        if (EpsilonModel.items.get(0).x > Constants.PANEL_SIZE.getWidth() - EpsilonModel.items.get(0).w) {
+        if (EpsilonModel.items.get(0).anchor.getX() > Constants.PANEL_SIZE.getWidth() - EpsilonModel.items.get(0).w) {
             ableMove.replace("right", false);
         }
-        if (EpsilonModel.items.get(0).y < 0) {
+        if (EpsilonModel.items.get(0).anchor.getY() < 0) {
             ableMove.replace("up", false);
         }
-        if (EpsilonModel.items.get(0).y > Constants.PANEL_SIZE.getHeight() - EpsilonModel.items.get(0).h) {
+        if (EpsilonModel.items.get(0).anchor.getY() > Constants.PANEL_SIZE.getHeight() - EpsilonModel.items.get(0).h) {
             ableMove.replace("down", false);
         }
     }
 
     public static void mousePressed(MouseEvent e) {
-        new ShotModel(e.getX(), e.getY(), 10, 10);
-        System.out.println(ShotModel.items.size());
-        System.out.println("epsilon: " + EpsilonModel.items.size());
+        new ShotModel();
+        
     }
 }

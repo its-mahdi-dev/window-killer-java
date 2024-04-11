@@ -10,19 +10,20 @@ import gradle.model.Model;
 
 public class EpsilonView extends View {
     public static final List<View> items = new ArrayList<>();
-    public EpsilonView() {
+
+    public EpsilonView(String Id) {
+        super(Id);
         items.add(this);
     }
 
     @Override
     public void draw(Graphics g) {
-        g.fillOval(x, y, w, h);
+        g.fillOval((int) anchor.getX(), (int) anchor.getY(), w, h);
     }
 
     @Override
     public void setUtil(Model epsilonModel) {
-        x = epsilonModel.x;
-        y = epsilonModel.y;
+        anchor = epsilonModel.anchor;
         w = epsilonModel.w;
         h = epsilonModel.h;
     }

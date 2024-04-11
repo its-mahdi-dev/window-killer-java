@@ -10,20 +10,20 @@ import gradle.model.Model;
 public class ShotView extends View {
     public static final List<View> items = new ArrayList<>();
 
-    public ShotView() {
+    public ShotView(String Id) {
+        super(Id);
         items.add(this);
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.white);
-        g.fillOval(x, y, w, h);
+        g.fillOval((int) anchor.getX(), (int) anchor.getY(), w, h);
     }
 
     @Override
     public void setUtil(Model shotModel) {
-        x = shotModel.x;
-        y = shotModel.y;
+        anchor = shotModel.anchor;
         w = shotModel.w;
         h = shotModel.h;
     }

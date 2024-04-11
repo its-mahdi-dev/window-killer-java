@@ -13,18 +13,43 @@ public class EnemyModel extends Model {
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {
         this.anchor = anchor;
-        w = Constants.ENEMY_SQUARE_DIAMETER;
-        h = Constants.ENEMY_SQUARE_DIAMETER;
         type = enemyType;
+        int x = (int) anchor.getX();
+        int y = (int) anchor.getY();
+        double rotationAngle = Math.toRadians(20);
+
         if (type == EnemyType.square) {
-            xPoints = new int[] { (int) anchor.getX(), (int) anchor.getX() + w, (int) anchor.getX() + w,
-                    (int) anchor.getX() };
-            yPoints = new int[] { (int) anchor.getY(), (int) anchor.getY(), (int) anchor.getY() + h,
-                    (int) anchor.getY() + h };
+            w = Constants.ENEMY_SQUARE_DIAMETER;
+            h = Constants.ENEMY_SQUARE_DIAMETER;
+            xPoints = new int[] {
+                    (int) (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (int) (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (int) (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
+                    (int) (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
+            };
+            yPoints = new int[] {
+                    (int) (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (int) (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (int) (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
+                    (int) (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
+            };
         } else if (type == EnemyType.triangle) {
-            xPoints = new int[] { (int) anchor.getX() + w / 2, (int) anchor.getX(), (int) anchor.getX() + w };
-            yPoints = new int[] { (int) anchor.getY(), (int) anchor.getY() + h, (int) anchor.getY() + h };
+            w = Constants.ENEMY_TRIANGLE_DIAMETER;
+            h = Constants.ENEMY_TRIANGLE_DIAMETER;
+            double d = Math.sqrt(3) / 2 * h;
+            xPoints = new int[] {
+                    (int) (x + d * Math.cos(rotationAngle)),
+                    (int) (x + d * Math.cos(rotationAngle - Math.PI * 2 / 3)),
+                    (int) (x + d * Math.cos(rotationAngle + Math.PI * 2 / 3))
+            };
+            yPoints = new int[] {
+                    (int) (y + d * Math.sin(rotationAngle)),
+                    (int) (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
+                    (int) (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
+            };
         }
+
+        addItem(this);
         addView();
     }
 
@@ -40,5 +65,14 @@ public class EnemyModel extends Model {
 
     public static Model findById(String Id) {
         return Model.findModel(Id, items);
+    }
+
+    public int getEnemyPointsNumber() {
+        int num = 3;
+        if (type == EnemyType.square)
+            num = 4;
+        else if (type == EnemyType.triangle)
+            num = 3;
+        return num;
     }
 }

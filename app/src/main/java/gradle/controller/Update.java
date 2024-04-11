@@ -2,12 +2,16 @@ package gradle.controller;
 
 import javax.swing.*;
 
+import gradle.model.EnemyModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
+import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 
+import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +43,22 @@ public class Update {
         for (int i = 0; i < ShotModel.items.size(); i++) {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
             shotModel.move();
-            if (shotModel.anchor.getX() + Constants.SHOT_DIAMETER > Constants.PANEL_SIZE.getWidth()
+            for (int j = 0; j < EnemyModel.items.size(); j++) {
+                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
+                if (Utils.checkEpsilonShot(enemyModel, shotModel)) {
+                    EnemyModel.items.remove(j);
+                    EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+                }
+
+            }
+            if (shotModel.anchor.getX() > Constants.PANEL_SIZE.getWidth()
                     || shotModel.anchor.getX() < 0 ||
-                    shotModel.anchor.getY() + Constants.SHOT_DIAMETER > Constants.PANEL_SIZE.getHeight()
+                    shotModel.anchor.getY() > Constants.PANEL_SIZE.getHeight()
                     || shotModel.anchor.getY() < 0) {
                 ShotModel.items.remove(i);
                 ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
             }
         }
     }
-    
+
 }

@@ -15,8 +15,8 @@ public class ShotModel extends Model implements Movable {
     Point2D direction;
 
     public ShotModel() {
-        anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + Constants.EPSILON_DIAMETER / 2,
-                EpsilonModel.items.get(0).anchor.getY() + Constants.EPSILON_DIAMETER / 2);
+        anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX(),
+                EpsilonModel.items.get(0).anchor.getY());
         h = Constants.SHOT_DIAMETER;
         w = Constants.SHOT_DIAMETER;
         addItem(this);

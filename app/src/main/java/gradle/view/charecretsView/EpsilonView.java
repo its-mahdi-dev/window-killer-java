@@ -18,7 +18,9 @@ public class EpsilonView extends View {
 
     @Override
     public void draw(Graphics g) {
-        g.fillOval((int) anchor.getX(), (int) anchor.getY(), w, h);
+        int x = (int) anchor.getX() - w / 2;
+        int y = (int) anchor.getY() - h / 2;
+        g.fillOval(x, y, w, h);
     }
 
     @Override
@@ -33,10 +35,8 @@ public class EpsilonView extends View {
         return items;
     }
 
-    
     public static View findById(String Id) {
         return View.findView(Id, items);
     }
-    
 
 }

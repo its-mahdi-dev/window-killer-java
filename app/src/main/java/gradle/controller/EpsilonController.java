@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.charecretsView.EnemyView;
@@ -93,6 +94,5 @@ public class EpsilonController {
     public static void mousePressed(MouseEvent e) {
         ShotModel shot = new ShotModel();
         shot.setDirection(Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY())));
-        System.out.println("enemyView: " + EnemyView.items.get(0).anchor);
     }
 }

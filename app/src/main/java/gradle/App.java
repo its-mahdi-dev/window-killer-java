@@ -23,8 +23,8 @@ public class App {
 
             // add items
             new EpsilonModel();
-            new EnemyModel(new Point2D.Double(200, 100) , EnemyType.square);
-            new EnemyModel(new Point2D.Double(300, 100) , EnemyType.triangle);
+            new EnemyModel(new Point2D.Double(200, 100), EnemyType.square);
+            new EnemyModel(new Point2D.Double(300, 100), EnemyType.triangle);
             new Update();
         });
     }

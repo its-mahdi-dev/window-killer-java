@@ -25,10 +25,6 @@ public class EnemyView extends View {
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3.0f));
-        double rotationAngle = Math.toRadians(20);
-        int centerX = (int) anchor.getX() + w / 2;
-        int centerY = (int) anchor.getY() + h / 2;
-        g2d.rotate(rotationAngle, centerX, centerY);
         if (type == EnemyType.square) {
             g2d.setColor(Color.GREEN);
             g2d.drawPolygon(xPoints, yPoints, 4);
@@ -36,7 +32,6 @@ public class EnemyView extends View {
             g2d.setColor(Color.YELLOW);
             g2d.drawPolygon(xPoints, yPoints, 3);
         }
-        g2d.rotate(-rotationAngle, centerX, centerY);
     }
 
     @Override

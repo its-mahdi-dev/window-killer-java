@@ -5,6 +5,7 @@ import java.util.*;
 
 import gradle.controller.Constants;
 import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.View;
 
 public class EpsilonModel extends Model {
     public static final List<Model> items = new ArrayList<>();
@@ -14,7 +15,8 @@ public class EpsilonModel extends Model {
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         addItem(this);
-        new EpsilonView(getId());
+        View view = new EpsilonView(getId());
+        view.setUtil(this);
     }
 
     @Override

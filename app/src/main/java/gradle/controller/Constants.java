@@ -15,14 +15,13 @@ public class Constants {
         public static final double SPEED = 3 * 60D / UPS;
 
         // Entities
-        public static final int EPSILON_DIAMETER = 70;
+        public static final int EPSILON_DIAMETER = 30;
         public static final int MOVE_SPEED = 6;
         public static final int DIAGONAL_SPEED = 2;
-        public static final int SHOT_DIAMETER = 10;
+        public static final int SHOT_DIAMETER = 6;
         public static final double SHOT_SPEED = 5 * 60D / UPS;
 
-
-        //ENEMIES
+        // ENEMIES
         public static final int ENEMY_SQUARE_DIAMETER = 50;
-        public static final int ENEMY_TRIANGLE_DIAMETER = 50;
+        public static final int ENEMY_TRIANGLE_DIAMETER = 40;
 }

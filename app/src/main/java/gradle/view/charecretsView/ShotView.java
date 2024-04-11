@@ -17,7 +17,9 @@ public class ShotView extends View {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.white);
-        g.fillOval((int) anchor.getX(), (int) anchor.getY(), w, h);
+        int x = (int) anchor.getX() - w / 2;
+        int y = (int) anchor.getY() - h / 2;
+        g.fillOval(x, y, w, h);
     }
 
     @Override

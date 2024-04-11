@@ -33,4 +33,10 @@ public class EpsilonView extends View {
         return items;
     }
 
+    
+    public static View findById(String Id) {
+        return View.findView(Id, items);
+    }
+    
+
 }

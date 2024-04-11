@@ -6,23 +6,25 @@ import java.util.List;
 
 import gradle.controller.Constants;
 import gradle.controller.Utils;
-import gradle.movement.Direction;
 import gradle.movement.Movable;
 import gradle.view.charecretsView.ShotView;
+import gradle.view.charecretsView.View;
 
-public class ShotModel extends Model implements Movable{
+public class ShotModel extends Model implements Movable {
     public static final List<Model> items = new ArrayList<>();
-    Direction direction;
+    Point2D direction;
+
     public ShotModel() {
-        anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() , EpsilonModel.items.get(0).anchor.getY());
-        h = EpsilonModel.items.get(0).h;
-        w = EpsilonModel.items.get(0).w;
+        anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + Constants.EPSILON_DIAMETER / 2,
+                EpsilonModel.items.get(0).anchor.getY() + Constants.EPSILON_DIAMETER / 2);
+        h = Constants.SHOT_DIAMETER;
+        w = Constants.SHOT_DIAMETER;
         addItem(this);
         ShotView view = new ShotView(getId());
         view.setUtil(this);
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(Point2D direction) {
         this.direction = direction;
     }
 
@@ -32,13 +34,19 @@ public class ShotModel extends Model implements Movable{
     }
 
     @Override
-    public void move(Direction direction, double speed) {
-        Point2D movement=Utils.multiplyVector(direction.getDirectionVector(),speed);
-        this.anchor=Utils.addVectors(anchor,movement);
+    public void move(Point2D direction, double speed) {
+        anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
+        View view = ShotView.findById(getId());
+        view.setUtil(this);
     }
 
     @Override
     public void move() {
-        move(direction,Constants.SPEED);
+        move(direction, Constants.SHOT_SPEED);
     }
+
+    public static Model findById(String Id) {
+        return Model.findModel(Id, items);
+    }
+
 }

@@ -1,7 +1,11 @@
 package gradle.movement;
 
+import java.awt.geom.Point2D;
+
 public interface Movable {
-    void setDirection(Direction direction);
-    void move(Direction direction,double speed);
+    void setDirection(Point2D direction);
+
+    void move(Point2D direction, double speed);
+
     void move();
 }

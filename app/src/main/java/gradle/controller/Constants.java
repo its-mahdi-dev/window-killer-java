@@ -19,4 +19,5 @@ public class Constants {
         public static final int MOVE_SPEED = 6;
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 10;
+        public static final double SHOT_SPEED = 5 * 60D / UPS;
 }

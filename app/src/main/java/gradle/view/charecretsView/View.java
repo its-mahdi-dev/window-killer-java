@@ -8,7 +8,7 @@ import gradle.model.Model;
 
 public abstract class View {
 
-    public Point2D anchor;
+    public Point2D anchor = new Point2D.Double(0, 0);
     public int w;
     public int h;
 
@@ -33,13 +33,10 @@ public abstract class View {
         }
     }
 
-    public View findView(String Id) {
-        List<View> items = getItems();
-        if (items != null) {
-            for (View item : items) {
-                if (item.getId().equals(Id)) {
-                    return item;
-                }
+    public static View findView(String Id, List<? extends View> items) {
+        for (View item : items) {
+            if (item.getId().equals(Id)) {
+                return item;
             }
         }
         return null;

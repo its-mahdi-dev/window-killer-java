@@ -9,6 +9,7 @@ import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
+import gradle.view.charecretsView.View;
 
 public class EpsilonController {
 
@@ -67,7 +68,8 @@ public class EpsilonController {
             dx -= Constants.MOVE_SPEED;
         }
 
-        EpsilonModel.items.get(0).anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + dx , EpsilonModel.items.get(0).anchor.getY()+dy);
+        EpsilonModel.items.get(0).anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + dx,
+                EpsilonModel.items.get(0).anchor.getY() + dy);
 
         EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
     }
@@ -88,7 +90,7 @@ public class EpsilonController {
     }
 
     public static void mousePressed(MouseEvent e) {
-        new ShotModel();
-        
+        ShotModel shot = new ShotModel();
+        shot.setDirection(Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY())));
     }
 }

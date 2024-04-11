@@ -21,13 +21,10 @@ public abstract class Model {
         this.Id = Id;
     }
 
-    public Model findModel(String Id) {
-        List<Model> items = getItems();
-        if (items != null) {
-            for (Model item : items) {
-                if (item.getId().equals(Id)) {
-                    return item;
-                }
+    public static Model findModel(String Id, List<? extends Model> items) {
+        for (Model item : items) {
+            if (item.getId().equals(Id)) {
+                return item;
             }
         }
         return null;

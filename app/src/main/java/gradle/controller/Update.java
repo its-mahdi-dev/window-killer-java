@@ -3,6 +3,7 @@ package gradle.controller;
 import javax.swing.*;
 
 import gradle.model.EnemyModel;
+import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
@@ -31,6 +32,9 @@ public class Update {
     }
 
     public void updateView() {
+        EpsilonView epsilonView = (EpsilonView) EpsilonView.items.get(0);
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        epsilonView.setUtil(epsilonModel);
         for (int i = 0; i < ShotView.items.size(); i++) {
             ShotView shotView = (ShotView) ShotView.items.get(i);
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
@@ -46,6 +50,8 @@ public class Update {
     }
 
     public void updateModel() {
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        epsilonModel.move();
         for (int i = 0; i < ShotModel.items.size(); i++) {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
             shotModel.move();

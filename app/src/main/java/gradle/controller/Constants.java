@@ -10,13 +10,13 @@ public class Constants {
         public static final int FPS = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0]
                         .getDisplayMode().getRefreshRate();
         public static final double FRAME_UPDATE_TIME = (double) TimeUnit.SECONDS.toMillis(1) / FPS;
-        public static final int UPS = 100;
+        public static final int UPS = 500;
         public static final double MODEL_UPDATE_TIME = (double) TimeUnit.SECONDS.toMillis(1) / UPS;
         public static final double SPEED = 3 * 60D / UPS;
 
         // Entities
         public static final int EPSILON_DIAMETER = 30;
-        public static final int MOVE_SPEED = 6;
+        public static final double MOVE_SPEED = 4 * 60D / UPS;
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 6;
         public static final double SHOT_SPEED = 5 * 60D / UPS;

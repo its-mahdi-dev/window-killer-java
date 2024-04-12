@@ -35,8 +35,10 @@ public class EpsilonController {
     }
 
     public static void updateMovement() {
-        int dx = 0;
-        int dy = 0;
+        double dx = 0;
+        double dy = 0;
+
+        boolean isDoubleClicked = false;
 
         for (Map.Entry<String, Boolean> entry : ableMove.entrySet()) {
             ableMove.replace(entry.getKey(), true);
@@ -45,35 +47,41 @@ public class EpsilonController {
         setAbleMoves();
 
         if (pressed.get("up") && !pressed.get("down") && ableMove.get("up")) {
-            dy -= Constants.MOVE_SPEED;
+            dy = -1;
         } else if (!pressed.get("up") && pressed.get("down") && ableMove.get("down")) {
-            dy += Constants.MOVE_SPEED;
+            dy = +1;
         }
 
         if (pressed.get("left") && !pressed.get("right") && ableMove.get("left")) {
-            dx -= Constants.MOVE_SPEED;
+            dx = -1;
         } else if (!pressed.get("left") && pressed.get("right") && ableMove.get("right")) {
-            dx += Constants.MOVE_SPEED;
+            dx = +1;
         }
 
         if (pressed.get("up") && pressed.get("right") && ableMove.get("up") && ableMove.get("right")) {
-            dy -= Constants.MOVE_SPEED;
-            dx += Constants.MOVE_SPEED;
+            dy = -1;
+            dx = +1;
+            isDoubleClicked = true;
         } else if (pressed.get("up") && pressed.get("left") && ableMove.get("up") && ableMove.get("left")) {
-            dy -= Constants.MOVE_SPEED;
-            dx -= Constants.MOVE_SPEED;
+            dy = -1;
+            dx = -1;
+            isDoubleClicked = true;
         } else if (pressed.get("down") && pressed.get("right") && ableMove.get("down") && ableMove.get("right")) {
-            dy += Constants.MOVE_SPEED;
-            dx += Constants.MOVE_SPEED;
+            dy = +1;
+            dx = +1;
+            isDoubleClicked = true;
         } else if (pressed.get("down") && pressed.get("left") && ableMove.get("down") && ableMove.get("left")) {
-            dy += Constants.MOVE_SPEED;
-            dx -= Constants.MOVE_SPEED;
+            dy = +1;
+            dx = -1;
+            isDoubleClicked = true;
         }
 
-        EpsilonModel.items.get(0).anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX() + dx,
-                EpsilonModel.items.get(0).anchor.getY() + dy);
-
-        EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
+        if (isDoubleClicked) {
+            dy /= Math.sqrt(2);
+            dx /= Math.sqrt(2);
+        }
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        epsilonModel.setDirection(new Point2D.Double(dx, dy));
     }
 
     private static void setAbleMoves() {
@@ -93,6 +101,7 @@ public class EpsilonController {
 
     public static void mousePressed(MouseEvent e) {
         ShotModel shot = new ShotModel();
-        shot.setDirection(Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY())));
+        Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
+        shot.setDirection(direction);
     }
 }

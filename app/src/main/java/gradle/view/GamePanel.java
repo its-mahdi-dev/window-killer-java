@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
@@ -18,7 +19,8 @@ public class GamePanel extends JPanel {
 
     private GamePanel() {
         setOpaque(true);
-        setBackground(Color.gray);
+        setBackground(new Color(0, 0, 0, 75));
+        setBorder(new LineBorder(Color.yellow));
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());

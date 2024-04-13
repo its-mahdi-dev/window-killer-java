@@ -66,6 +66,7 @@ public class Update {
                     EpsilonModel.items.get(0).anchor));
             enemyModel.move();
             EnemyController.setPoints(enemyModel);
+            EnemyController.checkEnemyCollision(enemyModel);
 
             EnemyController.checkEpsilonColision(enemyModel);
         }

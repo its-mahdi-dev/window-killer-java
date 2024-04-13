@@ -1,5 +1,6 @@
 package gradle.controller;
 
+import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,5 +35,26 @@ public class EnemyController {
             enemyModel.setImpact();
         }
 
+    }
+
+    public static void checkEnemyCollision(EnemyModel enemyModel) {
+        for (int i = 0; i < EnemyModel.items.size(); i++) {
+            EnemyModel enemy = (EnemyModel) EnemyModel.items.get(i);
+            if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
+                enemyModel.setImpact();
+                enemy.setImpact();
+            }
+        }
+    }
+
+    private static boolean isEnemyCollision(EnemyModel enemyModel1, EnemyModel enemyModel2) {
+        Polygon polygon = new Polygon(enemyModel1.getXpointsInt(), enemyModel1.getYpointsInt(),
+                enemyModel1.getEnemyPointsNumber());
+        for (int i = 0; i < enemyModel2.xPoints.length; i++) {
+            if (polygon.contains(new Point2D.Double(enemyModel2.xPoints[i], enemyModel2.yPoints[i])))
+                return true;
+        }
+
+        return false;
     }
 }

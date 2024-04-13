@@ -17,7 +17,7 @@ public class Constants {
 
         // Entities
         public static final int EPSILON_DIAMETER = 30;
-        public static final double MOVE_SPEED = 15 * 60D / UPS;
+        public static final double MOVE_SPEED = 12 * 60D / UPS;
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 6;
         public static final double SHOT_SPEED = 25 * 60D / UPS;

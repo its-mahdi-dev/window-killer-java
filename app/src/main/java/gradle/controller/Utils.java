@@ -24,6 +24,7 @@ public class Utils {
         return false;
     }
 
+
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {
         double m = (point2.getY() - point1.getY()) / (point2.getX() - point1.getX());
         double c = point1.getY() - m * point1.getX();

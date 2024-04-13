@@ -91,7 +91,7 @@ public abstract class Model {
             });
             timer.start();
         }
-        if (System.currentTimeMillis() - impact_time > 300 && speed <= max_speed) {
+        if (System.currentTimeMillis() - impact_time > 50 && speed <= max_speed) {
             isImpacting = false;
         }
         move(direction, speed);
@@ -117,7 +117,7 @@ public abstract class Model {
         direction = new Point2D.Double(x * direction.getX(), y * direction.getY());
         impact_time = System.currentTimeMillis();
         isImpacting = true;
-        speed *= impact_speed;
+        speed = max_speed * impact_speed;
     }
 
     public void setImpact() {

@@ -10,6 +10,7 @@ import gradle.view.charecretsView.View;
 
 public class EpsilonModel extends Model {
     public static final List<Model> items = new ArrayList<>();
+    public static final List<Model> removedItems= new ArrayList<>();
     public EpsilonModel() {
         anchor = new Point2D.Double(100, 100);
         w = Constants.EPSILON_DIAMETER;
@@ -23,6 +24,11 @@ public class EpsilonModel extends Model {
     @Override
     protected List<Model> getItems() {
         return items;
+    }
+
+    @Override
+    protected List<Model> getRemovedItems() {
+        return removedItems;
     }
 
 }

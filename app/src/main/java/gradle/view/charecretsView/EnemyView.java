@@ -15,6 +15,7 @@ import gradle.model.Model;
 public class EnemyView extends View {
 
     public static final List<View> items = new ArrayList<>();
+    public static final List<View> removedItems= new ArrayList<>();
 
     public EnemyType type;
     public int HP;
@@ -74,6 +75,11 @@ public class EnemyView extends View {
     @Override
     public List<View> getItems() {
         return items;
+    }
+
+    @Override
+    protected List<View> getRemovedItems() {
+        return removedItems;
     }
 
     public static View findById(String Id) {

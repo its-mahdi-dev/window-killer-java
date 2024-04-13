@@ -12,6 +12,7 @@ import gradle.view.charecretsView.View;
 
 public class ShotModel extends Model {
     public static final List<Model> items = new ArrayList<>();
+    public static final List<Model> removedItems = new ArrayList<>();
 
     public ShotModel() {
         anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX(),
@@ -23,11 +24,18 @@ public class ShotModel extends Model {
         addItem(this);
         ShotView view = new ShotView(getId());
         view.setUtil(this);
+
+        System.out.println("called");
     }
 
     @Override
     protected List<Model> getItems() {
         return items;
+    }
+
+    @Override
+    protected List<Model> getRemovedItems() {
+        return removedItems;
     }
 
     public static Model findById(String Id) {

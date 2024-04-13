@@ -49,4 +49,5 @@ public abstract class View {
     public abstract void setUtil(Model model);
 
     public abstract List<View> getItems();
+    protected abstract List<View> getRemovedItems();
 }

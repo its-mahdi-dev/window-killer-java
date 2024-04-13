@@ -8,6 +8,7 @@ import gradle.model.Model;
 
 public class ShotView extends View {
     public static final List<View> items = new ArrayList<>();
+    public static final List<View> removedItems = new ArrayList<>();
 
     public ShotView(String Id) {
         super(Id);
@@ -34,7 +35,17 @@ public class ShotView extends View {
         return items;
     }
 
+    @Override
+    protected List<View> getRemovedItems() {
+        return removedItems;
+    }
+
     public static View findById(String Id) {
         return View.findView(Id, items);
     }
+
+    public static View findById(String Id, List<View> searchItems) {
+        return View.findView(Id, searchItems);
+    }
+
 }

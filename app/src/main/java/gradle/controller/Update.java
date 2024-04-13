@@ -10,7 +10,6 @@ import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 
-
 public class Update {
 
     public Update() {
@@ -52,11 +51,16 @@ public class Update {
             shotModel.move();
             for (int j = 0; j < EnemyModel.items.size(); j++) {
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
-                if (Utils.checkEpsilonShot(enemyModel, shotModel) && !enemyModel.shots.contains(shotModel.getId())) {
+                if (Utils.checkEpsilonShot(enemyModel, shotModel)) {
                     enemyModel.HP--;
-                    enemyModel.shots.add(shotModel.getId());
+                    ShotModel.removedItems.add(shotModel);
+                    ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
+                    ShotModel.items.remove(i);
+                    ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
                 }
                 if (enemyModel.HP <= 0) {
+                    EnemyModel.removedItems.add(enemyModel);
+                    EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
                     EnemyModel.items.remove(j);
                     EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
                 }
@@ -66,6 +70,8 @@ public class Update {
                     || shotModel.anchor.getX() < 0 ||
                     shotModel.anchor.getY() > Constants.PANEL_SIZE.getHeight()
                     || shotModel.anchor.getY() < 0) {
+                ShotModel.removedItems.add(shotModel);
+                ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
                 ShotModel.items.remove(i);
                 ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
             }

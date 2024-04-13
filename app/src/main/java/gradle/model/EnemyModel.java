@@ -9,12 +9,13 @@ import gradle.view.charecretsView.View;
 
 public class EnemyModel extends Model {
     public static final List<Model> items = new ArrayList<>();
+    public static final List<Model> removedItems = new ArrayList<>();
     public EnemyType type;
     public int HP;
     public int power;
-    public List<String> shots = new ArrayList<>();
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {
+
         this.anchor = anchor;
         type = enemyType;
         int x = (int) anchor.getX();
@@ -70,6 +71,11 @@ public class EnemyModel extends Model {
         return items;
     }
 
+    @Override
+    protected List<Model> getRemovedItems() {
+        return removedItems;
+    }
+
     public static Model findById(String Id) {
         return Model.findModel(Id, items);
     }
@@ -82,4 +88,5 @@ public class EnemyModel extends Model {
             num = 3;
         return num;
     }
+
 }

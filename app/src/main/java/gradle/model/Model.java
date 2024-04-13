@@ -93,4 +93,5 @@ public abstract class Model {
     }
 
     protected abstract List<Model> getItems();
+    protected abstract List<Model> getRemovedItems();
 }

@@ -120,12 +120,21 @@ public class EpsilonController {
     }
 
     public static void mousePressed(MouseEvent e) {
-        ShotModel shot = new ShotModel();
+        ShotModel shot;
+        if (ShotModel.removedItems.size() > 0) {
+            shot = (ShotModel) ShotModel.removedItems.get(0);
+            ShotView shotView = (ShotView) ShotView.findById(shot.getId(), ShotView.removedItems);
+            ShotModel.items.add(shot);
+            ShotView.items.add(shotView);
+            ShotView.removedItems.remove(shotView);
+            ShotModel.removedItems.remove(shot);
+            System.out.println("is removed");
+        } else
+            shot = new ShotModel();
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
-        System.out.println(ShotView.items.size());
-        // System.out.println("------------------------------ " +
-        // EpsilonModel.items.get(0).direction);
+        System.out.println("items: " + ShotView.items.size());
+        System.out.println("removed items: " + ShotView.removedItems.size());
 
     }
 }

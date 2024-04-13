@@ -81,7 +81,27 @@ public class EpsilonController {
             dx /= Math.sqrt(2);
         }
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-        epsilonModel.setDirection(new Point2D.Double(dx, dy));
+        // System.out.println(dx * dx + dy * dy);
+        // System.out.println("speed: " + epsilonModel.speed);
+        // System.out.println("max speed: " + epsilonModel.max_speed);
+        // System.out.println("acceleration: " + epsilonModel.max_speed /
+        // Constants.ACCELERATION);
+        // System.out.println("acceleration time: " + Constants.ACCELERATION);
+        if (dx != 0 || dy != 0)
+            epsilonModel.setDirection(new Point2D.Double(dx, dy));
+        int c = 0;
+        for (Map.Entry<String, Boolean> entry : pressed.entrySet()) {
+            if (!entry.getValue())
+                c++;
+        }
+        if (c == pressed.size())
+            epsilonModel.isMoving = false;
+        else
+            epsilonModel.isMoving = true;
+
+        // System.out.println("speed: " + epsilonModel.speed);
+        // System.out.println("velocity: " + epsilonModel.velocity);
+        // System.out.println(epsilonModel.isMoving);
     }
 
     private static void setAbleMoves() {
@@ -103,5 +123,9 @@ public class EpsilonController {
         ShotModel shot = new ShotModel();
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
+        System.out.println(ShotView.items.size());
+        // System.out.println("------------------------------ " +
+        // EpsilonModel.items.get(0).direction);
+
     }
 }

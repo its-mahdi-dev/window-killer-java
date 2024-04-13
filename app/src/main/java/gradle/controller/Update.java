@@ -4,17 +4,12 @@ import javax.swing.*;
 
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
-import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 
-import java.awt.Polygon;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Update {
 

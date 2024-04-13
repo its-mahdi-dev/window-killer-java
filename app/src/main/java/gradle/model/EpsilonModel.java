@@ -10,7 +10,6 @@ import gradle.view.charecretsView.View;
 
 public class EpsilonModel extends Model {
     public static final List<Model> items = new ArrayList<>();
-
     public EpsilonModel() {
         anchor = new Point2D.Double(100, 100);
         w = Constants.EPSILON_DIAMETER;

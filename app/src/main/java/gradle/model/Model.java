@@ -2,6 +2,13 @@ package gradle.model;
 
 import java.awt.geom.Point2D;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.Timer;
+import java.util.List;
+
+import gradle.controller.Constants;
 
 public abstract class Model {
     private String Id;
@@ -10,13 +17,18 @@ public abstract class Model {
     public int h;
     public int[] xPoints;
     public int[] yPoints;
+    Timer timer;
+    public boolean isMoving;
 
-    Point2D direction = new Point2D.Double(0, 0);
+    public Point2D direction = new Point2D.Double(0, 0);
 
-    double max_speed;
+    public double speed = 0;
+    public double max_speed;
+    public double velocity;
 
     public Model() {
         Id = UUID.randomUUID().toString();
+
     }
 
     public String getId() {
@@ -40,6 +52,7 @@ public abstract class Model {
         List<Model> items = getItems();
         if (items != null) {
             items.add(item);
+            velocity = max_speed / Constants.ACCELERATION;
         }
     }
 
@@ -48,11 +61,35 @@ public abstract class Model {
     }
 
     public void move(Point2D direction, double speed) {
+
         anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
     }
 
     public void move() {
-        move(direction, max_speed);
+        if (timer == null) {
+            System.out.println("new timer");
+            timer = new Timer(50, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (speed <= max_speed && speed >= 0) {
+                        if (isMoving)
+                            speed += velocity;
+                        else
+                            speed -= velocity;
+
+                        if (speed < 0)
+                            speed = 0;
+                        if (speed > max_speed)
+                            speed = max_speed;
+                        // System.out.println("speed: " + speed);
+                        // System.out.println("max speed: " + max_speed);
+                        // System.out.println("velocity: " + velocity);
+                    }
+                }
+            });
+            timer.start();
+        }
+        move(direction, speed);
     }
 
     protected abstract List<Model> getItems();

@@ -19,6 +19,7 @@ public class ShotModel extends Model {
         h = Constants.SHOT_DIAMETER;
         w = Constants.SHOT_DIAMETER;
         max_speed = Constants.SHOT_SPEED;
+        isMoving = true;
         addItem(this);
         ShotView view = new ShotView(getId());
         view.setUtil(this);

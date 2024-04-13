@@ -15,10 +15,10 @@ public abstract class Model {
     public Point2D anchor;
     public int w;
     public int h;
-    public int[] xPoints;
-    public int[] yPoints;
+    public double[] xPoints;
+    public double[] yPoints;
     Timer timer;
-    public boolean isMoving;
+    public boolean isMoving = true;
 
     public Point2D direction = new Point2D.Double(0, 0);
 
@@ -61,7 +61,6 @@ public abstract class Model {
     }
 
     public void move(Point2D direction, double speed) {
-
         anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
     }
 
@@ -92,6 +91,23 @@ public abstract class Model {
         move(direction, speed);
     }
 
+    public int[] getXpointsInt() {
+        int[] points = new int[xPoints.length];
+        for (int i = 0; i < xPoints.length; i++) {
+            points[i] = (int) xPoints[i];
+        }
+        return points;
+    }
+
+    public int[] getYpointsInt() {
+        int[] points = new int[yPoints.length];
+        for (int i = 0; i < yPoints.length; i++) {
+            points[i] = (int) yPoints[i];
+        }
+        return points;
+    }
+
     protected abstract List<Model> getItems();
+
     protected abstract List<Model> getRemovedItems();
 }

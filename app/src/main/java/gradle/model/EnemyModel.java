@@ -18,8 +18,9 @@ public class EnemyModel extends Model {
 
         this.anchor = anchor;
         type = enemyType;
-        int x = (int) anchor.getX();
-        int y = (int) anchor.getY();
+        double x = anchor.getX();
+        double y = anchor.getY();
+        max_speed = Constants.ENEMY_SPEED;
         double rotationAngle = Math.toRadians(20);
 
         if (type == EnemyType.square) {
@@ -27,17 +28,17 @@ public class EnemyModel extends Model {
             power = 6;
             w = Constants.ENEMY_SQUARE_DIAMETER;
             h = Constants.ENEMY_SQUARE_DIAMETER;
-            xPoints = new int[] {
-                    (int) (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
-                    (int) (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
-                    (int) (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
-                    (int) (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
+            xPoints = new double[] {
+                    (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
+                    (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
             };
-            yPoints = new int[] {
-                    (int) (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
-                    (int) (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
-                    (int) (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
-                    (int) (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
+            yPoints = new double[] {
+                    (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
+                    (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
             };
         } else if (type == EnemyType.triangle) {
             HP = 15;
@@ -45,15 +46,15 @@ public class EnemyModel extends Model {
             w = Constants.ENEMY_TRIANGLE_DIAMETER;
             h = Constants.ENEMY_TRIANGLE_DIAMETER;
             double d = Math.sqrt(3) / 2 * h;
-            xPoints = new int[] {
-                    (int) (x + d * Math.cos(rotationAngle)),
-                    (int) (x + d * Math.cos(rotationAngle - Math.PI * 2 / 3)),
-                    (int) (x + d * Math.cos(rotationAngle + Math.PI * 2 / 3))
+            xPoints = new double[] {
+                    (x + d * Math.cos(rotationAngle)),
+                    (x + d * Math.cos(rotationAngle - Math.PI * 2 / 3)),
+                    (x + d * Math.cos(rotationAngle + Math.PI * 2 / 3))
             };
-            yPoints = new int[] {
-                    (int) (y + d * Math.sin(rotationAngle)),
-                    (int) (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
-                    (int) (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
+            yPoints = new double[] {
+                    (y + d * Math.sin(rotationAngle)),
+                    (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
+                    (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
             };
         }
 

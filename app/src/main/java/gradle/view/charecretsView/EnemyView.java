@@ -15,7 +15,7 @@ import gradle.model.Model;
 public class EnemyView extends View {
 
     public static final List<View> items = new ArrayList<>();
-    public static final List<View> removedItems= new ArrayList<>();
+    public static final List<View> removedItems = new ArrayList<>();
 
     public EnemyType type;
     public int HP;
@@ -67,8 +67,8 @@ public class EnemyView extends View {
         anchor = enemy.anchor;
         w = enemy.w;
         h = enemy.h;
-        xPoints = enemy.xPoints;
-        yPoints = enemy.yPoints;
+        xPoints = enemy.getXpointsInt();
+        yPoints = enemy.getYpointsInt();
         HP = enemy.HP;
     }
 

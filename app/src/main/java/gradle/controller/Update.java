@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.charecretsView.EnemyView;
@@ -32,6 +33,11 @@ public class Update {
         EpsilonView epsilonView = (EpsilonView) EpsilonView.items.get(0);
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         epsilonView.setUtil(epsilonModel);
+        for (int i = 0; i < EnemyView.items.size(); i++) {
+            EnemyView shotView = (EnemyView) EnemyView.items.get(i);
+            EnemyModel shotModel = (EnemyModel) EnemyModel.findById(shotView.getId());
+            shotView.setUtil(shotModel);
+        }
         for (int i = 0; i < ShotView.items.size(); i++) {
             ShotView shotView = (ShotView) ShotView.items.get(i);
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
@@ -50,6 +56,12 @@ public class Update {
     public void updateModel() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         epsilonModel.move();
+        for (Model model : EnemyModel.items) {
+            EnemyModel enemyModel = (EnemyModel) model;
+            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.items.get(0).anchor));
+            enemyModel.move();
+            EnemyController.setPoints(enemyModel);
+        }
         for (int i = 0; i < ShotModel.items.size(); i++) {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
             shotModel.move();
@@ -57,10 +69,12 @@ public class Update {
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
                 if (Utils.checkEpsilonShot(enemyModel, shotModel)) {
                     enemyModel.HP--;
-                    ShotModel.removedItems.add(shotModel);
-                    ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
-                    ShotModel.items.remove(i);
-                    ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
+                    if (ShotModel.items.contains(shotModel)) {
+                        ShotModel.removedItems.add(shotModel);
+                        ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
+                        ShotModel.items.remove(shotModel);
+                        ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
+                    }
                 }
                 if (enemyModel.HP <= 0) {
                     EnemyModel.removedItems.add(enemyModel);

@@ -17,7 +17,8 @@ public class Utils {
     }
 
     public static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {
-        Polygon polygon = new Polygon(enemyModel.xPoints, enemyModel.yPoints, enemyModel.getEnemyPointsNumber());
+        Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                enemyModel.getEnemyPointsNumber());
         if (polygon.contains(shotModel.anchor))
             return true;
         return false;

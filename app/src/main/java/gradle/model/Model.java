@@ -11,6 +11,10 @@ public abstract class Model {
     public int[] xPoints;
     public int[] yPoints;
 
+    Point2D direction = new Point2D.Double(0, 0);
+
+    double max_speed;
+
     public Model() {
         Id = UUID.randomUUID().toString();
     }
@@ -37,6 +41,18 @@ public abstract class Model {
         if (items != null) {
             items.add(item);
         }
+    }
+
+    public void setDirection(Point2D direction) {
+        this.direction = direction;
+    }
+
+    public void move(Point2D direction, double speed) {
+        anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
+    }
+
+    public void move() {
+        move(direction, max_speed);
     }
 
     protected abstract List<Model> getItems();

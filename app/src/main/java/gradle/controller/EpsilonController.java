@@ -128,13 +128,12 @@ public class EpsilonController {
             ShotView.items.add(shotView);
             ShotView.removedItems.remove(shotView);
             ShotModel.removedItems.remove(shot);
-            System.out.println("is removed");
         } else
             shot = new ShotModel();
+
+        shot.anchor = EpsilonModel.items.get(0).anchor;
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
-        System.out.println("items: " + ShotView.items.size());
-        System.out.println("removed items: " + ShotView.removedItems.size());
 
     }
 }

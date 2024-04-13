@@ -12,6 +12,9 @@ import gradle.view.charecretsView.ShotView;
 
 public class Update {
 
+    public int upsCount = 0;
+    public int fpsCount = 0;
+
     public Update() {
         new Timer((int) Constants.FRAME_UPDATE_TIME, e -> updateView()) {
             {
@@ -41,6 +44,7 @@ public class Update {
         }
 
         GameFrame.getINSTANCE().repaint();
+        fpsCount++;
     }
 
     public void updateModel() {
@@ -76,6 +80,7 @@ public class Update {
                 ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
             }
         }
+        upsCount++;
     }
 
 }

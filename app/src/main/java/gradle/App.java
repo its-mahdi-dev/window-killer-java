@@ -13,6 +13,10 @@ import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import java.awt.GraphicsEnvironment;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class App {
     public static void main(String[] args) {
@@ -25,7 +29,17 @@ public class App {
             new EpsilonModel();
             new EnemyModel(new Point2D.Double(200, 100), EnemyType.square);
             new EnemyModel(new Point2D.Double(300, 100), EnemyType.triangle);
-            new Update();
+            Update update = new Update();
+
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    // Print and reset counts
+                    System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
+                    update.upsCount = 0;
+                    update.fpsCount = 0;
+                }
+            }, 1000, 1000);
         });
     }
 }

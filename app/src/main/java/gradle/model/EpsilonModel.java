@@ -19,6 +19,7 @@ public class EpsilonModel extends Model {
         max_speed = Constants.MOVE_SPEED;
         isMoving = false;
         addItem(this);
+        impact_speed = 1;
         View view = new EpsilonView(getId());
         view.setUtil(this);
     }

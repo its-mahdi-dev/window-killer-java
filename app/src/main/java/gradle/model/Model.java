@@ -19,7 +19,9 @@ public abstract class Model {
     public double[] yPoints;
     Timer timer;
     public boolean isMoving = true;
-
+    public double impact_time;
+    public double impact_speed;
+    public boolean isImpacting;
     public Point2D direction = new Point2D.Double(0, 0);
 
     public double speed = 0;
@@ -57,7 +59,8 @@ public abstract class Model {
     }
 
     public void setDirection(Point2D direction) {
-        this.direction = direction;
+        if (!isImpacting)
+            this.direction = direction;
     }
 
     public void move(Point2D direction, double speed) {
@@ -66,11 +69,14 @@ public abstract class Model {
 
     public void move() {
         if (timer == null) {
-            System.out.println("new timer");
             timer = new Timer(50, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (speed <= max_speed && speed >= 0) {
+                    if (isImpacting) {
+                        if (isMoving && speed > max_speed) {
+                            speed -= velocity;
+                        }
+                    } else if (speed <= max_speed && speed >= 0) {
                         if (isMoving)
                             speed += velocity;
                         else
@@ -80,13 +86,13 @@ public abstract class Model {
                             speed = 0;
                         if (speed > max_speed)
                             speed = max_speed;
-                        // System.out.println("speed: " + speed);
-                        // System.out.println("max speed: " + max_speed);
-                        // System.out.println("velocity: " + velocity);
                     }
                 }
             });
             timer.start();
+        }
+        if (System.currentTimeMillis() - impact_time > 300 && speed <= max_speed) {
+            isImpacting = false;
         }
         move(direction, speed);
     }
@@ -105,6 +111,17 @@ public abstract class Model {
             points[i] = (int) yPoints[i];
         }
         return points;
+    }
+
+    public void setImpact(int x, int y) {
+        direction = new Point2D.Double(x * direction.getX(), y * direction.getY());
+        impact_time = System.currentTimeMillis();
+        isImpacting = true;
+        speed *= impact_speed;
+    }
+
+    public void setImpact() {
+        setImpact(-1, -1);
     }
 
     protected abstract List<Model> getItems();

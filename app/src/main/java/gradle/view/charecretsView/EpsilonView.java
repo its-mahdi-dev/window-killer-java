@@ -11,7 +11,7 @@ import gradle.model.Model;
 
 public class EpsilonView extends View {
     public static final List<View> items = new ArrayList<>();
-    public static final List<View> removedItems= new ArrayList<>();
+    public static final List<View> removedItems = new ArrayList<>();
 
     public EpsilonView(String Id) {
         super(Id);

@@ -1,5 +1,7 @@
 package gradle.controller;
 
+import java.awt.geom.Point2D;
+
 import javax.swing.*;
 
 import gradle.model.EnemyModel;
@@ -55,12 +57,17 @@ public class Update {
 
     public void updateModel() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+
         epsilonModel.move();
+        EpsilonController.checkWallImpact();
         for (Model model : EnemyModel.items) {
             EnemyModel enemyModel = (EnemyModel) model;
-            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.items.get(0).anchor));
+            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                    EpsilonModel.items.get(0).anchor));
             enemyModel.move();
             EnemyController.setPoints(enemyModel);
+
+            EnemyController.checkEpsilonColision(enemyModel);
         }
         for (int i = 0; i < ShotModel.items.size(); i++) {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);

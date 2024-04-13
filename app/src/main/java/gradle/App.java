@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import gradle.controller.EnemyController;
 import gradle.controller.Update;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -30,7 +31,6 @@ public class App {
             new EnemyModel(new Point2D.Double(200, 100), EnemyType.square);
             new EnemyModel(new Point2D.Double(300, 100), EnemyType.triangle);
             Update update = new Update();
-
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {

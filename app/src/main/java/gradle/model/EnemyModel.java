@@ -21,6 +21,7 @@ public class EnemyModel extends Model {
         double x = anchor.getX();
         double y = anchor.getY();
         max_speed = Constants.ENEMY_SPEED;
+        impact_speed = 1.5;
         double rotationAngle = Math.toRadians(20);
 
         if (type == EnemyType.square) {

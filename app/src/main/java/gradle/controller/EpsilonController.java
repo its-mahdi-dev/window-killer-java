@@ -8,6 +8,7 @@ import java.util.Map;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
+import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
@@ -44,33 +45,31 @@ public class EpsilonController {
             ableMove.replace(entry.getKey(), true);
         }
 
-        setAbleMoves();
-
-        if (pressed.get("up") && !pressed.get("down") && ableMove.get("up")) {
+        if (pressed.get("up") && !pressed.get("down")) {
             dy = -1;
-        } else if (!pressed.get("up") && pressed.get("down") && ableMove.get("down")) {
+        } else if (!pressed.get("up") && pressed.get("down")) {
             dy = +1;
         }
 
-        if (pressed.get("left") && !pressed.get("right") && ableMove.get("left")) {
+        if (pressed.get("left") && !pressed.get("right")) {
             dx = -1;
-        } else if (!pressed.get("left") && pressed.get("right") && ableMove.get("right")) {
+        } else if (!pressed.get("left") && pressed.get("right")) {
             dx = +1;
         }
 
-        if (pressed.get("up") && pressed.get("right") && ableMove.get("up") && ableMove.get("right")) {
+        if (pressed.get("up") && pressed.get("right")) {
             dy = -1;
             dx = +1;
             isDoubleClicked = true;
-        } else if (pressed.get("up") && pressed.get("left") && ableMove.get("up") && ableMove.get("left")) {
+        } else if (pressed.get("up") && pressed.get("left")) {
             dy = -1;
             dx = -1;
             isDoubleClicked = true;
-        } else if (pressed.get("down") && pressed.get("right") && ableMove.get("down") && ableMove.get("right")) {
+        } else if (pressed.get("down") && pressed.get("right")) {
             dy = +1;
             dx = +1;
             isDoubleClicked = true;
-        } else if (pressed.get("down") && pressed.get("left") && ableMove.get("down") && ableMove.get("left")) {
+        } else if (pressed.get("down") && pressed.get("left")) {
             dy = +1;
             dx = -1;
             isDoubleClicked = true;
@@ -104,21 +103,6 @@ public class EpsilonController {
         // System.out.println(epsilonModel.isMoving);
     }
 
-    private static void setAbleMoves() {
-        if (EpsilonModel.items.get(0).anchor.getX() < 0) {
-            ableMove.replace("left", false);
-        }
-        if (EpsilonModel.items.get(0).anchor.getX() > Constants.PANEL_SIZE.getWidth() - EpsilonModel.items.get(0).w) {
-            ableMove.replace("right", false);
-        }
-        if (EpsilonModel.items.get(0).anchor.getY() < 0) {
-            ableMove.replace("up", false);
-        }
-        if (EpsilonModel.items.get(0).anchor.getY() > Constants.PANEL_SIZE.getHeight() - EpsilonModel.items.get(0).h) {
-            ableMove.replace("down", false);
-        }
-    }
-
     public static void mousePressed(MouseEvent e) {
         ShotModel shot;
         if (ShotModel.removedItems.size() > 0) {
@@ -135,5 +119,21 @@ public class EpsilonController {
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
 
+    }
+
+    public static void checkWallImpact() {
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        if (epsilonModel.anchor.getX() - epsilonModel.w / 2 < 0) {
+            epsilonModel.setImpact(-1, 1);
+        }
+        if (epsilonModel.anchor.getX() > GamePanel.getINSTANCE().getWidth() - epsilonModel.w / 2) {
+            epsilonModel.setImpact(-1, 1);
+        }
+        if (epsilonModel.anchor.getY() - epsilonModel.h / 2 < 0) {
+            epsilonModel.setImpact(1, -1);
+        }
+        if (epsilonModel.anchor.getY() > GamePanel.getINSTANCE().getHeight() - epsilonModel.h / 2) {
+            epsilonModel.setImpact(1, -1);
+        }
     }
 }

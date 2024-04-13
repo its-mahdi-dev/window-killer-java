@@ -25,5 +25,5 @@ public class Constants {
         // ENEMIES
         public static final int ENEMY_SQUARE_DIAMETER = 50;
         public static final int ENEMY_TRIANGLE_DIAMETER = 40;
-        public static final double ENEMY_SPEED = 2 * 60D / UPS;
+        public static final double ENEMY_SPEED = 1 * 60D / UPS;
 }

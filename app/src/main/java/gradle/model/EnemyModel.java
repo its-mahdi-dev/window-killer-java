@@ -11,7 +11,6 @@ public class EnemyModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
     public EnemyType type;
-    public int HP;
     public int power;
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {
@@ -22,7 +21,7 @@ public class EnemyModel extends Model {
         double y = anchor.getY();
         max_speed = Constants.ENEMY_SPEED;
         impact_speed = 2.8;
-        double rotationAngle = Math.toRadians(20);
+        double rotationAngle = Math.toRadians(0);
 
         if (type == EnemyType.square) {
             HP = 10;

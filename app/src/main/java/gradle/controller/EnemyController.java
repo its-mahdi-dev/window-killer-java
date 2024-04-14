@@ -22,17 +22,29 @@ public class EnemyController {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints, epsilonModel.anchor);
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
-            if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) < epsilonModel.w / 2
-                    && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) < epsilonModel.w / 2) {
+            if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonModel.w / 2
+                    && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonModel.w / 2) {
                 epsilonModel.setImpact();
                 enemyModel.setImpact();
-
+                epsilonModel.HP -= enemyModel.power;
+                System.out.println("rassss");
             }
         }
 
-        if (Utils.getDistance(point2ds[0], point2ds[1], epsilonModel.anchor) < enemyModel.w / 2) {
-            epsilonModel.setImpact();
-            enemyModel.setImpact();
+        // System.out.println("ccc: " + Utils.getDistance(point2ds[0], point2ds[1],
+        // epsilonModel.anchor));
+
+        if (Utils.getDistance(point2ds[0], point2ds[1], epsilonModel.anchor) < enemyModel.w
+                / 2) {
+
+            if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
+                // System.out.println(Utils.getDistance(point2ds[0], point2ds[1],
+                // epsilonModel.anchor));
+                System.out.println("zelllll");
+                epsilonModel.setImpact();
+                enemyModel.setImpact();
+            }
+
         }
 
     }

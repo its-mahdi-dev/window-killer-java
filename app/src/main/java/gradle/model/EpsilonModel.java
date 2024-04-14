@@ -13,11 +13,12 @@ public class EpsilonModel extends Model {
     public static final List<Model> removedItems = new ArrayList<>();
 
     public EpsilonModel() {
-        anchor = new Point2D.Double(300, 200);
+        anchor = new Point2D.Double(700, 500);
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED;
         isMoving = false;
+        HP = 100;
         addItem(this);
         impact_speed = 1;
         View view = new EpsilonView(getId());

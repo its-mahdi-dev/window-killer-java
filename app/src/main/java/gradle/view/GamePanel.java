@@ -19,15 +19,14 @@ public class GamePanel extends JPanel {
 
     private GamePanel() {
         setOpaque(true);
-        setBackground(new Color(0, 0, 0, 75));
+        setBackground(new Color(0, 0, 0, 210));
         setBorder(new LineBorder(Color.yellow));
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         this.addKeyListener(new KeyController());
-        this.addMouseListener(new MouseController());
-        this.addMouseMotionListener(new MouseController());
+
         GameFrame.getINSTANCE().add(this);
     }
 

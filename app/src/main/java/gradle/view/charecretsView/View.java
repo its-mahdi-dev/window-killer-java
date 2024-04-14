@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.*;
 
+import gradle.controller.Utils;
 import gradle.model.Model;
+import gradle.view.GamePanel;
 
 public abstract class View {
 
@@ -13,6 +15,8 @@ public abstract class View {
     public int h;
     public int[] xPoints;
     public int[] yPoints;
+
+    public int HP;
 
     private String Id;
 
@@ -44,10 +48,15 @@ public abstract class View {
         return null;
     }
 
+    public void serRelativeAnchor(Point2D point2d) {
+        anchor = Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
+    }
+
     public abstract void draw(Graphics g);
 
     public abstract void setUtil(Model model);
 
     public abstract List<View> getItems();
+
     protected abstract List<View> getRemovedItems();
 }

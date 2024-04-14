@@ -25,7 +25,7 @@ public class ShotView extends View {
 
     @Override
     public void setUtil(Model shotModel) {
-        anchor = shotModel.anchor;
+        anchor = shotModel.getPanelAnchor();
         w = shotModel.w;
         h = shotModel.h;
     }

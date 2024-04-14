@@ -25,14 +25,14 @@ public class App {
             GameFrame.getINSTANCE();
             GamePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();
-
-            // add items
+            
+            // add items    
             new EpsilonModel();
-            new EnemyModel(new Point2D.Double(150, 200), EnemyType.square);
-            new EnemyModel(new Point2D.Double(450, 245), EnemyType.triangle);
-            new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
-            new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);
-            new EnemyModel(new Point2D.Double(170, 50), EnemyType.square);
+            // new EnemyModel(new Point2D.Double(150, 200), EnemyType.square);
+            // new EnemyModel(new Point2D.Double(450, 245), EnemyType.triangle);
+            // new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
+            // new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);
+            // new EnemyModel(new Point2D.Double(170, 50), EnemyType.square);
             Update update = new Update();
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override

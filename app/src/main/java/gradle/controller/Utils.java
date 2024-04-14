@@ -1,5 +1,6 @@
 package gradle.controller;
 
+import java.awt.Component;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -24,13 +25,23 @@ public class Utils {
         return false;
     }
 
-
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {
-        double m = (point2.getY() - point1.getY()) / (point2.getX() - point1.getX());
-        double c = point1.getY() - m * point1.getX();
-        double distance = Math.abs(m * point3.getX() - point3.getY() + c) / Math.sqrt(m * m + 1);
-        return distance;
+        double deltaX = point2.getX() - point1.getX();
+        if (deltaX == 0) {
+            return Math.abs(point3.getX() - point1.getX());
+        } else {
+            double m = (point2.getY() - point1.getY()) / deltaX;
+            double c = point1.getY() - m * point1.getX();
+            double distance = Math.abs(m * point3.getX() - point3.getY() + c) / Math.sqrt(m * m + 1);
 
+            return distance;
+        }
+    }
+
+    public static double getDistance(Point2D point1, Point2D point2) {
+        double distance = Math
+                .sqrt(Math.pow(point1.getX() - point2.getX(), 2) + Math.pow(point1.getY() - point2.getY(), 2));
+        return distance;
     }
 
     public static Point2D[] getNearestPoints(double[] xPoints, double[] yPoints, Point2D point) {
@@ -58,4 +69,32 @@ public class Utils {
         return nearestPoints;
 
     }
+
+    public static boolean isPerpendicular(Point2D point1, Point2D point2, Point2D point3) {
+        double deltaX = point2.getX() - point1.getX();
+        double deltaY = point2.getY() - point1.getY();
+        if (deltaY == 0) {
+            if ((point3.getX() > point1.getX() && point3.getX() < point2.getX())
+                    || (point3.getX() < point1.getX() && point3.getX() > point2.getX())) {
+                return true;
+            }
+        }
+        double m = deltaY / deltaX;
+        double k = -1 / m;
+        double c1 = point1.getY() - k * point1.getX();
+        double c2 = point2.getY() - k * point2.getX();
+        double distance1 = Math.abs(k * point3.getX() - point3.getY() + c1) / Math.sqrt(k * k + 1);
+        double distance2 = Math.abs(k * point3.getX() - point3.getY() + c2) / Math.sqrt(k * k + 1);
+        double distance3 = Math.abs(c1 - c2) / Math.sqrt(k * k + 1);
+        if (distance1 + distance2 <= distance3)
+            return true;
+
+        return false;
+    }
+
+    public static Point2D getRelatedPoint(Point2D point2d, Component component) {
+        Point2D panelLocation = component.getLocation();
+        return new Point2D.Double(point2d.getX() - panelLocation.getX(), point2d.getY() - panelLocation.getY());
+    }
+
 }

@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.*;
 
+import gradle.controller.Constants;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.Model;
@@ -18,7 +19,6 @@ public class EnemyView extends View {
     public static final List<View> removedItems = new ArrayList<>();
 
     public EnemyType type;
-    public int HP;
 
     public EnemyView(String Id, EnemyType enemyType) {
         super(Id);
@@ -29,7 +29,7 @@ public class EnemyView extends View {
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(3.0f));
+        g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE));
         if (type == EnemyType.square) {
             g2d.setColor(Color.GREEN);
             g2d.drawPolygon(xPoints, yPoints, 4);
@@ -59,12 +59,20 @@ public class EnemyView extends View {
         int textY = centerY + textHeight / 2;
         g2d.drawString(text, textX, textY);
 
+        g2d.setColor(Color.white);
+        for (int i = 0; i < xPoints.length; i++) {
+            int cenX = xPoints[i] - 2;
+            int cenY = yPoints[i] - 2;
+
+            g2d.fillOval(cenX, cenY, 4, 4);
+        }
+
     }
 
     @Override
     public void setUtil(Model enemyModel) {
         EnemyModel enemy = (EnemyModel) enemyModel;
-        anchor = enemy.anchor;
+        anchor = enemy.getPanelAnchor();
         w = enemy.w;
         h = enemy.h;
         xPoints = enemy.getXpointsInt();

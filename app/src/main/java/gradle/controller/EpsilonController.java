@@ -118,21 +118,20 @@ public class EpsilonController {
         shot.anchor = EpsilonModel.items.get(0).anchor;
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
-
     }
 
     public static void checkWallImpact() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-        if (epsilonModel.anchor.getX() - epsilonModel.w / 2 < 0) {
+        if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
             epsilonModel.setImpact(-1, 1);
         }
-        if (epsilonModel.anchor.getX() > GamePanel.getINSTANCE().getWidth() - epsilonModel.w / 2) {
+        if (epsilonModel.getPanelAnchor().getX() > GamePanel.getINSTANCE().getWidth() - epsilonModel.w / 2) {
             epsilonModel.setImpact(-1, 1);
         }
-        if (epsilonModel.anchor.getY() - epsilonModel.h / 2 < 0) {
+        if (epsilonModel.getPanelAnchor().getY() - epsilonModel.h / 2 < 0) {
             epsilonModel.setImpact(1, -1);
         }
-        if (epsilonModel.anchor.getY() > GamePanel.getINSTANCE().getHeight() - epsilonModel.h / 2) {
+        if (epsilonModel.getPanelAnchor().getY() > GamePanel.getINSTANCE().getHeight() - epsilonModel.h / 2) {
             epsilonModel.setImpact(1, -1);
         }
     }

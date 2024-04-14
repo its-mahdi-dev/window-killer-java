@@ -9,6 +9,8 @@ import javax.swing.Timer;
 import java.util.List;
 
 import gradle.controller.Constants;
+import gradle.controller.Utils;
+import gradle.view.GamePanel;
 
 public abstract class Model {
     private String Id;
@@ -23,6 +25,8 @@ public abstract class Model {
     public double impact_speed;
     public boolean isImpacting;
     public Point2D direction = new Point2D.Double(0, 0);
+    public double angle;
+    public int HP;
 
     public double speed = 0;
     public double max_speed;
@@ -67,6 +71,39 @@ public abstract class Model {
         anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
     }
 
+    public void moveRotaion(double deg) {
+        double rotationAngle = Math.toRadians(deg);
+        angle += rotationAngle * speed;
+        double x = anchor.getX();
+        double y = anchor.getY();
+        if (xPoints.length == 4) {
+            xPoints = new double[] {
+                    (x - w / 2 * Math.cos(angle) + h / 2 * Math.sin(angle)),
+                    (x + w / 2 * Math.cos(angle) + h / 2 * Math.sin(angle)),
+                    (x + w / 2 * Math.cos(angle) - h / 2 * Math.sin(angle)),
+                    (x - w / 2 * Math.cos(angle) - h / 2 * Math.sin(angle))
+            };
+            yPoints = new double[] {
+                    (y - w / 2 * Math.sin(angle) - h / 2 * Math.cos(angle)),
+                    (y + w / 2 * Math.sin(angle) - h / 2 * Math.cos(angle)),
+                    (y + w / 2 * Math.sin(angle) + h / 2 * Math.cos(angle)),
+                    (y - w / 2 * Math.sin(angle) + h / 2 * Math.cos(angle))
+            };
+        } else if (xPoints.length == 3) {
+            double d = Math.sqrt(3) / 2 * h;
+            xPoints = new double[] {
+                    (x + d * Math.cos(angle)),
+                    (x + d * Math.cos(angle - Math.PI * 2 / 3)),
+                    (x + d * Math.cos(angle + Math.PI * 2 / 3))
+            };
+            yPoints = new double[] {
+                    (y + d * Math.sin(angle)),
+                    (y + d * Math.sin(angle - Math.PI * 2 / 3)),
+                    (y + d * Math.sin(angle + Math.PI * 2 / 3))
+            };
+        }
+    }
+
     public void move() {
         if (timer == null) {
             timer = new Timer(50, new ActionListener() {
@@ -94,7 +131,14 @@ public abstract class Model {
         if (System.currentTimeMillis() - impact_time > 50 && speed <= max_speed) {
             isImpacting = false;
         }
+
         move(direction, speed);
+        // if (this instanceof EnemyModel && isImpacting)
+        // moveRotaion(speed);
+    }
+
+    public static void addAnchorToEntities(Point2D point2d) {
+        System.out.println("saa");
     }
 
     public int[] getXpointsInt() {
@@ -122,6 +166,10 @@ public abstract class Model {
 
     public void setImpact() {
         setImpact(-1, -1);
+    }
+
+    public Point2D getPanelAnchor(){
+        return Utils.getRelatedPoint(anchor,GamePanel.getINSTANCE());
     }
 
     protected abstract List<Model> getItems();

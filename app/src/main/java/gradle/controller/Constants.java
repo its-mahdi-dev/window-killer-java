@@ -15,6 +15,8 @@ public class Constants {
         public static final double SPEED = 3 * 60D / UPS;
         public static final double ACCELERATION = 24 * 60D / UPS;
 
+        public static final double CHANGE_FRAME_SPEED = 3 * 60D / UPS;
+
         // Entities
         public static final int EPSILON_DIAMETER = 30;
         public static final double MOVE_SPEED = 12 * 60D / UPS;

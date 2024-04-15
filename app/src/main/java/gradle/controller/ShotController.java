@@ -14,20 +14,24 @@ public class ShotController {
         int dw = 0;
         int dh = 0;
         if (shotModel.getPanelAnchor().getX() <= 0) {
-            dx = -5;
-            dw = +5;
+            dx = -1;
+            dw = 1;
         } else if (shotModel.getPanelAnchor().getX() > GamePanel.getINSTANCE().getWidth()) {
-            dw = 5;
+            dw = 1;
+            dx = 1;
         } else if (shotModel.getPanelAnchor().getY() > GamePanel.getINSTANCE().getHeight()) {
-            dh = 5;
+            dh = 1;
+            dy = 1;
         } else if (shotModel.getPanelAnchor().getY() < 0) {
-            dy = -5;
-            dh = +5;
+            dy = -1;
+            dh = 1;
         }
-        GamePanel.getINSTANCE().setBounds(GamePanel.getINSTANCE().getX() + dx, GamePanel.getINSTANCE().getY() + dy,
-                GamePanel.getINSTANCE().getWidth() + dw, GamePanel.getINSTANCE().getHeight() + dh);
-        if (dy != 0 || dx != 0 || dh != 0 || dw != 0)
+        GamePanel.getINSTANCE().location = new Point2D.Double(dx, dy);
+        GamePanel.getINSTANCE().size = new Point2D.Double(dw, dh);
+        if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
             removeShot(shotModel);
+            GamePanel.getINSTANCE().setChanging();
+        }
 
     }
 

@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
+import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.controller.MouseController;
@@ -16,13 +16,21 @@ import gradle.view.charecretsView.View;
 
 public class GamePanel extends JPanel {
     private static GamePanel INSTANCE;
+    public Point2D location = new Point2D.Double(0, 0);
+    public Point2D size = new Point2D.Double(0, 0);
+    double speed;
+    Timer timer;
+    boolean isChanging;
+    int changeCounter;
+    double changingTime;
+    double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
 
     private GamePanel() {
         setOpaque(true);
         setBackground(new Color(0, 0, 0, 210));
         setBorder(new LineBorder(Color.yellow));
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        setSize(Constants.PANEL_SIZE);
+        setSize(Constants.GAME_FRAME_DIMENSION);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         this.addKeyListener(new KeyController());
@@ -53,6 +61,66 @@ public class GamePanel extends JPanel {
         for (View enemyView : EnemyView.items) {
             enemyView.draw(g);
         }
+    }
+
+    public void changeSize(Point2D location, Point2D size) {
+        setSize((int) (getWidth() + (size.getX() * speed)),
+                (int) (getHeight() + size.getY() * speed));
+        setLocation((int) (getX() + location.getX() * speed),
+                (int) (getY() + location.getY() * speed));
+    }
+
+    public void changeSize() {
+        // if (timer == null) {
+        // timer = new Timer(50, new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+
+        if (isChanging) {
+            speed -= velocity;
+        } else {
+            if (getWidth() > Constants.PANEL_SIZE.getWidth()
+                    && getHeight() > Constants.PANEL_SIZE.getHeight()) {
+                speed = Constants.CHANGE_FRAME_SPEED;
+                location = new Point2D.Double(1, 1);
+                size = new Point2D.Double(-1, -1);
+            } else if (getHeight() > Constants.PANEL_SIZE.getHeight()) {
+                speed = Constants.CHANGE_FRAME_SPEED;
+                location = new Point2D.Double(0, 1);
+                size = new Point2D.Double(0, -1);
+            } else if (getWidth() > Constants.PANEL_SIZE.getWidth()) {
+                speed = Constants.CHANGE_FRAME_SPEED;
+                location = new Point2D.Double(1, 0);
+                size = new Point2D.Double(-1, 0);
+            } else {
+                speed = 0;
+                location = new Point2D.Double(0, 0);
+                size = new Point2D.Double(0, 0);
+            }
+            // }
+            // }
+            // });
+            // timer.start();
+        }
+
+        if (System.currentTimeMillis() - changingTime > 100 && speed <= Constants.CHANGE_FRAME_SPEED && isChanging) {
+            if (changeCounter > 0)
+                changeCounter--;
+        }
+
+        if (changeCounter == 0)
+            isChanging = false;
+
+        changeSize(location, size);
+
+    }
+
+    public void setChanging() {
+        isChanging = true;
+        changingTime = System.currentTimeMillis();
+
+        changeCounter++;
+        speed = Constants.CHANGE_FRAME_SPEED * 3.5;
     }
 
 }

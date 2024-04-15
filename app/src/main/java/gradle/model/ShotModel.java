@@ -24,7 +24,6 @@ public class ShotModel extends Model {
         ShotView view = new ShotView(getId());
         view.setUtil(this);
 
-        System.out.println("called");
     }
 
     @Override

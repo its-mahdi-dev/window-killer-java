@@ -157,6 +157,19 @@ public abstract class Model {
         return points;
     }
 
+    public Map<String, int[]> getPanelPoints() {
+        Point2D[] points = new Point2D[xPoints.length];
+        int[] newXpoints = new int[xPoints.length];
+        int[] newYpoints = new int[xPoints.length];
+        for (int i = 0; i < xPoints.length; i++) {
+            points[i] = Utils.getRelatedPoint(new Point2D.Double(xPoints[i], yPoints[i]),
+                    GamePanel.getINSTANCE());
+            newXpoints[i] = (int) points[i].getX();
+            newYpoints[i] = (int) points[i].getY();
+        }
+        return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
+    }
+
     public void setImpact(int x, int y) {
         direction = new Point2D.Double(x * direction.getX(), y * direction.getY());
         impact_time = System.currentTimeMillis();
@@ -168,8 +181,8 @@ public abstract class Model {
         setImpact(-1, -1);
     }
 
-    public Point2D getPanelAnchor(){
-        return Utils.getRelatedPoint(anchor,GamePanel.getINSTANCE());
+    public Point2D getPanelAnchor() {
+        return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
     }
 
     protected abstract List<Model> getItems();

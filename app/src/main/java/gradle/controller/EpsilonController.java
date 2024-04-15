@@ -97,10 +97,6 @@ public class EpsilonController {
             epsilonModel.isMoving = false;
         else
             epsilonModel.isMoving = true;
-
-        // System.out.println("speed: " + epsilonModel.speed);
-        // System.out.println("velocity: " + epsilonModel.velocity);
-        // System.out.println(epsilonModel.isMoving);
     }
 
     public static void mousePressed(MouseEvent e) {
@@ -123,16 +119,21 @@ public class EpsilonController {
     public static void checkWallImpact() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
-            epsilonModel.setImpact(-1, 1);
+            if (epsilonModel.direction.getX() < 0)
+                epsilonModel.setImpact(-1, 1);
         }
-        if (epsilonModel.getPanelAnchor().getX() > GamePanel.getINSTANCE().getWidth() - epsilonModel.w / 2) {
-            epsilonModel.setImpact(-1, 1);
+        if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > GamePanel.getINSTANCE().getWidth()) {
+            if (epsilonModel.direction.getX() > 0)
+                epsilonModel.setImpact(-1, 1);
         }
         if (epsilonModel.getPanelAnchor().getY() - epsilonModel.h / 2 < 0) {
-            epsilonModel.setImpact(1, -1);
+            System.out.println("brick");
+            if (epsilonModel.direction.getY() < 0)
+                epsilonModel.setImpact(1, -1);
         }
-        if (epsilonModel.getPanelAnchor().getY() > GamePanel.getINSTANCE().getHeight() - epsilonModel.h / 2) {
-            epsilonModel.setImpact(1, -1);
+        if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > GamePanel.getINSTANCE().getHeight()) {
+            if (epsilonModel.direction.getY() > 0)
+                epsilonModel.setImpact(1, -1);
         }
     }
 }

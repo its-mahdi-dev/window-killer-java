@@ -75,8 +75,8 @@ public class EnemyView extends View {
         anchor = enemy.getPanelAnchor();
         w = enemy.w;
         h = enemy.h;
-        xPoints = enemy.getXpointsInt();
-        yPoints = enemy.getYpointsInt();
+        xPoints = enemy.getPanelPoints().get("xPoints");
+        yPoints = enemy.getPanelPoints().get("yPoints");
         HP = enemy.HP;
     }
 

@@ -47,13 +47,9 @@ public class Update {
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
             shotView.setUtil(shotModel);
         }
-        for (int i = 0; i < EnemyView.items.size(); i++) {
-            EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
-            EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
-            enemyView.setUtil(enemyModel);
-        }
 
         GameFrame.getINSTANCE().repaint();
+        GamePanel.getINSTANCE().changeSize();
         fpsCount++;
     }
 

@@ -7,8 +7,25 @@ import java.util.Map;
 
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
+import gradle.view.charecretsView.EnemyView;
 
 public class EnemyController {
+
+    public static void checkCollision() {
+        for (Model model : EnemyModel.items) {
+            EnemyModel enemyModel = (EnemyModel) model;
+            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                    EpsilonModel.items.get(0).anchor));
+            enemyModel.move();
+
+            setPoints(enemyModel);
+            checkEnemyCollision(enemyModel);
+            checkEpsilonColision(enemyModel);
+
+        }
+    }
+
     public static void setPoints(EnemyModel enemyModel) {
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
             enemyModel.xPoints[i] = (enemyModel.xPoints[i] + enemyModel.direction.getX() * enemyModel.speed);
@@ -68,5 +85,13 @@ public class EnemyController {
         }
 
         return false;
+    }
+
+    public static void remove(String Id) {
+        EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(Id);
+        EnemyModel.removedItems.add(enemyModel);
+        EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
+        EnemyModel.items.remove(enemyModel);
+        EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
     }
 }

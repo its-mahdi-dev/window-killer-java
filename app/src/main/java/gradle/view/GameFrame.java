@@ -12,7 +12,7 @@ public class GameFrame extends JFrame {
 
     private GameFrame() throws HeadlessException {
         setUndecorated(true);
-        setBackground(new Color(0, 0, 0, 0));
+        setBackground(new Color(0, 0, 0, 2));
         setSize(Constants.GAME_FRAME_DIMENSION);
         setLocationRelativeTo(null);
         this.addMouseListener(new MouseController());

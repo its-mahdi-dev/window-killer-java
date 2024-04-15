@@ -17,13 +17,7 @@ public class Utils {
         return new Point2D.Double(xVelocity, yVelocity);
     }
 
-    public static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {
-        Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
-                enemyModel.getEnemyPointsNumber());
-        if (polygon.contains(shotModel.anchor))
-            return true;
-        return false;
-    }
+    
 
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {
         double deltaX = point2.getX() - point1.getX();

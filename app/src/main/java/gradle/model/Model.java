@@ -11,6 +11,7 @@ import java.util.List;
 import gradle.controller.Constants;
 import gradle.controller.Utils;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.View;
 
 public abstract class Model {
     private String Id;
@@ -184,6 +185,8 @@ public abstract class Model {
     public Point2D getPanelAnchor() {
         return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
     }
+
+
 
     protected abstract List<Model> getItems();
 

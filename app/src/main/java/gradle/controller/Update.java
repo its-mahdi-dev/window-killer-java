@@ -34,9 +34,7 @@ public class Update {
     }
 
     public void updateView() {
-        EpsilonView epsilonView = (EpsilonView) EpsilonView.items.get(0);
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-        epsilonView.setUtil(epsilonModel);
+        EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
         for (int i = 0; i < EnemyView.items.size(); i++) {
             EnemyView shotView = (EnemyView) EnemyView.items.get(i);
             EnemyModel shotModel = (EnemyModel) EnemyModel.findById(shotView.getId());
@@ -54,43 +52,10 @@ public class Update {
     }
 
     public void updateModel() {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-
-        epsilonModel.move();
+        EpsilonModel.items.get(0).move();
         EpsilonController.checkWallImpact();
-        for (Model model : EnemyModel.items) {
-            EnemyModel enemyModel = (EnemyModel) model;
-            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                    EpsilonModel.items.get(0).anchor));
-            enemyModel.move();
-            EnemyController.setPoints(enemyModel);
-            EnemyController.checkEnemyCollision(enemyModel);
-
-            EnemyController.checkEpsilonColision(enemyModel);
-        }
-        for (int i = 0; i < ShotModel.items.size(); i++) {
-            ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
-            shotModel.move();
-            for (int j = 0; j < EnemyModel.items.size(); j++) {
-                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
-                if (Utils.checkEpsilonShot(enemyModel, shotModel)) {
-                    enemyModel.HP--;
-                    if (ShotModel.items.contains(shotModel)) {
-                        ShotController.removeShot(shotModel);
-                    }
-                }
-                if (enemyModel.HP <= 0) {
-                    EnemyModel.removedItems.add(enemyModel);
-                    EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
-                    EnemyModel.items.remove(j);
-                    EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
-                }
-
-            }
-
-            ShotController.checkShotWithPanel(shotModel);
-
-        }
+        EnemyController.checkCollision();
+        ShotController.checkCollision();
 
         upsCount++;
     }

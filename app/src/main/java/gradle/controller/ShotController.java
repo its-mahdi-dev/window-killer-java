@@ -2,9 +2,13 @@ package gradle.controller;
 
 import java.awt.geom.Point2D;
 
+import java.awt.Polygon;
+
+import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.ShotView;
 
 public class ShotController {
@@ -29,16 +33,46 @@ public class ShotController {
         GamePanel.getINSTANCE().location = new Point2D.Double(dx, dy);
         GamePanel.getINSTANCE().size = new Point2D.Double(dw, dh);
         if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
-            removeShot(shotModel);
+            remove(shotModel.getId());
             GamePanel.getINSTANCE().setChanging();
         }
 
     }
 
-    public static void removeShot(ShotModel shotModel) {
+    public static void remove(String Id) {
+        ShotModel shotModel = (ShotModel) ShotModel.findById(Id);
         ShotModel.removedItems.add(shotModel);
         ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
         ShotModel.items.remove(shotModel);
         ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
+    }
+
+    public static void checkCollision() {
+        for (int i = 0; i < ShotModel.items.size(); i++) {
+            ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
+            shotModel.move();
+            for (int j = 0; j < EnemyModel.items.size(); j++) {
+                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
+                if (checkEpsilonShot(enemyModel, shotModel)) {
+                    enemyModel.HP--;
+                    if (ShotModel.items.contains(shotModel)) {
+                        remove(shotModel.getId());
+                    }
+                }
+                if (enemyModel.HP <= 0) {
+                    EnemyController.remove(enemyModel.getId());
+                }
+
+            }
+            checkShotWithPanel(shotModel);
+        }
+    }
+
+    private static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {
+        Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                enemyModel.getEnemyPointsNumber());
+        if (polygon.contains(shotModel.anchor))
+            return true;
+        return false;
     }
 }

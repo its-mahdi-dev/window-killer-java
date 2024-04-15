@@ -29,7 +29,7 @@ public class App {
             // add items
             new EpsilonModel();
             new EnemyModel(new Point2D.Double(450, 400), EnemyType.square);
-            // new EnemyModel(new Point2D.Double(450, 245), EnemyType.triangle);
+            // new En   emyModel(new Point2D.Double(450, 245), EnemyType.triangle);
             // new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
             // new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);
             // new EnemyModel(new Point2D.Double(170, 50), EnemyType.square);

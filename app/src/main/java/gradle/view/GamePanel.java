@@ -12,6 +12,7 @@ import gradle.controller.MouseController;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.NavbarView;
 import gradle.view.charecretsView.ShotView;
 import gradle.view.charecretsView.View;
 
@@ -66,6 +67,8 @@ public class GamePanel extends JPanel {
         for (View collectibleView : CollectibleView.items) {
             collectibleView.draw(g);
         }
+
+        NavbarView.getINSTANCE().draw(g);
     }
 
     public void changeSize(Point2D location, Point2D size) {

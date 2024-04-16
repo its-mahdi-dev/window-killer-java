@@ -37,6 +37,7 @@ public class EnemyView extends View {
             g2d.setColor(Color.YELLOW);
             g2d.drawPolygon(xPoints, yPoints, 3);
         }
+        
         int centerX = 0;
         int centerY = 0;
         for (int i = 0; i < xPoints.length; i++) {

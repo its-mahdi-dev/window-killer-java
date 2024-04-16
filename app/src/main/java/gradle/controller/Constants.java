@@ -31,4 +31,6 @@ public class Constants {
 
         public static final double ENEMY_STROKE = 3.0;
         public static final int COLLECTIBLE_DIAMETER = 10;
+
+        public static final int NAVBAR_HEIGHT = 40;
 }

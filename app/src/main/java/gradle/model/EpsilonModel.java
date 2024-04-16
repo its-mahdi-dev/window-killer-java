@@ -11,6 +11,7 @@ public class EpsilonModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
+    public int XP;
     public EpsilonModel() {
         anchor = new Point2D.Double(700, 500);
         w = Constants.EPSILON_DIAMETER;

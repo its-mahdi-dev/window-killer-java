@@ -11,6 +11,7 @@ import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
@@ -138,7 +139,17 @@ public class EpsilonController {
 
         if (Utils.getDistance(EpsilonModel.items.get(0).anchor, collectibleModel.anchor) < EpsilonModel.items.get(0).w
                 / 2) {
-            System.out.println("u reached");
+            EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+            epsilonModel.XP += collectibleModel.enemyModel.collectibleXP;
+            removeCollectible(collectibleModel.getId());
         }
+    }
+
+    public static void removeCollectible(String Id) {
+        CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(Id);
+        CollectibleModel.removedItems.add(collectibleModel);
+        CollectibleView.removedItems.add(CollectibleView.findById(collectibleModel.getId()));
+        CollectibleModel.items.remove(collectibleModel);
+        CollectibleView.items.removeIf(collectible -> collectible.getId() == collectibleModel.getId());
     }
 }

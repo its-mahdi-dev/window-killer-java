@@ -15,6 +15,7 @@ import gradle.view.GamePanel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
+import gradle.view.charecretsView.NavbarView;
 import gradle.view.charecretsView.ShotView;
 
 public class Update {
@@ -53,8 +54,7 @@ public class Update {
             shotView.setUtil(shotModel);
         }
 
-        
-
+        NavbarView.getINSTANCE().setUtil();
         GameFrame.getINSTANCE().repaint();
         GamePanel.getINSTANCE().changeSize();
         fpsCount++;
@@ -66,8 +66,8 @@ public class Update {
         EnemyController.checkCollision();
         ShotController.checkCollision();
 
-        for (Model collectibleModel : CollectibleModel.items) {
-            EpsilonController.checkCollectibleCollision((CollectibleModel) collectibleModel);
+        for (int i = 0; i < CollectibleModel.items.size(); i++) {
+            EpsilonController.checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
         }
 
         upsCount++;

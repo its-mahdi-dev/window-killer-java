@@ -45,20 +45,13 @@ public class EnemyController {
                 epsilonModel.setImpact();
                 enemyModel.setImpact();
                 epsilonModel.HP -= enemyModel.power;
-                System.out.println("rassss");
             }
         }
-
-        // System.out.println("ccc: " + Utils.getDistance(point2ds[0], point2ds[1],
-        // epsilonModel.anchor));
 
         if (Utils.getDistance(point2ds[0], point2ds[1], epsilonModel.anchor) < enemyModel.w
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
-                // System.out.println(Utils.getDistance(point2ds[0], point2ds[1],
-                // epsilonModel.anchor));
-                System.out.println("zelllll");
                 epsilonModel.setImpact();
                 enemyModel.setImpact();
             }

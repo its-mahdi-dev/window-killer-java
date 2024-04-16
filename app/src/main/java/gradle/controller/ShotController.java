@@ -58,6 +58,8 @@ public class ShotController {
                     if (ShotModel.items.contains(shotModel)) {
                         remove(shotModel.getId());
                     }
+
+                    enemyModel.setImpact();
                 }
                 if (enemyModel.HP <= 0) {
                     EnemyController.remove(enemyModel.getId());

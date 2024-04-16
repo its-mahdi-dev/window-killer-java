@@ -7,7 +7,6 @@ import gradle.controller.Constants;
 import gradle.interfaces.Collectible;
 import gradle.interfaces.Rotation;
 import gradle.view.charecretsView.EnemyView;
-import gradle.view.charecretsView.View;
 
 public class EnemyModel extends Model implements Collectible,Rotation {
     public static final List<Model> items = new ArrayList<>();
@@ -15,7 +14,7 @@ public class EnemyModel extends Model implements Collectible,Rotation {
 
     public EnemyType type;
     public int power;
-    protected int collectibleXP;
+    public int collectibleXP;
     private int collectibleCount;
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {

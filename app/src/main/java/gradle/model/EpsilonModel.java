@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import gradle.controller.Constants;
-import gradle.movement.Movable;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 

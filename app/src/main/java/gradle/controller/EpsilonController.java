@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import gradle.interfaces.Collectible;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
@@ -100,16 +101,7 @@ public class EpsilonController {
     }
 
     public static void mousePressed(MouseEvent e) {
-        ShotModel shot;
-        if (ShotModel.removedItems.size() > 0) {
-            shot = (ShotModel) ShotModel.removedItems.get(0);
-            ShotView shotView = (ShotView) ShotView.findById(shot.getId(), ShotView.removedItems);
-            ShotModel.items.add(shot);
-            ShotView.items.add(shotView);
-            ShotView.removedItems.remove(shotView);
-            ShotModel.removedItems.remove(shot);
-        } else
-            shot = new ShotModel();
+        ShotModel shot = ShotModel.create();
 
         shot.anchor = EpsilonModel.items.get(0).anchor;
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));

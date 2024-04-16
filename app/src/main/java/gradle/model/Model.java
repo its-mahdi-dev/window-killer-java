@@ -35,7 +35,6 @@ public abstract class Model {
 
     public Model() {
         Id = UUID.randomUUID().toString();
-
     }
 
     public String getId() {
@@ -185,8 +184,6 @@ public abstract class Model {
     public Point2D getPanelAnchor() {
         return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
     }
-
-
 
     protected abstract List<Model> getItems();
 

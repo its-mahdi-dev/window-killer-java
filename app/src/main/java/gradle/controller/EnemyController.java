@@ -17,6 +17,7 @@ public class EnemyController {
             EnemyModel enemyModel = (EnemyModel) model;
             enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
                     EpsilonModel.items.get(0).anchor));
+
             enemyModel.move();
 
             setPoints(enemyModel);
@@ -89,6 +90,7 @@ public class EnemyController {
 
     public static void remove(String Id) {
         EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(Id);
+        enemyModel.setCollectible();
         EnemyModel.removedItems.add(enemyModel);
         EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
         EnemyModel.items.remove(enemyModel);

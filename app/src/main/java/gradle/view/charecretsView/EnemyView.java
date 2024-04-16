@@ -73,6 +73,7 @@ public class EnemyView extends View {
     public void setUtil(Model enemyModel) {
         EnemyModel enemy = (EnemyModel) enemyModel;
         anchor = enemy.getPanelAnchor();
+        type = enemy.type;
         w = enemy.w;
         h = enemy.h;
         xPoints = enemy.getPanelPoints().get("xPoints");

@@ -28,8 +28,8 @@ public class App {
 
             // add items
             new EpsilonModel();
-            new EnemyModel(new Point2D.Double(450, 400), EnemyType.square);
-            // new En   emyModel(new Point2D.Double(450, 245), EnemyType.triangle);
+            EnemyModel.create(new Point2D.Double(450, 400), EnemyType.square);
+            // new En emyModel(new Point2D.Double(450, 245), EnemyType.triangle);
             // new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
             // new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);
             // new EnemyModel(new Point2D.Double(170, 50), EnemyType.square);
@@ -38,7 +38,7 @@ public class App {
                 @Override
                 public void run() {
                     // Print and reset counts
-                    System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
+                    // System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
                     update.upsCount = 0;
                     update.fpsCount = 0;
                 }

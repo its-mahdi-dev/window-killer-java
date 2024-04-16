@@ -6,7 +6,6 @@ import java.util.List;
 
 import gradle.controller.Constants;
 import gradle.controller.Utils;
-import gradle.movement.Movable;
 import gradle.view.charecretsView.ShotView;
 import gradle.view.charecretsView.View;
 
@@ -15,15 +14,33 @@ public class ShotModel extends Model {
     public static final List<Model> removedItems = new ArrayList<>();
 
     public ShotModel() {
-        anchor = new Point2D.Double(EpsilonModel.items.get(0).anchor.getX(),
-                EpsilonModel.items.get(0).anchor.getY());
-        h = Constants.SHOT_DIAMETER;
-        w = Constants.SHOT_DIAMETER;
-        max_speed = Constants.SHOT_SPEED;
-        addItem(this);
-        ShotView view = new ShotView(getId());
-        view.setUtil(this);
+    }
 
+    public static ShotModel create() {
+        ShotModel shotModel;
+        ShotView shotView;
+        if (ShotModel.removedItems.size() > 0) {
+            shotModel = (ShotModel) ShotModel.removedItems.get(0);
+            shotView = (ShotView) ShotView.findById(shotModel.getId(),
+                    ShotView.removedItems);
+            ShotView.removedItems.remove(shotView);
+            ShotModel.removedItems.remove(shotModel);
+
+        } else {
+            shotModel = new ShotModel();
+            shotView = new ShotView(shotModel.getId());
+        }
+
+        shotModel.h = Constants.SHOT_DIAMETER;
+        shotModel.w = Constants.SHOT_DIAMETER;
+        shotModel.max_speed = Constants.SHOT_SPEED;
+
+        shotModel.anchor = EpsilonModel.items.get(0).anchor;
+        shotView.addItem(shotView);
+        shotModel.addItem(shotModel);
+        shotView.setUtil(shotModel);
+
+        return shotModel;
     }
 
     @Override

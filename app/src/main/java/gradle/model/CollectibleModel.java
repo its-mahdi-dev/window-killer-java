@@ -36,8 +36,8 @@ public class CollectibleModel extends Model {
         collectibleModel.h = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.anchor = anchor;
 
-        collectibleView.addItem(collectibleView);
         collectibleView.setUtil(collectibleModel);
+        collectibleView.addItem(collectibleView);
         collectibleModel.addItem(collectibleModel);
 
         return collectibleModel;
@@ -61,5 +61,9 @@ public class CollectibleModel extends Model {
     @Override
     protected List<Model> getRemovedItems() {
         return removedItems;
+    }
+
+    public static Model findById(String Id) {
+        return Model.findModel(Id, items);
     }
 }

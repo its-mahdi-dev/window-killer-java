@@ -5,12 +5,14 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
@@ -45,6 +47,13 @@ public class Update {
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
             shotView.setUtil(shotModel);
         }
+        for (int i = 0; i < CollectibleView.items.size(); i++) {
+            CollectibleView shotView = (CollectibleView) CollectibleView.items.get(i);
+            CollectibleModel shotModel = (CollectibleModel) CollectibleModel.findById(shotView.getId());
+            shotView.setUtil(shotModel);
+        }
+
+        
 
         GameFrame.getINSTANCE().repaint();
         GamePanel.getINSTANCE().changeSize();
@@ -56,6 +65,10 @@ public class Update {
         EpsilonController.checkWallImpact();
         EnemyController.checkCollision();
         ShotController.checkCollision();
+
+        for (Model collectibleModel : CollectibleModel.items) {
+            EpsilonController.checkCollectibleCollision((CollectibleModel) collectibleModel);
+        }
 
         upsCount++;
     }

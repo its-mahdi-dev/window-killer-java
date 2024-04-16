@@ -5,10 +5,11 @@ import java.util.*;
 
 import gradle.controller.Constants;
 import gradle.interfaces.Collectible;
+import gradle.interfaces.Rotation;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.View;
 
-public class EnemyModel extends Model implements Collectible {
+public class EnemyModel extends Model implements Collectible,Rotation {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
@@ -118,7 +119,7 @@ public class EnemyModel extends Model implements Collectible {
     @Override
     public void setCollectible() {
         for (int i = 0; i < collectibleCount; i++) {
-            CollectibleModel.create(getId(), anchor);
+            CollectibleModel.create(getId(), this.anchor);
         }
     }
 

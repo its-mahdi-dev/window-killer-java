@@ -10,6 +10,7 @@ import java.util.List;
 
 import gradle.controller.Constants;
 import gradle.controller.Utils;
+import gradle.interfaces.Rotation;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.View;
 
@@ -133,8 +134,8 @@ public abstract class Model {
         }
 
         move(direction, speed);
-        // if (this instanceof EnemyModel && isImpacting)
-        // moveRotaion(speed);
+        if (this instanceof Rotation && isImpacting)
+            moveRotaion(speed * 2.5);
     }
 
     public static void addAnchorToEntities(Point2D point2d) {
@@ -170,15 +171,18 @@ public abstract class Model {
         return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
     }
 
-    public void setImpact(int x, int y) {
-        direction = new Point2D.Double(x * direction.getX(), y * direction.getY());
+    public void setImpact(Point2D point2d) {
+        direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
+
+        anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 2),
+                anchor.getY() + (Math.signum(direction.getY()) * 2));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
         speed = max_speed * impact_speed;
     }
 
     public void setImpact() {
-        setImpact(-1, -1);
+        setImpact(new Point2D.Double(-1, -1));
     }
 
     public Point2D getPanelAnchor() {

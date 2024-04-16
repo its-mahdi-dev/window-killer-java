@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.controller.MouseController;
+import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
@@ -60,6 +61,10 @@ public class GamePanel extends JPanel {
 
         for (View enemyView : EnemyView.items) {
             enemyView.draw(g);
+        }
+
+        for (View collectibleView : CollectibleView.items) {
+            collectibleView.draw(g);
         }
     }
 

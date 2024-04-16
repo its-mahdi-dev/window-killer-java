@@ -21,7 +21,10 @@ public class CollectibleView extends View {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.white);
+        if (enemyType == EnemyType.square)
+            g.setColor(Color.green);
+        else if (enemyType == EnemyType.triangle)
+            g.setColor(Color.yellow);
         int x = (int) anchor.getX() - w / 2;
         int y = (int) anchor.getY() - h / 2;
         g.fillOval(x, y, w, h);

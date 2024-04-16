@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gradle.interfaces.Collectible;
+import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
@@ -106,6 +107,7 @@ public class EpsilonController {
         shot.anchor = EpsilonModel.items.get(0).anchor;
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
+
     }
 
     public static void checkWallImpact() {

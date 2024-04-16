@@ -30,5 +30,5 @@ public class Constants {
         public static final double ENEMY_SPEED = 1 * 60D / UPS;
 
         public static final double ENEMY_STROKE = 3.0;
-        public static final int COLLECTIBLE_DIAMETER = 4;
+        public static final int COLLECTIBLE_DIAMETER = 10;
 }

@@ -14,6 +14,7 @@ public class CollectibleModel extends Model {
     public EnemyModel enemyModel;
 
     public CollectibleModel(String EnemyId, Point2D anchor) {
+        enemyModel = (EnemyModel) EnemyModel.findById(EnemyId);
     }
 
     public static CollectibleModel create(String EnemyId, Point2D anchor) {
@@ -28,12 +29,13 @@ public class CollectibleModel extends Model {
 
         } else {
             collectibleModel = new CollectibleModel(EnemyId, anchor);
+            collectibleModel.enemyModel = (EnemyModel) EnemyModel.findById(EnemyId);
             collectibleView = new CollectibleView(collectibleModel.getId(), collectibleModel.enemyModel.type);
         }
         collectibleModel.w = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.h = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.anchor = anchor;
-        collectibleModel.enemyModel = (EnemyModel) EnemyModel.findById(EnemyId);
+
         collectibleView.addItem(collectibleView);
         collectibleView.setUtil(collectibleModel);
         collectibleModel.addItem(collectibleModel);

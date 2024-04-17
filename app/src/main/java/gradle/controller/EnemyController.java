@@ -42,7 +42,11 @@ public class EnemyController {
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
             if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonModel.w / 2
                     && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonModel.w / 2) {
-
+                // if (epsilonModel.isMoving) {
+                // epsilonModel.setImpact();
+                // } else {
+                // epsilonModel.setImpact(enemyModel.direction);
+                // }
                 enemyModel.setImpact();
 
                 epsilonModel.HP -= enemyModel.power;
@@ -53,11 +57,11 @@ public class EnemyController {
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
-                if (epsilonModel.isMoving) {
-                    epsilonModel.setImpact();
-                } else {
-                    epsilonModel.setImpact(enemyModel.direction);
-                }
+                // if (epsilonModel.isMoving) {
+                // epsilonModel.setImpact();
+                // } else {
+                // epsilonModel.setImpact(enemyModel.direction);
+                // }
                 enemyModel.setImpact();
             }
 
@@ -70,7 +74,7 @@ public class EnemyController {
             EnemyModel enemy = (EnemyModel) EnemyModel.items.get(i);
             if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
                 enemyModel.setImpact();
-                enemy.setImpact();
+                // enemy.setImpact();
             }
         }
     }

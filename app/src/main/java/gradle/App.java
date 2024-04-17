@@ -30,7 +30,7 @@ public class App {
             new EpsilonModel();
             EnemyModel.create(new Point2D.Double(450, 400), EnemyType.triangle);
             EnemyModel.create(new Point2D.Double(550, 300), EnemyType.square);
-            EnemyModel.create(new Point2D.Double(150, 200), EnemyType.square);
+            EnemyModel.create(new Point2D.Double(850, 200), EnemyType.square);
             // new En emyModel(new Point2D.Double(450, 245), EnemyType.triangle);
             // new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
             // new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);

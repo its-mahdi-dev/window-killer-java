@@ -9,6 +9,7 @@ import gradle.interfaces.Collectible;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.CollectibleView;
@@ -99,8 +100,9 @@ public class EpsilonController {
     public static void mousePressed(MouseEvent e) {
         ShotModel shot = ShotModel.create();
         shot.anchor = EpsilonModel.items.get(0).anchor;
-        Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
+        Point2D direction = Utils.getDirection(shot.anchor, e.getPoint());
         shot.setDirection(direction);
+
 
     }
 

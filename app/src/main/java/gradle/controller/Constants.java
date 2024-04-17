@@ -33,4 +33,6 @@ public class Constants {
         public static final int COLLECTIBLE_DIAMETER = 10;
 
         public static final int NAVBAR_HEIGHT = 40;
+
+        public static final int MAX_DISTANCE_IMPACT = 300;
 }

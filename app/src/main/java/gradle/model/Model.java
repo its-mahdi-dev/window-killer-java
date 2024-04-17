@@ -9,9 +9,12 @@ import javax.swing.Timer;
 import java.util.List;
 
 import gradle.controller.Constants;
+import gradle.controller.Controller;
 import gradle.controller.Utils;
+import gradle.interfaces.Entity;
 import gradle.interfaces.Rotation;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
 public abstract class Model {
@@ -171,27 +174,63 @@ public abstract class Model {
         return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
     }
 
+    public void setImpact(Point2D point2d, boolean isCollision) {
+        setImpact(point2d, max_speed * impact_speed);
+
+        if (isCollision)
+            setEnemyImpacts();
+    }
+
     public void setImpact(Point2D point2d) {
+        setImpact(point2d, true);
+
+    }
+
+    public void setImpact(Point2D point2d, double speed) {
         if (isMoving)
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         else
             direction = point2d;
 
-        if (this instanceof EpsilonModel)
-            System.out.println("---- " + direction);
         anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 4),
                 anchor.getY() + (Math.signum(direction.getY()) * 4));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
-        speed = max_speed * impact_speed;
+        this.speed = speed;
+
     }
 
     public void setImpact() {
-        setImpact(new Point2D.Double(-1, -1));
+        setImpact(true);
+    }
+
+    public void setImpact(boolean isCollision) {
+        setImpact(new Point2D.Double(-1, -1), isCollision);
     }
 
     public Point2D getPanelAnchor() {
         return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
+    }
+
+    public void setEnemyImpacts() {
+        for (Model newModel : getAllEntities()) {
+            double distance = Utils.getDistance(anchor, newModel.anchor);
+            if (!newModel.getId().equals(getId()) && distance < Constants.MAX_DISTANCE_IMPACT) {
+                double newSpeed = newModel.impact_speed * newModel.max_speed
+                        * ((Constants.MAX_DISTANCE_IMPACT - distance) / Constants.MAX_DISTANCE_IMPACT);
+                newModel.setImpact(Utils.getDirection(anchor, newModel.anchor), newSpeed);
+            }
+        }
+    }
+
+    public static List<Model> getAllEntities() {
+
+        List<Model> all = new ArrayList<>();
+
+        all.addAll(EnemyModel.items);
+        all.add(EpsilonModel.items.get(0));
+
+        return all;
     }
 
     protected abstract List<Model> getItems();

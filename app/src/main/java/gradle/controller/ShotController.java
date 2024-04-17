@@ -70,9 +70,9 @@ public class ShotController {
                     }
                     if (enemyModel.isImpacting) {
                         enemyModel.impact_speed *= 1.05;
-                        enemyModel.setImpact(new Point2D.Double(1, 1));
+                        enemyModel.setImpact(new Point2D.Double(1, 1), false);
                     } else
-                        enemyModel.setImpact();
+                        enemyModel.setImpact(false);
                 }
                 if (enemyModel.HP <= 0) {
                     EnemyController.remove(enemyModel.getId());

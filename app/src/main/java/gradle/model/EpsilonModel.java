@@ -4,14 +4,16 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import gradle.controller.Constants;
+import gradle.interfaces.Entity;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
-public class EpsilonModel extends Model {
+public class EpsilonModel extends Model implements Entity {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
     public int XP;
+
     public EpsilonModel() {
         anchor = new Point2D.Double(700, 500);
         w = Constants.EPSILON_DIAMETER;
@@ -19,8 +21,8 @@ public class EpsilonModel extends Model {
         max_speed = Constants.MOVE_SPEED;
         isMoving = false;
         HP = 100;
-        addItem(this);
         impact_speed = 1;
+        addItem(this);
         View view = new EpsilonView(getId());
         view.setUtil(this);
     }

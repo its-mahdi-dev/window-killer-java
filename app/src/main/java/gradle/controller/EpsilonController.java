@@ -83,12 +83,6 @@ public class EpsilonController {
             dx /= Math.sqrt(2);
         }
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-        // System.out.println(dx * dx + dy * dy);
-        // System.out.println("speed: " + epsilonModel.speed);
-        // System.out.println("max speed: " + epsilonModel.max_speed);
-        // System.out.println("acceleration: " + epsilonModel.max_speed /
-        // Constants.ACCELERATION);
-        // System.out.println("acceleration time: " + Constants.ACCELERATION);
         if (dx != 0 || dy != 0)
             epsilonModel.setDirection(new Point2D.Double(dx, dy));
         int c = 0;

@@ -176,6 +176,9 @@ public abstract class Model {
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         else
             direction = point2d;
+
+        if (this instanceof EpsilonModel)
+            System.out.println("---- " + direction);
         anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 4),
                 anchor.getY() + (Math.signum(direction.getY()) * 4));
         impact_time = System.currentTimeMillis();

@@ -8,7 +8,7 @@ import gradle.interfaces.Collectible;
 import gradle.interfaces.Rotation;
 import gradle.view.charecretsView.EnemyView;
 
-public class EnemyModel extends Model implements Collectible,Rotation {
+public class EnemyModel extends Model implements Collectible, Rotation {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
@@ -118,7 +118,8 @@ public class EnemyModel extends Model implements Collectible,Rotation {
     @Override
     public void setCollectible() {
         for (int i = 0; i < collectibleCount; i++) {
-            CollectibleModel.create(getId(), this.anchor);
+            CollectibleModel.create(getId(), new Point2D.Double(anchor.getX() + (Math.pow(-1, i) * i * 20),
+                    anchor.getY() + (Math.pow(-1, i) * i * 20)));
         }
     }
 

@@ -58,8 +58,11 @@ public class ShotController {
                     if (ShotModel.items.contains(shotModel)) {
                         remove(shotModel.getId());
                     }
-
-                    enemyModel.setImpact();
+                    if (enemyModel.isImpacting) {
+                        enemyModel.impact_speed *= 1.1;
+                        enemyModel.setImpact(new Point2D.Double(1, 1));
+                    } else
+                        enemyModel.setImpact();
                 }
                 if (enemyModel.HP <= 0) {
                     EnemyController.remove(enemyModel.getId());

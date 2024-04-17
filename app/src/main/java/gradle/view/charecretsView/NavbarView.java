@@ -59,13 +59,15 @@ public class NavbarView {
                 Constants.NAVBAR_HEIGHT / 4);
         g.setColor(Color.white);
         g.setFont(new Font("Consolas", Font.PLAIN, 14));
+        Image healthIcon = new ImageIcon("app/src/main/java/gradle/assets/health.png").getImage();
+        g.drawImage(healthIcon, HP + textWidth - 13, GamePanel.getINSTANCE().getHeight() -
+                Constants.NAVBAR_HEIGHT, 26, 26,
+                null);
+
+        g.setFont(new Font("Consolas", Font.PLAIN, 12));
         int HP_width = fm.stringWidth(String.valueOf(HP));
-        g.drawString(String.valueOf(HP), textWidth + 50 - HP_width / 2,
-                GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
-        // Image healthIcon = new ImageIcon("/gradle/assets/haelth.png").getImage();
-        // g.drawImage(healthIcon, 40, GamePanel.getINSTANCE().getHeight() -
-        // Constants.NAVBAR_HEIGHT, 30, 30,
-        // null);
+        g.drawString(String.valueOf(HP), HP + textWidth - HP_width / 2 + 2,
+                GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT  + 13);
         textWidth += 130;
         g.setFont(new Font("Consolas", Font.PLAIN, 20));
         g.setColor(Color.GREEN);

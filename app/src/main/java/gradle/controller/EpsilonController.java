@@ -109,28 +109,25 @@ public class EpsilonController {
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
 
-        if (CollectibleModel.items.size() > 0)
-            System.out
-                    .println(Utils.getDistance(EpsilonModel.items.get(0).anchor, CollectibleModel.items.get(0).anchor));
-
     }
 
     public static void checkWallImpact() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
-            if (epsilonModel.direction.getX() < 0)
+            if (epsilonModel.direction.getX() <= 0)
                 epsilonModel.setImpact(new Point2D.Double(-1, 1));
         }
         if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > GamePanel.getINSTANCE().getWidth()) {
-            if (epsilonModel.direction.getX() > 0)
+            if (epsilonModel.direction.getX() >= 0)
                 epsilonModel.setImpact(new Point2D.Double(-1, 1));
         }
         if (epsilonModel.getPanelAnchor().getY() - epsilonModel.h / 2 < 0) {
-            if (epsilonModel.direction.getY() < 0)
+            if (epsilonModel.direction.getY() <= 0)
                 epsilonModel.setImpact(new Point2D.Double(1, -1));
         }
         if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > GamePanel.getINSTANCE().getHeight()) {
-            if (epsilonModel.direction.getY() > 0)
+            
+            if (epsilonModel.direction.getY() >= 0)
                 epsilonModel.setImpact(new Point2D.Double(1, -1));
         }
     }

@@ -56,20 +56,23 @@ public class Update {
 
         NavbarView.getINSTANCE().setUtil();
         GameFrame.getINSTANCE().repaint();
-        GamePanel.getINSTANCE().changeSize();
+
+        if (!GameSettings.isPause)
+            GamePanel.getINSTANCE().changeSize();
         fpsCount++;
     }
 
     public void updateModel() {
-        EpsilonModel.items.get(0).move();
-        EpsilonController.checkWallImpact();
-        EnemyController.checkCollision();
-        ShotController.checkCollision();
+        if (!GameSettings.isPause) {
+            EpsilonModel.items.get(0).move();
+            EpsilonController.checkWallImpact();
+            EnemyController.checkCollision();
+            ShotController.checkCollision();
 
-        for (int i = 0; i < CollectibleModel.items.size(); i++) {
-            EpsilonController.checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
+            for (int i = 0; i < CollectibleModel.items.size(); i++) {
+                EpsilonController.checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
+            }
         }
-
         upsCount++;
     }
 

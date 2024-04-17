@@ -1,9 +1,9 @@
 package gradle.controller;
 
-
 import java.awt.event.*;
-public class KeyController  implements KeyListener{
-    
+
+public class KeyController implements KeyListener {
+
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -16,6 +16,9 @@ public class KeyController  implements KeyListener{
         } else if (keyCode == KeyEvent.VK_D) {
             EpsilonController.pressed.replace("right", true);
         }
+
+        if (keyCode == KeyEvent.VK_P)
+            GameSettings.isPause = !GameSettings.isPause;
 
         EpsilonController.updateMovement();
     }

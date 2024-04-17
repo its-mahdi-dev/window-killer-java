@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
     private static GamePanel INSTANCE;
     public Point2D location = new Point2D.Double(0, 0);
     public Point2D size = new Point2D.Double(0, 0);
-    double speed;
+    public double speed;
     Timer timer;
     boolean isChanging;
     int changeCounter;
@@ -72,6 +72,7 @@ public class GamePanel extends JPanel {
     }
 
     public void changeSize(Point2D location, Point2D size) {
+        // System.out.println(speed + " -> "+ size);
         setSize((int) (getWidth() + (size.getX() * speed)),
                 (int) (getHeight() + size.getY() * speed));
         setLocation((int) (getX() + location.getX() * speed),
@@ -126,9 +127,8 @@ public class GamePanel extends JPanel {
     public void setChanging() {
         isChanging = true;
         changingTime = System.currentTimeMillis();
-
         changeCounter++;
-        speed = Constants.CHANGE_FRAME_SPEED * 3.5;
+        speed = Constants.CHANGE_FRAME_SPEED * 2.5;
     }
 
 }

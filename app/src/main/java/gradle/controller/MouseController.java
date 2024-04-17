@@ -16,11 +16,12 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
+        EpsilonController.mousePressed(e);
     }
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        EpsilonController.mousePressed(e);
+
     }
 
     @Override

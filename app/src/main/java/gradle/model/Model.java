@@ -172,12 +172,12 @@ public abstract class Model {
     }
 
     public void setImpact(Point2D point2d) {
-        if (direction.getX() != 0 || direction.getY() != 0)
+        if (isMoving)
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         else
             direction = point2d;
-        anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 2),
-                anchor.getY() + (Math.signum(direction.getY()) * 2));
+        anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 4),
+                anchor.getY() + (Math.signum(direction.getY()) * 4));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
         speed = max_speed * impact_speed;

@@ -30,8 +30,11 @@ public class ShotController {
             dy = -1;
             dh = 1;
         }
-        GamePanel.getINSTANCE().location = new Point2D.Double(dx, dy);
-        GamePanel.getINSTANCE().size = new Point2D.Double(dw, dh);
+        if (dx != 0 || dy != 0)
+            GamePanel.getINSTANCE().location = new Point2D.Double(dx, dy);
+
+        if (dh != 0 || dw != 0)
+            GamePanel.getINSTANCE().size = new Point2D.Double(dw, dh);
         if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
             remove(shotModel.getId());
             GamePanel.getINSTANCE().setChanging();
@@ -41,16 +44,21 @@ public class ShotController {
 
     public static void remove(String Id) {
         ShotModel shotModel = (ShotModel) ShotModel.findById(Id);
-        ShotModel.removedItems.add(shotModel);
-        ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
-        ShotModel.items.remove(shotModel);
-        ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
+        if (shotModel != null) {
+            ShotModel.removedItems.add(shotModel);
+            ShotView.removedItems.add(ShotView.findById(shotModel.getId()));
+            ShotModel.items.remove(shotModel);
+            ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
+        }
+
     }
 
     public static void checkCollision() {
         for (int i = 0; i < ShotModel.items.size(); i++) {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
             shotModel.move();
+
+            checkShotWithPanel(shotModel);
             for (int j = 0; j < EnemyModel.items.size(); j++) {
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
                 if (checkEpsilonShot(enemyModel, shotModel)) {
@@ -59,7 +67,7 @@ public class ShotController {
                         remove(shotModel.getId());
                     }
                     if (enemyModel.isImpacting) {
-                        enemyModel.impact_speed *= 1.1;
+                        enemyModel.impact_speed *= 1.05;
                         enemyModel.setImpact(new Point2D.Double(1, 1));
                     } else
                         enemyModel.setImpact();
@@ -69,7 +77,6 @@ public class ShotController {
                 }
 
             }
-            checkShotWithPanel(shotModel);
         }
     }
 

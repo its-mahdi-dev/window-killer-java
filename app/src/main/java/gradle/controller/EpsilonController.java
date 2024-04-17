@@ -104,7 +104,6 @@ public class EpsilonController {
 
     public static void mousePressed(MouseEvent e) {
         ShotModel shot = ShotModel.create();
-
         shot.anchor = EpsilonModel.items.get(0).anchor;
         Point2D direction = Utils.getDirection(shot.anchor, new Point2D.Double(e.getX(), e.getY()));
         shot.setDirection(direction);
@@ -150,6 +149,7 @@ public class EpsilonController {
     }
 
     public static void removeCollectible(String Id) {
+        Utils.playMusic("app/src/main/java/gradle/assets/musics/ham.wav");
         CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(Id);
         CollectibleModel.removedItems.add(collectibleModel);
         CollectibleView.removedItems.add(CollectibleView.findById(collectibleModel.getId()));

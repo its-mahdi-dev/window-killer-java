@@ -4,10 +4,15 @@ import java.awt.Component;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-
+import java.io.*;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.ShotModel;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Utils {
     public static Point2D getDirection(Point2D point1, Point2D point2) {
@@ -16,8 +21,6 @@ public class Utils {
         double yVelocity = Math.sin(angle);
         return new Point2D.Double(xVelocity, yVelocity);
     }
-
-    
 
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {
         double deltaX = point2.getX() - point1.getX();
@@ -89,6 +92,18 @@ public class Utils {
     public static Point2D getRelatedPoint(Point2D point2d, Component component) {
         Point2D panelLocation = component.getLocation();
         return new Point2D.Double(point2d.getX() - panelLocation.getX(), point2d.getY() - panelLocation.getY());
+    }
+
+    public static void playMusic(String url) {
+        try {
+            File soundFile = new File(url);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

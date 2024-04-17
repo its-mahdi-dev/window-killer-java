@@ -82,6 +82,7 @@ public class EnemyController {
     }
 
     public static void remove(String Id) {
+        Utils.playMusic("app/src/main/java/gradle/assets/musics/ah2.wav");
         EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(Id);
         enemyModel.setCollectible();
         EnemyModel.removedItems.add(enemyModel);

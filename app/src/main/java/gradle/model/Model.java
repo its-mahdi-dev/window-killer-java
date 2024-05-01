@@ -32,6 +32,7 @@ public abstract class Model {
     public Point2D direction = new Point2D.Double(0, 0);
     public double angle;
     public int HP;
+    public double HP_time;
 
     public double speed = 0;
     public double max_speed;
@@ -138,7 +139,7 @@ public abstract class Model {
 
         move(direction, speed);
         if (this instanceof Rotation && isImpacting)
-            moveRotaion(speed * 2.5);
+            moveRotaion(speed * 1.5);
     }
 
     public static void addAnchorToEntities(Point2D point2d) {
@@ -191,9 +192,8 @@ public abstract class Model {
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         else
             direction = point2d;
-
-        anchor = new Point2D.Double(anchor.getX() + (Math.signum(direction.getX()) * 4),
-                anchor.getY() + (Math.signum(direction.getY()) * 4));
+        anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 15),
+                anchor.getY() + (direction.getY() * 15));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
         this.speed = speed;
@@ -218,7 +218,9 @@ public abstract class Model {
             if (!newModel.getId().equals(getId()) && distance < Constants.MAX_DISTANCE_IMPACT) {
                 double newSpeed = newModel.impact_speed * newModel.max_speed
                         * ((Constants.MAX_DISTANCE_IMPACT - distance) / Constants.MAX_DISTANCE_IMPACT);
-                newModel.setImpact(Utils.getDirection(anchor, newModel.anchor), newSpeed);
+                Point2D newDirection = Utils.getDirection(anchor, newModel.anchor);
+                if (newDirection.getX() * direction.getX() <= 0 && newDirection.getY() * direction.getY() <= 0)
+                    newModel.setImpact(newDirection, newSpeed);
             }
         }
     }

@@ -31,16 +31,12 @@ public class App {
             EnemyModel.create(new Point2D.Double(450, 400), EnemyType.triangle);
             EnemyModel.create(new Point2D.Double(550, 300), EnemyType.square);
             EnemyModel.create(new Point2D.Double(850, 200), EnemyType.square);
-            // new En emyModel(new Point2D.Double(450, 245), EnemyType.triangle);
-            // new EnemyModel(new Point2D.Double(50, 360), EnemyType.square);
-            // new EnemyModel(new Point2D.Double(450, 400), EnemyType.triangle);
-            // new EnemyModel(new Point2D.Double(170, 50), EnemyType.square);
             Update update = new Update();
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     // Print and reset counts
-                    // System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
+                    System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
                     update.upsCount = 0;
                     update.fpsCount = 0;
                 }

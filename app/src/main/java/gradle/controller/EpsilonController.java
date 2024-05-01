@@ -103,34 +103,41 @@ public class EpsilonController {
         Point2D direction = Utils.getDirection(shot.anchor, e.getPoint());
         shot.setDirection(direction);
 
-
     }
 
     public static void checkWallImpact() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
-            if (epsilonModel.isMoving)
-                epsilonModel.setImpact(new Point2D.Double(-1, 1));
-            else
-                epsilonModel.setImpact(new Point2D.Double(1, 0));
+            if (epsilonModel.direction.getX() <= 0) {
+                if (epsilonModel.isMoving)
+                    epsilonModel.setImpact(new Point2D.Double(-1, 1));
+                else
+                    epsilonModel.setImpact(new Point2D.Double(1, 0));
+            }
         }
         if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > GamePanel.getINSTANCE().getWidth()) {
-            if (epsilonModel.isMoving)
-                epsilonModel.setImpact(new Point2D.Double(-1, 1));
-            else
-                epsilonModel.setImpact(new Point2D.Double(-1, 0));
+            if (epsilonModel.direction.getX() >= 0) {
+                if (epsilonModel.isMoving)
+                    epsilonModel.setImpact(new Point2D.Double(-1, 1));
+                else
+                    epsilonModel.setImpact(new Point2D.Double(-1, 0));
+            }
         }
         if (epsilonModel.getPanelAnchor().getY() - epsilonModel.h / 2 < 0) {
-            if (epsilonModel.isMoving)
-                epsilonModel.setImpact(new Point2D.Double(1, -1));
-            else
-                epsilonModel.setImpact(new Point2D.Double(0, 1));
+            if (epsilonModel.direction.getY() <= 0) {
+                if (epsilonModel.isMoving)
+                    epsilonModel.setImpact(new Point2D.Double(1, -1));
+                else
+                    epsilonModel.setImpact(new Point2D.Double(0, 1));
+            }
         }
         if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > GamePanel.getINSTANCE().getHeight()) {
-            if (epsilonModel.isMoving)
-                epsilonModel.setImpact(new Point2D.Double(1, -1));
-            else
-                epsilonModel.setImpact(new Point2D.Double(0, -1));
+            if (epsilonModel.direction.getY() >= 0) {
+                if (epsilonModel.isMoving)
+                    epsilonModel.setImpact(new Point2D.Double(1, -1));
+                else
+                    epsilonModel.setImpact(new Point2D.Double(0, -1));
+            }
         }
     }
 

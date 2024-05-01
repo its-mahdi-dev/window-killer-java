@@ -49,7 +49,10 @@ public class EnemyController {
                 // }
                 enemyModel.setImpact();
 
-                epsilonModel.HP -= enemyModel.power;
+                if (System.currentTimeMillis() - epsilonModel.HP_time > 200) {
+                    epsilonModel.HP_time = System.currentTimeMillis();
+                    epsilonModel.HP -= enemyModel.power;
+                }
             }
         }
 

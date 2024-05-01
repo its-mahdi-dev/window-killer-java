@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import gradle.controller.Constants;
 import gradle.controller.EnemyController;
 import gradle.controller.Update;
 import gradle.model.EnemyModel;
@@ -14,6 +15,8 @@ import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import gradle.view.StorePanel;
+
 import java.awt.GraphicsEnvironment;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +27,7 @@ public class App {
         SwingUtilities.invokeLater(() -> {
             GameFrame.getINSTANCE();
             GamePanel.getINSTANCE();
+            StorePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();
 
             // add items

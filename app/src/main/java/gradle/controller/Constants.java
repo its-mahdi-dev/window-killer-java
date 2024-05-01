@@ -7,6 +7,8 @@ public class Constants {
         public static final Dimension GAME_FRAME_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize();
         public static final Dimension PANEL_SIZE = new Dimension((int) (GAME_FRAME_DIMENSION.getWidth() / 2),
                         (int) (GAME_FRAME_DIMENSION.getHeight() / 2));
+        public static final Dimension STORE_PANEL_DIMENSION = new Dimension((int) (PANEL_SIZE.getWidth() - (PANEL_SIZE.getWidth() / 4)) ,
+                        (int) (PANEL_SIZE.getHeight() - (PANEL_SIZE.getHeight() / 4)) );
         public static final int FPS = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0]
                         .getDisplayMode().getRefreshRate();
         public static final double FRAME_UPDATE_TIME = (double) TimeUnit.SECONDS.toMillis(1) / FPS;

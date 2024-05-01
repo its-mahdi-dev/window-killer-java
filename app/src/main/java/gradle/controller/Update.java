@@ -12,6 +12,7 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import gradle.view.StorePanel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
@@ -56,7 +57,7 @@ public class Update {
 
         NavbarView.getINSTANCE().setUtil();
         GameFrame.getINSTANCE().repaint();
-
+        StorePanel.getINSTANCE().showOrHidePanel();
         if (!GameSettings.isPause)
             GamePanel.getINSTANCE().changeSize();
         fpsCount++;

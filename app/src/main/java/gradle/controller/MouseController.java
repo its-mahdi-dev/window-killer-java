@@ -21,7 +21,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        EpsilonController.mousePressed(e);
+        if (!GameSettings.isPause)
+            EpsilonController.mousePressed(e);
     }
 
     @Override

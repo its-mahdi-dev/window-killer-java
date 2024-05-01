@@ -11,7 +11,7 @@ import gradle.view.charecretsView.View;
 public class EpsilonModel extends Model implements Entity {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
-
+    public boolean shotStore;
     public int XP;
 
     public EpsilonModel() {

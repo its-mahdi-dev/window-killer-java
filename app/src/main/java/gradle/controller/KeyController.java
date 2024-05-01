@@ -2,6 +2,8 @@ package gradle.controller;
 
 import java.awt.event.*;
 
+import gradle.view.StorePanel;
+
 public class KeyController implements KeyListener {
 
     @Override
@@ -19,7 +21,8 @@ public class KeyController implements KeyListener {
 
         if (keyCode == KeyEvent.VK_P)
             GameSettings.isPause = !GameSettings.isPause;
-
+        else if (keyCode == KeyEvent.VK_K)
+            GameSettings.isStore = !GameSettings.isStore;
         EpsilonController.updateMovement();
     }
 

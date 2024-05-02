@@ -14,8 +14,12 @@ import java.io.IOException;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import com.google.common.base.Strings;
+
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
+import gradle.model.EpsilonModel;
+import gradle.view.charecretsView.EpsilonView;
 
 public class StorePanel extends JPanel {
     private static StorePanel INSTANCE;
@@ -40,6 +44,8 @@ public class StorePanel extends JPanel {
 
     public int[] xp = { 50, 75, 100 };
 
+    private int epsilonXp;
+
     private StorePanel() throws HeadlessException {
         setOpaque(true);
         setBackground(new Color(5, 5, 5, 210));
@@ -57,6 +63,7 @@ public class StorePanel extends JPanel {
         for (int i = 0; i < 3; i++) {
             add(createBoxPanel(i));
         }
+
         GamePanel.getINSTANCE().add(this);
     }
 
@@ -140,6 +147,8 @@ public class StorePanel extends JPanel {
 
     public void showOrHidePanel() {
         if (GameSettings.isStore) {
+            EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+            epsilonXp = epsilonModel.XP;
             GameSettings.isPause = true;
             if (getHeight() <= Constants.STORE_PANEL_DIMENSION.getHeight())
                 setSize(new Dimension(getWidth(), getHeight() + 15));
@@ -163,4 +172,16 @@ public class StorePanel extends JPanel {
         }
         return INSTANCE;
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.GREEN);
+
+        FontMetrics fm = g.getFontMetrics();
+        String text = String.valueOf(epsilonXp) + " XP  ";
+        g.setFont(new Font("Consolas", Font.PLAIN, 20));
+        g.drawString(text, getWidth() / 2 - fm.stringWidth(text) / 2, BOX_HEIGHT + 80);
+    }
+
 }

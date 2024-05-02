@@ -58,6 +58,8 @@ public class Update {
         NavbarView.getINSTANCE().setUtil();
         GameFrame.getINSTANCE().repaint();
         StorePanel.getINSTANCE().showOrHidePanel();
+        if (GameSettings.isStore)
+            StorePanel.getINSTANCE().repaint();
         if (!GameSettings.isPause)
             GamePanel.getINSTANCE().changeSize();
         fpsCount++;

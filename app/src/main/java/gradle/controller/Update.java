@@ -77,6 +77,7 @@ public class Update {
             }
 
             StoreController.checkItemsTimes();
+            SkillTreeController.checkSkillsTime();
         }
         upsCount++;
     }

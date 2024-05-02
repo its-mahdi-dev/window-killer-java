@@ -62,7 +62,7 @@ public class ShotController {
             for (int j = 0; j < EnemyModel.items.size(); j++) {
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
                 if (checkEpsilonShot(enemyModel, shotModel)) {
-                    enemyModel.HP -= 5;
+                    enemyModel.HP -= 5 + (SkillTreeController.skills.get("ares") ? 1 : 0);
                     if (enemyModel.HP >= 0)
                         Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                     if (ShotModel.items.contains(shotModel)) {

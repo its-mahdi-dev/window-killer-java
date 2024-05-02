@@ -23,6 +23,8 @@ public class KeyController implements KeyListener {
             GameSettings.isPause = !GameSettings.isPause;
         else if (keyCode == KeyEvent.VK_K)
             GameSettings.isStore = !GameSettings.isStore;
+        else
+            SkillTreeController.keyControl(e);
         EpsilonController.updateMovement();
     }
 

@@ -12,10 +12,13 @@ public class StoreController {
         System.out.println("index: " + index);
         switch (index) {
             case 0:
-                increaseHP(10, StorePanel.xp[0]);
+                increaseHP(10);
                 break;
             case 1:
-                increaseShots(StorePanel.xp[1]);
+                increaseShots();
+                break;
+            case 2:
+                wave();
                 break;
             default:
                 break;
@@ -23,17 +26,18 @@ public class StoreController {
 
     }
 
-    private static void increaseHP(int HP, int xp) {
+    private static void increaseHP(int HP) {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         epsilonModel.HP = Math.min(100, epsilonModel.HP + HP);
-        epsilonModel.XP -= xp;
     }
 
-    private static void increaseShots(int xp) {
+    private static void increaseShots() {
         shotsNumber = 3;
         shotTime = System.currentTimeMillis();
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-        epsilonModel.XP -= xp;
+    }
+
+    private static void wave() {
+        EpsilonModel.items.get(0).setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 10, 1.4);
     }
 
     public static void checkItemsTimes() {

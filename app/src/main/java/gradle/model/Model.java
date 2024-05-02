@@ -212,17 +212,22 @@ public abstract class Model {
         return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
     }
 
-    public void setEnemyImpacts() {
+    public void setEnemyImpacts(double max_distance, double increaseSpeed) {
         for (Model newModel : getAllEntities()) {
             double distance = Utils.getDistance(anchor, newModel.anchor);
-            if (!newModel.getId().equals(getId()) && distance < Constants.MAX_DISTANCE_IMPACT) {
+            if (!newModel.getId().equals(getId()) && distance < max_distance) {
                 double newSpeed = newModel.impact_speed * newModel.max_speed
-                        * ((Constants.MAX_DISTANCE_IMPACT - distance) / Constants.MAX_DISTANCE_IMPACT);
+                        * ((max_distance - distance) / max_distance) * increaseSpeed;
                 Point2D newDirection = Utils.getDirection(anchor, newModel.anchor);
-                if (newDirection.getX() * direction.getX() <= 0 && newDirection.getY() * direction.getY() <= 0)
+                if (newDirection.getX() * newModel.direction.getX() <= 0
+                        && newDirection.getY() * newModel.direction.getY() <= 0)
                     newModel.setImpact(newDirection, newSpeed);
             }
         }
+    }
+
+    public void setEnemyImpacts() {
+        setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT, 1);
     }
 
     public static List<Model> getAllEntities() {

@@ -43,8 +43,9 @@ public class StorePanel extends JPanel {
             "wave"
     };
 
-    public static int[] xp = { 50, 75, 100 };
+    public static int[] xp = { 5, 75, 100 };
 
+    public static boolean[] enabled = { true, true, true };
     private int epsilonXp;
 
     private StorePanel() throws HeadlessException {
@@ -77,8 +78,13 @@ public class StorePanel extends JPanel {
         boxPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                GameSettings.isStore = false;
-                StoreController.handleStore(boxIndex);
+                if (enabled[boxIndex]) {
+                    GameSettings.isStore = false;
+                    StoreController.handleStore(boxIndex);
+                }else{
+                    String error_text = "you can't buy this item you wanna " + String.valueOf(xp[boxIndex] - epsilonXp) + " XP more";
+                    JOptionPane.showMessageDialog(null, error_text);
+                }
             }
         });
         boxContainer.add(boxPanel);
@@ -106,9 +112,11 @@ public class StorePanel extends JPanel {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    hovered = true;
-                    setBorder(BorderFactory.createCompoundBorder(new LineBorder(BORDER_COLOR),
-                            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    if (enabled[boxIndex]) {
+                        hovered = true;
+                        setBorder(BorderFactory.createCompoundBorder(new LineBorder(BORDER_COLOR),
+                                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    }
                 }
 
                 @Override

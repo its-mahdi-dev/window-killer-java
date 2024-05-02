@@ -9,7 +9,6 @@ public class StoreController {
     public static int shotsNumber = 1;
 
     public static void handleStore(int index) {
-        System.out.println("index: " + index);
         switch (index) {
             case 0:
                 increaseHP(10);
@@ -23,6 +22,9 @@ public class StoreController {
             default:
                 break;
         }
+
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        epsilonModel.XP -= StorePanel.xp[index];
 
     }
 
@@ -44,5 +46,19 @@ public class StoreController {
         if (System.currentTimeMillis() - shotTime > 10000) {
             shotsNumber = 1;
         }
+
+        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+
+        for (int i = 0; i < StorePanel.xp.length; i++) {
+            StorePanel.enabled[i] = true;
+        }
+
+        for (int i = 0; i < StorePanel.xp.length; i++) {
+            if (epsilonModel.XP < StorePanel.xp[i])
+                StorePanel.enabled[i] = false;
+        }
+
+        if (shotsNumber > 1)
+            StorePanel.enabled[1] = false;
     }
 }

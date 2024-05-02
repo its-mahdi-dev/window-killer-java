@@ -219,9 +219,9 @@ public abstract class Model {
                 double newSpeed = newModel.impact_speed * newModel.max_speed
                         * ((max_distance - distance) / max_distance) * increaseSpeed;
                 Point2D newDirection = Utils.getDirection(anchor, newModel.anchor);
-                if (newDirection.getX() * newModel.direction.getX() <= 0
-                        && newDirection.getY() * newModel.direction.getY() <= 0)
-                    newModel.setImpact(newDirection, newSpeed);
+                // if (newDirection.getX() * newModel.direction.getX() <= 0
+                // && newDirection.getY() * newModel.direction.getY() <= 0)
+                newModel.setImpact(newDirection, newSpeed);
             }
         }
     }

@@ -80,11 +80,6 @@ public class GamePanel extends JPanel {
     }
 
     public void changeSize() {
-        // if (timer == null) {
-        // timer = new Timer(50, new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-
         if (isChanging) {
             speed -= velocity;
         } else {

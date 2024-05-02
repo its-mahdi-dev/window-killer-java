@@ -75,6 +75,8 @@ public class Update {
             for (int i = 0; i < CollectibleModel.items.size(); i++) {
                 EpsilonController.checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
             }
+
+            StoreController.checkItemsTimes();
         }
         upsCount++;
     }

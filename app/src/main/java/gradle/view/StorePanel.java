@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
+import gradle.controller.StoreController;
 import gradle.model.EpsilonModel;
 import gradle.view.charecretsView.EpsilonView;
 
@@ -42,7 +43,7 @@ public class StorePanel extends JPanel {
             "wave"
     };
 
-    public int[] xp = { 50, 75, 100 };
+    public static int[] xp = { 50, 75, 100 };
 
     private int epsilonXp;
 
@@ -77,7 +78,7 @@ public class StorePanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 GameSettings.isStore = false;
-                System.out.println("Box " + boxIndex + " clicked!");
+                StoreController.handleStore(boxIndex);
             }
         });
         boxContainer.add(boxPanel);

@@ -6,7 +6,7 @@ import gradle.view.StorePanel;
 public class StoreController {
 
     public static double shotTime = System.currentTimeMillis();
-    public static boolean is3Shotting;
+    public static int shotsNumber = 1;
 
     public static void handleStore(int index) {
         System.out.println("index: " + index);
@@ -16,6 +16,7 @@ public class StoreController {
                 break;
             case 1:
                 increaseShots(StorePanel.xp[1]);
+                break;
             default:
                 break;
         }
@@ -29,7 +30,7 @@ public class StoreController {
     }
 
     private static void increaseShots(int xp) {
-        is3Shotting = true;
+        shotsNumber = 3;
         shotTime = System.currentTimeMillis();
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         epsilonModel.XP -= xp;
@@ -37,7 +38,7 @@ public class StoreController {
 
     public static void checkItemsTimes() {
         if (System.currentTimeMillis() - shotTime > 10000) {
-            is3Shotting = false;
+            shotsNumber = 1;
         }
     }
 }

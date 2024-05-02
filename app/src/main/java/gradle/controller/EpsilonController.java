@@ -98,10 +98,14 @@ public class EpsilonController {
     }
 
     public static void mousePressed(MouseEvent e) {
-        ShotModel shot = ShotModel.create();
-        shot.anchor = EpsilonModel.items.get(0).anchor;
-        Point2D direction = Utils.getDirection(shot.anchor, e.getPoint());
-        shot.setDirection(direction);
+        for (int i = 0; i < StoreController.shotsNumber; i++) {
+            ShotModel shot = ShotModel.create();
+            shot.anchor = EpsilonModel.items.get(0).anchor;
+            Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),
+                    e.getY() + i * (Math.pow(-1, i) * 50));
+            Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
+            shot.setDirection(direction);
+        }
 
     }
 

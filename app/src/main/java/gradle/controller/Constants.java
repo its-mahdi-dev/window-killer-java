@@ -22,7 +22,7 @@ public class Constants {
 
         // Entities
         public static final int EPSILON_DIAMETER = 30;
-        public static final int EPSILON_VERTEX_DIAMETER = 4;
+        public static final int EPSILON_VERTEX_DIAMETER = 6;
         public static final double MOVE_SPEED = 6 * 60D / UPS;
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 6;
@@ -39,4 +39,5 @@ public class Constants {
         public static final int NAVBAR_HEIGHT = 40;
 
         public static final int MAX_DISTANCE_IMPACT = 300;
+        public static final int EPSILON_POWER = 10;
 }

@@ -138,8 +138,8 @@ public abstract class Model {
         }
 
         move(direction, speed);
-        if (this instanceof Rotation && isImpacting)
-            moveRotaion(speed * 1.5);
+        // if (this instanceof Rotation && isImpacting)
+        //     moveRotaion(speed * 1.5);
     }
 
     public static void addAnchorToEntities(Point2D point2d) {
@@ -192,8 +192,8 @@ public abstract class Model {
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         else
             direction = point2d;
-        anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 15),
-                anchor.getY() + (direction.getY() * 15));
+        anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 10),
+                anchor.getY() + (direction.getY() * 10));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
         this.speed = speed;

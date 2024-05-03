@@ -64,7 +64,7 @@ public class ShotController {
                 if (checkEpsilonShot(enemyModel, shotModel)) {
                     enemyModel.HP -= 5 + (SkillTreeController.enemy_hp_decrease);
                     if (enemyModel.HP >= 0)
-                        Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
+                        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                     if (ShotModel.items.contains(shotModel)) {
                         remove(shotModel.getId());
                     }

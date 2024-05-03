@@ -157,7 +157,7 @@ public class EpsilonController {
     }
 
     public static void removeCollectible(String Id) {
-        Utils.playMusic("app/src/main/java/gradle/assets/musics/ham.wav");
+        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ham.wav");
         CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(Id);
         CollectibleModel.removedItems.add(collectibleModel);
         CollectibleView.removedItems.add(CollectibleView.findById(collectibleModel.getId()));

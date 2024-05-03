@@ -29,7 +29,7 @@ public class EpsilonVertexModel extends Model {
 
         Random rand = new Random();
         double angle = rand.nextDouble() * 2 * Math.PI;
-        epsilonVertexModel.angle = 0.0;
+        epsilonVertexModel.angle = angle;
         epsilonVertexView.addItem(epsilonVertexView);
         epsilonVertexModel.addItem(epsilonVertexModel);
         epsilonVertexView.setUtil(epsilonVertexModel);

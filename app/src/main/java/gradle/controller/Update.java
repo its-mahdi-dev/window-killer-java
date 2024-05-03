@@ -8,6 +8,7 @@ import javax.swing.*;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
@@ -15,6 +16,7 @@ import gradle.view.GamePanel;
 import gradle.view.StorePanel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.EpsilonVertexView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.NavbarView;
 import gradle.view.charecretsView.ShotView;
@@ -39,6 +41,12 @@ public class Update {
 
     public void updateView() {
         EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
+
+        for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
+            EpsilonVertexView shotView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
+            EpsilonVertexModel shotModel = (EpsilonVertexModel) EpsilonVertexModel.findById(shotView.getId());
+            shotView.setUtil(shotModel);
+        }
         for (int i = 0; i < EnemyView.items.size(); i++) {
             EnemyView shotView = (EnemyView) EnemyView.items.get(i);
             EnemyModel shotModel = (EnemyModel) EnemyModel.findById(shotView.getId());
@@ -69,6 +77,7 @@ public class Update {
         if (!GameSettings.isPause) {
             EpsilonModel.items.get(0).move();
             EpsilonController.checkWallImpact();
+            EpsilonController.updateVertextAnchor();
             EnemyController.checkCollision();
             ShotController.checkCollision();
 

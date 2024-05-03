@@ -5,6 +5,8 @@ import java.awt.event.*;
 import javax.swing.Timer;
 
 import gradle.model.EpsilonModel;
+import gradle.model.EpsilonVertexModel;
+import gradle.model.Model;
 
 public class SkillTreeController {
     public static final Map<String, Long> skillsTime = new HashMap<>();
@@ -27,6 +29,9 @@ public class SkillTreeController {
                 break;
             case KeyEvent.VK_H:
                 setAceso();
+                break;
+            case KeyEvent.VK_J:
+                setProteus();
                 break;
             default:
                 break;
@@ -54,6 +59,14 @@ public class SkillTreeController {
             });
             timer.start();
         }
+    }
+
+    private static void setProteus() {
+        // if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME)
+        // {
+        skillsTime.put("proteus", System.currentTimeMillis());
+        EpsilonVertexModel.create();
+        // }
     }
 
     public static void checkSkillsTime() {

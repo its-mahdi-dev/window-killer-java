@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 import java.awt.FontMetrics;
 import gradle.controller.Constants;
 import gradle.model.EpsilonModel;
@@ -22,20 +22,23 @@ public class EpsilonView extends View {
 
     @Override
     public void draw(Graphics g) {
+        int radius1 = w / 2;
         g.setColor(Color.CYAN);
-        int x = (int) anchor.getX() - w / 2;
-        int y = (int) anchor.getY() - h / 2;
+        int x = (int) anchor.getX() - radius1;
+        int y = (int) anchor.getY() - radius1;
         g.fillOval(x, y, w, h);
 
-        g.setColor(Color.red);
-        g.setFont(new Font("Arial", Font.BOLD, 10));
-        String text = String.valueOf(HP);
-        FontMetrics fm = g.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        int textHeight = fm.getHeight();
-        int textX = (int) anchor.getX() - textWidth / 2;
-        int textY = (int) anchor.getY() + textHeight / 2;
-        g.drawString(text, textX, textY);
+        
+
+        // g.setColor(Color.red);
+        // g.setFont(new Font("Arial", Font.BOLD, 10));
+        // String text = String.valueOf(HP);
+        // FontMetrics fm = g.getFontMetrics();
+        // int textWidth = fm.stringWidth(text);
+        // int textHeight = fm.getHeight();
+        // int textX = (int) anchor.getX() - textWidth / 2;
+        // int textY = (int) anchor.getY() + textHeight / 2;
+        // g.drawString(text, textX, textY);
     }
 
     @Override

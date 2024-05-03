@@ -11,6 +11,7 @@ import gradle.controller.KeyController;
 import gradle.controller.MouseController;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.EpsilonVertexView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.NavbarView;
 import gradle.view.charecretsView.ShotView;
@@ -54,6 +55,9 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (View epsilonView : EpsilonView.items) {
+            epsilonView.draw(g);
+        }
+        for (View epsilonView : EpsilonVertexView.items) {
             epsilonView.draw(g);
         }
         for (View shotView : ShotView.items) {

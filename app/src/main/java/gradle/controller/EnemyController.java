@@ -46,6 +46,8 @@ public class EnemyController {
     public static void checkEpsilonColision(EnemyModel enemyModel) {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints, epsilonModel.anchor);
+
+        Point2D newDirection = Utils.getDirection(epsilonModel.anchor, enemyModel.anchor);
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
             if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonModel.w / 2
                     && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonModel.w / 2) {
@@ -54,7 +56,8 @@ public class EnemyController {
                 // } else {
                 // epsilonModel.setImpact(enemyModel.direction);
                 // }
-                enemyModel.setImpact();
+                System.out.println(newDirection);
+                enemyModel.setImpact(newDirection, true, true);
 
                 if (System.currentTimeMillis() - epsilonModel.HP_time > 200) {
                     epsilonModel.HP_time = System.currentTimeMillis();
@@ -73,9 +76,10 @@ public class EnemyController {
                 // epsilonModel.setImpact(enemyModel.direction);
                 // }
                 for (Model vertex : EpsilonVertexModel.items) {
-                    System.out.println(Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) + " -> " + point2ds[0]
-                            + " -- " + point2ds[1]
-                            + " ->" + vertex.anchor);
+                    // System.out.println(Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor)
+                    // + " -> " + point2ds[0]
+                    // + " -- " + point2ds[1]
+                    // + " ->" + vertex.anchor);
                     if (Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) < vertex.w * 2) {
                         enemyModel.HP -= Constants.EPSILON_POWER;
                         if (enemyModel.HP <= 0) {
@@ -84,7 +88,7 @@ public class EnemyController {
                     }
 
                 }
-                enemyModel.setImpact();
+                enemyModel.setImpact(newDirection, true, true);
             }
 
         }
@@ -95,12 +99,11 @@ public class EnemyController {
         for (int i = 0; i < EnemyModel.items.size(); i++) {
             EnemyModel enemy = (EnemyModel) EnemyModel.items.get(i);
             if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
-                Point2D newDirection = Utils.getDirection(enemyModel.anchor, enemy.anchor);
+                Point2D newDirection = Utils.getDirection(enemy.anchor, enemyModel.anchor);
                 // enemyModel.anchor = new Point2D.Double(
                 // enemyModel.anchor.getX() + (newDirection.getX() * -5),
                 // enemyModel.anchor.getY() + (newDirection.getY() * -5));
-                System.out.println("mmmmm" + enemy.direction + " " + enemyModel.direction);
-                enemyModel.setImpact();
+                enemyModel.setImpact(newDirection, true, true);
                 // enemy.setImpact();
             }
         }

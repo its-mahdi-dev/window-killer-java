@@ -138,8 +138,8 @@ public abstract class Model {
         }
 
         move(direction, speed);
-        // if (this instanceof Rotation && isImpacting)
-        //     moveRotaion(speed * 1.5);
+        if (this instanceof Rotation && isImpacting)
+            moveRotaion(speed * 1.5);
     }
 
     public static void addAnchorToEntities(Point2D point2d) {
@@ -176,8 +176,12 @@ public abstract class Model {
     }
 
     public void setImpact(Point2D point2d, boolean isCollision) {
-        setImpact(point2d, max_speed * impact_speed);
+        setImpact(point2d, isCollision, false);
 
+    }
+
+    public void setImpact(Point2D point2d, boolean isCollision, boolean correctDirection) {
+        setImpact(point2d, max_speed * impact_speed, correctDirection);
         if (isCollision)
             setEnemyImpacts();
     }
@@ -188,12 +192,17 @@ public abstract class Model {
     }
 
     public void setImpact(Point2D point2d, double speed) {
-        if (isMoving)
+        setImpact(point2d, speed, false);
+    }
+
+    public void setImpact(Point2D point2d, double speed, boolean correctDirection) {
+        if (isMoving && !correctDirection) {
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
-        else
+        } else {
             direction = point2d;
-        anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 10),
-                anchor.getY() + (direction.getY() * 10));
+        }
+        // anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 5),
+        // anchor.getY() + (direction.getY() * 5));
         impact_time = System.currentTimeMillis();
         isImpacting = true;
         this.speed = speed;
@@ -221,7 +230,7 @@ public abstract class Model {
                 Point2D newDirection = Utils.getDirection(anchor, newModel.anchor);
                 // if (newDirection.getX() * newModel.direction.getX() <= 0
                 // && newDirection.getY() * newModel.direction.getY() <= 0)
-                newModel.setImpact(newDirection, newSpeed);
+                newModel.setImpact(newDirection, newSpeed, true);
             }
         }
     }

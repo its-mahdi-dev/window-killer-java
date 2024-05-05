@@ -14,12 +14,21 @@ import java.util.Map;
 
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import com.google.common.primitives.Booleans;
+
 import gradle.controller.Constants;
+import gradle.controller.JsonHelper;
+import gradle.controller.SkillTreeController;
 
 public class SkillTreePanel extends JPanel {
     Timer timer;
     JPanel contentPanel;
     GridBagConstraints gbc;
+    JSONArray skills = new JSONArray();
 
     public SkillTreePanel() throws HeadlessException {
         setOpaque(true);
@@ -40,11 +49,17 @@ public class SkillTreePanel extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridy = 1;
 
+        setSkillsData();
         addItems();
         setLayout(new BorderLayout());
 
         add(contentPanel, BorderLayout.CENTER);
         MainPanel.getINSTANCE().add(this);
+    }
+
+    private void setSkillsData() {
+        JSONObject jsonObject = JsonHelper.readJsonFromFile("app/src/main/resources/data/skillTree.json");
+        skills = (JSONArray) jsonObject.get("skills");
     }
 
     public void showPanel(boolean open) {
@@ -66,54 +81,77 @@ public class SkillTreePanel extends JPanel {
     }
 
     private void addItems() {
-        gbc.insets = new Insets(10, 5, 20, 5);
-        gbc.gridx = 0;
-        gbc.gridy++;
+        for (int i = 0; i < skills.size(); i++) {
+            JSONObject skillObject = (JSONObject) skills.get(i);
+            gbc.insets = new Insets(10, 5, 20, 5);
+            gbc.gridx = 0;
+            gbc.gridy++;
 
-        JPanel aresPanel = new JPanel();
-        aresPanel.setBackground(new Color(0, 0, 0, 0));
-        aresPanel.setLayout(new BorderLayout());
+            JPanel aresPanel = new JPanel();
+            aresPanel.setBackground(new Color(0, 0, 0, 0));
+            aresPanel.setLayout(new BorderLayout());
 
-        ImageIcon icon = new ImageIcon("app/src/main/java/gradle/assets/icons/ares.png");
-        JLabel imageLabel = new JLabel(icon);
-        aresPanel.add(imageLabel, BorderLayout.WEST);
+            String imagePath = "app/src/main/java/gradle/assets/icons/" + skillObject.get("image").toString();
+            ImageIcon icon = new ImageIcon(imagePath);
+            JLabel imageLabel = new JLabel(icon);
+            aresPanel.add(imageLabel, BorderLayout.WEST);
 
-        // Create flex column panel
-        JPanel flexColumnPanel = new JPanel();
-        flexColumnPanel.setBackground(new Color(0, 0, 0, 0));
-        flexColumnPanel.setLayout(new BoxLayout(flexColumnPanel, BoxLayout.Y_AXIS));
-        flexColumnPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        JLabel label = new JLabel("Writ of Ares");
-        label.setForeground(Color.white);
-        label.setFont(new Font("Raleway ExtraBold", Font.BOLD, 20));
-        flexColumnPanel.add(label);
-        JLabel descriptionTextArea = new JLabel("Epsilon's attacks deal two more damage to the enemy.");
-        descriptionTextArea.setForeground(Color.white);
-        flexColumnPanel.add(descriptionTextArea);
+            // Create flex column panel
+            JPanel flexColumnPanel = new JPanel();
+            flexColumnPanel.setBackground(new Color(0, 0, 0, 0));
+            flexColumnPanel.setLayout(new BoxLayout(flexColumnPanel, BoxLayout.Y_AXIS));
+            flexColumnPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+            JLabel label = new JLabel(skillObject.get("name").toString());
+            label.setForeground(Color.white);
+            label.setFont(new Font("Raleway ExtraBold", Font.BOLD, 20));
+            flexColumnPanel.add(label);
+            JLabel descriptionTextArea = new JLabel(skillObject.get("description").toString());
+            descriptionTextArea.setForeground(Color.white);
+            flexColumnPanel.add(descriptionTextArea);
 
-        JLabel XPLabel = new JLabel("750 XP");
-        XPLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        XPLabel.setForeground(Color.white);
-        XPLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
-        flexColumnPanel.add(XPLabel);
+            JLabel XPLabel = new JLabel(skillObject.get("XP").toString() + " XP");
+            XPLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+            XPLabel.setForeground(Color.green);
+            XPLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
+            flexColumnPanel.add(XPLabel);
 
-        // Create button panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(0, 0, 0, 0));
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JButton button = new JButton("Buy");
-        button.setBackground(Color.yellow);
-        button.setPreferredSize(new Dimension(100, 30));
-        button.setBorder(new LineBorder(Color.RED, 2));
-        button.setForeground(Color.black);
-        button.setFont(new Font("Raleway ExtraBold", Font.BOLD, 14));
-        buttonPanel.add(button);
+            // Create button panel
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setBackground(new Color(0, 0, 0, 0));
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            JButton button = new JButton("Buy");
+            button.setBackground(Color.yellow);
+            button.setPreferredSize(new Dimension(100, 30));
+            button.setBorder(new LineBorder(Color.RED, 2));
+            button.setForeground(Color.black);
+            button.setFont(new Font("Raleway ExtraBold", Font.BOLD, 14));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-        // Add components to row panel
-        aresPanel.add(flexColumnPanel, BorderLayout.CENTER);
-        aresPanel.add(buttonPanel, BorderLayout.EAST);
+                    String message;
+                    boolean enabled = Boolean.parseBoolean(skillObject.get("enabled").toString());
+                    if (enabled)
+                        message = "Skill Purchased";
+                    else {
+                        int xp = Integer.parseInt(skillObject.get("XP").toString());
+                        boolean xpEnable = SkillTreeController.buySkill(xp);
+                        if (xpEnable)
+                            message = "greate , you have now " + skillObject.get("XP").toString() + " XP";
+                        else
+                            message = "you don't have enough XP";
+                    }
+                    JOptionPane.showMessageDialog(null, message);
+                }
+            });
+            buttonPanel.add(button);
 
-        contentPanel.add(aresPanel, gbc);
+            // Add components to row panel
+            aresPanel.add(flexColumnPanel, BorderLayout.CENTER);
+            aresPanel.add(buttonPanel, BorderLayout.EAST);
+
+            contentPanel.add(aresPanel, gbc);
+        }
 
     }
 }

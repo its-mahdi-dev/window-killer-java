@@ -4,6 +4,8 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
+import org.json.simple.JSONObject;
+
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
@@ -62,14 +64,23 @@ public class SkillTreeController {
     }
 
     private static void setProteus() {
-        // if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME)
-        // {
-        skillsTime.put("proteus", System.currentTimeMillis());
-        EpsilonVertexModel.create();
-        // }
+        if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME) {
+            skillsTime.put("proteus", System.currentTimeMillis());
+            EpsilonVertexModel.create();
+        }
     }
 
     public static void checkSkillsTime() {
+
+    }
+
+    public static boolean buySkill(int xp) {
+        JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/data.json");
+        int userXP = Integer.parseInt(data.get("xp").toString());
+        if (userXP >= xp)
+            return true;
+
+        return false;
 
     }
 

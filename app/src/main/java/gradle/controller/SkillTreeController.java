@@ -64,10 +64,10 @@ public class SkillTreeController {
     }
 
     private static void setProteus() {
-        if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME) {
+        // if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME) {
             skillsTime.put("proteus", System.currentTimeMillis());
             EpsilonVertexModel.create();
-        }
+        // }
     }
 
     public static void checkSkillsTime() {

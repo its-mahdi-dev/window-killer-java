@@ -12,6 +12,7 @@ import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
+import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
@@ -115,33 +116,33 @@ public class EpsilonController {
         if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
             if (epsilonModel.direction.getX() <= 0) {
                 if (epsilonModel.isMoving)
-                    epsilonModel.setImpact(new Point2D.Double(-1, 1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(-1, 1), false);
                 else
-                    epsilonModel.setImpact(new Point2D.Double(1, 0) , false);
+                    epsilonModel.setImpact(new Point2D.Double(1, 0), false);
             }
         }
         if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > GamePanel.getINSTANCE().getWidth()) {
             if (epsilonModel.direction.getX() >= 0) {
                 if (epsilonModel.isMoving)
-                    epsilonModel.setImpact(new Point2D.Double(-1, 1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(-1, 1), false);
                 else
-                    epsilonModel.setImpact(new Point2D.Double(-1, 0) , false);
+                    epsilonModel.setImpact(new Point2D.Double(-1, 0), false);
             }
         }
         if (epsilonModel.getPanelAnchor().getY() - epsilonModel.h / 2 < 0) {
             if (epsilonModel.direction.getY() <= 0) {
                 if (epsilonModel.isMoving)
-                    epsilonModel.setImpact(new Point2D.Double(1, -1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(1, -1), false);
                 else
-                    epsilonModel.setImpact(new Point2D.Double(0, 1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(0, 1), false);
             }
         }
         if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > GamePanel.getINSTANCE().getHeight()) {
             if (epsilonModel.direction.getY() >= 0) {
                 if (epsilonModel.isMoving)
-                    epsilonModel.setImpact(new Point2D.Double(1, -1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(1, -1), false);
                 else
-                    epsilonModel.setImpact(new Point2D.Double(0, -1) , false);
+                    epsilonModel.setImpact(new Point2D.Double(0, -1), false);
             }
         }
     }
@@ -168,8 +169,16 @@ public class EpsilonController {
     public static void updateVertextAnchor() {
         EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
         for (Model vertex : EpsilonVertexModel.items) {
-            double x = epsilonModel.anchor.getX() + (epsilonModel.w / 2 - vertex.w / 2) * Math.cos(vertex.angle);
-            double y = epsilonModel.anchor.getY() + (epsilonModel.w / 2 - vertex.w / 2) * Math.sin(vertex.angle);
+            double dy = EpsilonModel.items.get(0).anchor.getY() - MouseController.mousePos
+                    .getY();
+            double dx = EpsilonModel.items.get(0).anchor.getX() - MouseController.mousePos
+                    .getX();
+            double angle = Math.atan2(dy, dx);
+
+            double x = epsilonModel.anchor.getX()
+                    + (epsilonModel.w / 2 - vertex.w / 2) * Math.cos(vertex.angle + angle);
+            double y = epsilonModel.anchor.getY()
+                    + (epsilonModel.w / 2 - vertex.w / 2) * Math.sin(vertex.angle + angle);
             vertex.anchor = new Point2D.Double(x, y);
         }
     }

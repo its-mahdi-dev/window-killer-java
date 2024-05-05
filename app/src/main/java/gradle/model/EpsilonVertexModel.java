@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import gradle.controller.Constants;
+import gradle.controller.MouseController;
 import gradle.view.charecretsView.EpsilonVertexView;
 import gradle.view.charecretsView.ShotView;
 
@@ -26,9 +27,17 @@ public class EpsilonVertexModel extends Model {
         epsilonVertexModel.w = Constants.EPSILON_VERTEX_DIAMETER;
 
         epsilonVertexModel.anchor = EpsilonModel.items.get(0).anchor;
-
-        Random rand = new Random();
-        double angle = rand.nextDouble() * 2 * Math.PI;
+        double angle = 0;
+        if (items.size() == 0) {
+            double dy = EpsilonModel.items.get(0).anchor.getY() - MouseController.mousePos
+                    .getY();
+            double dx = EpsilonModel.items.get(0).anchor.getX() - MouseController.mousePos
+                    .getX();
+            angle = Math.atan2(dy, dx);
+        } else {
+            angle = max_angle + 20;
+        }
+        max_angle = angle;
         epsilonVertexModel.angle = angle;
         epsilonVertexView.addItem(epsilonVertexView);
         epsilonVertexModel.addItem(epsilonVertexModel);

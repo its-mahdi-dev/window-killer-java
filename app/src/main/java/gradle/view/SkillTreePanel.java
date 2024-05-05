@@ -28,7 +28,8 @@ public class SkillTreePanel extends JPanel {
     Timer timer;
     JPanel contentPanel;
     GridBagConstraints gbc;
-    JSONArray skills = new JSONArray();
+    JSONObject skillsData = JsonHelper.readJsonFromFile("app/src/main/resources/data/skillTree.json");
+    JSONArray skills = (JSONArray) skillsData.get("skills");
 
     public SkillTreePanel() throws HeadlessException {
         setOpaque(true);
@@ -49,7 +50,6 @@ public class SkillTreePanel extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridy = 1;
 
-        setSkillsData();
         addItems();
         setLayout(new BorderLayout());
 
@@ -57,10 +57,7 @@ public class SkillTreePanel extends JPanel {
         MainPanel.getINSTANCE().add(this);
     }
 
-    private void setSkillsData() {
-        JSONObject jsonObject = JsonHelper.readJsonFromFile("app/src/main/resources/data/skillTree.json");
-        skills = (JSONArray) jsonObject.get("skills");
-    }
+
 
     public void showPanel(boolean open) {
         MainPanel.getINSTANCE().removeItems();
@@ -126,6 +123,7 @@ public class SkillTreePanel extends JPanel {
             button.setForeground(Color.black);
             button.setFont(new Font("Raleway ExtraBold", Font.BOLD, 14));
             button.addActionListener(new ActionListener() {
+                @SuppressWarnings("unchecked")
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
@@ -136,9 +134,11 @@ public class SkillTreePanel extends JPanel {
                     else {
                         int xp = Integer.parseInt(skillObject.get("XP").toString());
                         boolean xpEnable = SkillTreeController.buySkill(xp);
-                        if (xpEnable)
+                        if (xpEnable){
+                            skillObject.put("enabled", true);
+                            JsonHelper.writeJsonToFile(skillsData, "app/src/main/resources/data/skillTree.json");
                             message = "greate , you have now " + skillObject.get("XP").toString() + " XP";
-                        else
+                        }else
                             message = "you don't have enough XP";
                     }
                     JOptionPane.showMessageDialog(null, message);

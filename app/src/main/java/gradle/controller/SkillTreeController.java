@@ -77,8 +77,9 @@ public class SkillTreeController {
     public static boolean buySkill(int xp) {
         JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/data.json");
         int userXP = Integer.parseInt(data.get("xp").toString());
-        if (userXP >= xp)
+        if (userXP >= xp){
             return true;
+        }
 
         return false;
 

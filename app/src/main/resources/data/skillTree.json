@@ -1,27 +1,27 @@
 {
     "skills": [
         {
-            "id": 1,
-            "name": "Writ of Ares",
-            "description": "Epsilon's attacks deal two more damage to the enemy.",
             "image": "ares.png",
+            "name": "Writ of Ares",
             "XP": 750,
+            "description": "Epsilon's attacks deal two more damage to the enemy.",
+            "id": 1,
             "enabled": true
         },
         {
-            "id": 2,
-            "name": "Writ of Aceso",
-            "description": "Epsilon recovers 1 HP every second",
             "image": "aceso.png",
+            "name": "Writ of Aceso",
             "XP": 500,
-            "enabled": false
+            "description": "Epsilon recovers 1 HP every second",
+            "id": 2,
+            "enabled": true
         },
         {
-            "id": 3,
-            "name": "Writ of Proteus",
-            "description": "A vertex is added to Epsilon",
             "image": "proteus.png",
+            "name": "Writ of Proteus",
             "XP": 1000,
+            "description": "A vertex is added to Epsilon",
+            "id": 3,
             "enabled": false
         }
     ]

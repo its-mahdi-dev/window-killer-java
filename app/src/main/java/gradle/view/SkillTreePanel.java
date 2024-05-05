@@ -58,17 +58,18 @@ public class SkillTreePanel extends JPanel {
     }
 
     public void showPanel(boolean open) {
-        if(timer != null) timer.stop();
+        if (open)
+            MainPanel.getINSTANCE().removeItems();
+        else
+            MainPanel.getINSTANCE().showItems();
+        if (timer != null)
+            timer.stop();
         timer = new Timer(7, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int change = open ? 20 : -20;
                 if ((open && getX() < -10) || (!open && getX() > -getWidth()))
                     setLocation(getX() + change, getY());
-                if (open)
-                    MainPanel.getINSTANCE().removeItems();
-                else
-                    MainPanel.getINSTANCE().showItems();
 
             }
         });

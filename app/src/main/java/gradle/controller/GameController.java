@@ -17,8 +17,8 @@ import javax.swing.*;
 public class GameController {
     public static void startGame() {
         SwingUtilities.invokeLater(() -> {
-
-            GameFrame.getINSTANCE();
+            GameSettings.isPause = false;
+            GameSettings.isGameRun = true;
             GamePanel.getINSTANCE();
             StorePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();
@@ -34,8 +34,7 @@ public class GameController {
             Update update = new Update();
 
             GameFrame.getINSTANCE().repaint();
-            GameSettings.isPause = false;
-            GameSettings.isGameRun = true;
+
             MainPanel.getINSTANCE().setVisible(false);
             new Timer().scheduleAtFixedRate(new TimerTask() {
                 @Override

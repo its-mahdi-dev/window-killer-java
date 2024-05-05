@@ -16,6 +16,7 @@ import java.util.Map;
 public class MainPanel extends JPanel {
     private static MainPanel INSTANCE;
     static SkillTreePanel skillTreePanel = new SkillTreePanel();
+    static SettingsPanel settingsPanel = new SettingsPanel();
     static final Map<String, JButton> buttonMap = Map.of(
             "start", new JButton("Start"),
             "exit", new JButton("Exit"),
@@ -26,7 +27,6 @@ public class MainPanel extends JPanel {
         buttonMap.get("skillTree").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("kkk");
                 skillTreePanel.showPanel(true);
             }
         });
@@ -36,6 +36,12 @@ public class MainPanel extends JPanel {
                 GameController.startGame();
             }
         });
+        // buttonMap.get("settings").addActionListener(new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // settingsPanel.showPanel(true);
+        // }
+        // });
     }
     Graphics graphics;
 
@@ -85,6 +91,14 @@ public class MainPanel extends JPanel {
         buttonMap.get("skillTree").setBorder(new LineBorder(Color.CYAN, 2));
         buttonMap.get("skillTree").setForeground(Color.CYAN);
         buttonMap.get("skillTree").setFont(new Font("Raleway ExtraBold", Font.BOLD, 20));
+
+        // buttonMap.get("settings").setBounds(50, 350, 150, 40);
+        // buttonMap.get("settings").setFocusPainted(false);
+        // buttonMap.get("settings").setBackground(new Color(0, 0, 0, 100));
+        // buttonMap.get("settings").setBorder(new LineBorder(Color.YELLOW, 2));
+        // buttonMap.get("settings").setForeground(Color.YELLOW);
+        // buttonMap.get("settings").setFont(new Font("Raleway ExtraBold", Font.BOLD,
+        // 20));
         for (Map.Entry<String, JButton> entry : buttonMap.entrySet()) {
 
             JButton button = entry.getValue();

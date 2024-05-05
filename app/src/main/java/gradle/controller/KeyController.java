@@ -9,7 +9,6 @@ public class KeyController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        System.out.println(keyCode);
         if (GameSettings.isGameRun) {
             if (keyCode == KeyEvent.VK_W) {
                 EpsilonController.pressed.replace("up", true);

@@ -4,18 +4,22 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.json.simple.JSONObject;
+
+import gradle.controller.JsonHelper;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
     Timer timer;
-    private JComboBox<String> levelComboBox;
-    private JTextField nameTextField;
-    private JButton startButton;
-    private Color selectedColor = Color.BLACK;
-    private JPanel colorPreviewPanel;
+    private static SettingsPanel INSTANCE;
+    JSONObject data;
 
-    public SettingsPanel() {
+    private SettingsPanel() {
         setOpaque(true);
         setBackground(Color.BLACK);
         setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.CYAN),
@@ -24,12 +28,25 @@ public class SettingsPanel extends JPanel {
         setSize(new Dimension(MainPanel.getINSTANCE().getWidth() - 70, MainPanel.getINSTANCE().getHeight()));
         setLocation(-getWidth(), 0);
         setFocusable(false);
-
+        setData();
         addItems();
-        GameFrame.getINSTANCE().add(this);
+        MainPanel.getINSTANCE().add(this);
+    }
+
+    public static SettingsPanel getINSTANCE() {
+        if (INSTANCE == null)
+            INSTANCE = new SettingsPanel();
+        return INSTANCE;
+    }
+
+    private void setData() {
+        data = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
     }
 
     public void showPanel(boolean open) {
+        setData();
+        repaint();
+
         if (open)
             MainPanel.getINSTANCE().removeItems();
         else
@@ -49,95 +66,67 @@ public class SettingsPanel extends JPanel {
     }
 
     private void addItems() {
-        // Title Label
-        JLabel titleLabel = new JLabel("Game Ready");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(titleLabel, BorderLayout.NORTH);
+        JPanel mainPanel = new JPanel(new GridLayout(7, 1));
+        mainPanel.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.yellow),
+                BorderFactory.createEmptyBorder(60, 60, 60, 60)));
+        mainPanel.setPreferredSize(new Dimension(getWidth() - getWidth() / 4, 500));
+        mainPanel.setBackground(new Color(0, 0, 0, 0));
+        // ComboBox
+        JLabel comboBoxLabel = new JLabel("level: " + data.get("level").toString());
+        comboBoxLabel.setForeground(Color.white);
+        String[] comboBoxItems = { "easy", "medium", "high" };
+        JComboBox<String> comboBox = new JComboBox<>(comboBoxItems);
+        comboBox.setPreferredSize(new Dimension(100, 20));
+        comboBox.setBackground(new Color(0, 0, 0, 0));
+        comboBox.setForeground(Color.white);
 
-        // Form Panel
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        formPanel.setBackground(new Color(240, 240, 240));
+        // Slider 1
+        JLabel volume = new JLabel("volume: " + data.get("volume").toString());
+        volume.setForeground(Color.white);
+        JSlider slider1 = new JSlider(JSlider.HORIZONTAL, 0, 100, Integer.parseInt(data.get("volume").toString()));
+        slider1.setMajorTickSpacing(20);
+        slider1.setMinorTickSpacing(5);
+        slider1.setPaintTicks(true);
+        slider1.setPaintLabels(true);
+        slider1.setPreferredSize(new Dimension(200, 50));
+        slider1.setBackground(new Color(0, 0, 0, 0));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        // Slider 2
+        JLabel sensitivity = new JLabel("sensitivity: " + data.get("sensitivity").toString());
+        sensitivity.setForeground(Color.white);
+        JSlider slider2 = new JSlider(JSlider.HORIZONTAL, 0, 10, Integer.parseInt(data.get("sensitivity").toString()));
+        slider2.setMajorTickSpacing(20);
+        slider2.setMinorTickSpacing(5);
+        slider2.setPaintTicks(true);
+        slider2.setPaintLabels(true);
+        slider2.setPreferredSize(new Dimension(150, 20));
+        slider2.setBackground(new Color(0, 0, 0, 0));
 
-        // Level Selection
-        JLabel levelLabel = new JLabel("Select Difficulty:");
-        levelComboBox = new JComboBox<>(new String[] { "Easy", "Medium", "Hard" });
-        formPanel.add(levelLabel, gbc);
-
-        gbc.gridy++;
-        formPanel.add(levelComboBox, gbc);
-
-        // Color Selection Label
-        gbc.gridy++;
-        JLabel colorSelectionLabel = new JLabel("Select Color:");
-        formPanel.add(colorSelectionLabel, gbc);
-
-        // Color Selection Button
-        gbc.gridx = 1;
-        gbc.gridy++;
-        JButton colorButton = new JButton("Choose Color");
-        colorButton.setBackground(selectedColor);
-        colorButton.setForeground(Color.white);
-        colorButton.setPreferredSize(new Dimension(120, 30));
-        colorButton.addActionListener(new ActionListener() {
+        JButton submitButton = new JButton("Submit");
+        submitButton.setBackground(Color.yellow);
+        submitButton.setForeground(Color.black);
+        submitButton.setPreferredSize(new Dimension(mainPanel.getWidth() - mainPanel.getWidth() / 4, 40));
+        submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Color newColor = JColorChooser.showDialog(null, "Choose Color", selectedColor);
-                if (newColor != null) {
-                    selectedColor = newColor;
-                    colorButton.setBackground(selectedColor);
-                    colorButton.setForeground(selectedColor);
-                    colorPreviewPanel.setBackground(selectedColor);
-                }
+                String selectedOption = (String) comboBox.getSelectedItem();
+                int slider1Value = slider1.getValue();
+                int slider2Value = slider2.getValue();
+
+                System.out.println("Selected Option: " + selectedOption);
+                System.out.println("Slider 1 Value: " + slider1Value);
+                System.out.println("Slider 2 Value: " + slider2Value);
             }
         });
-        formPanel.add(colorButton, gbc);
 
-        // Color Preview Panel
-        gbc.gridx = 0;
-        gbc.gridy++;
-        colorPreviewPanel = new JPanel();
-        colorPreviewPanel.setBackground(selectedColor);
-        colorPreviewPanel.setPreferredSize(new Dimension(30, 30));
-        // formPanel.add(colorPreviewPanel, gbc);
+        mainPanel.add(comboBoxLabel);
+        mainPanel.add(comboBox);
+        mainPanel.add(volume);
+        mainPanel.add(slider1);
+        mainPanel.add(sensitivity);
+        mainPanel.add(slider2);
+        mainPanel.add(submitButton);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        JLabel nameLabel = new JLabel("Enter Your Name:");
-        formPanel.add(nameLabel, gbc);
-
-        // Name Input Field
-        gbc.gridx = 0;
-        gbc.gridy++;
-        nameTextField = new JTextField();
-        nameTextField.setPreferredSize(new Dimension(200, 30));
-        formPanel.add(nameTextField, gbc);
-
-        // Start Button
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        startButton = new JButton("Start Game");
-        startButton.setFont(new Font("Arial", Font.BOLD, 16));
-        startButton.setBackground(new Color(100, 200, 100));
-        startButton.setForeground(Color.WHITE);
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String level = (String) levelComboBox.getSelectedItem();
-                String name = nameTextField.getText();
-
-                System.out.println("Game Started: " + level + ", " + name + ", " + selectedColor);
-            }
-        });
-        formPanel.add(startButton, gbc);
-        add(formPanel, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
     }
 }

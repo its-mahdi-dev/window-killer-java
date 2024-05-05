@@ -4,6 +4,7 @@ import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.MainPanel;
+import gradle.view.SettingsPanel;
 import gradle.view.StorePanel;
 
 import java.awt.GraphicsEnvironment;
@@ -19,6 +20,8 @@ public class GameController {
         SwingUtilities.invokeLater(() -> {
             GameSettings.isPause = false;
             GameSettings.isGameRun = true;
+            GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
+            // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
             GamePanel.getINSTANCE();
             StorePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();

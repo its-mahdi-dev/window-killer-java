@@ -107,15 +107,17 @@ public class SettingsPanel extends JPanel {
         submitButton.setForeground(Color.black);
         submitButton.setPreferredSize(new Dimension(mainPanel.getWidth() - mainPanel.getWidth() / 4, 40));
         submitButton.addActionListener(new ActionListener() {
+            @SuppressWarnings("unchecked")
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedOption = (String) comboBox.getSelectedItem();
                 int slider1Value = slider1.getValue();
                 int slider2Value = slider2.getValue();
 
-                System.out.println("Selected Option: " + selectedOption);
-                System.out.println("Slider 1 Value: " + slider1Value);
-                System.out.println("Slider 2 Value: " + slider2Value);
+                data.put("level", selectedOption);
+                data.put("volume", slider1Value);
+                data.put("sensitivity", slider2Value);
+                JsonHelper.writeJsonToFile(data, "app/src/main/resources/data/settings.json");
             }
         });
 

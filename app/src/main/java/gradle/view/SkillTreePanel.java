@@ -57,20 +57,18 @@ public class SkillTreePanel extends JPanel {
         MainPanel.getINSTANCE().add(this);
     }
 
-
-
     public void showPanel(boolean open) {
-        MainPanel.getINSTANCE().removeItems();
+        if(timer != null) timer.stop();
         timer = new Timer(7, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (getX() < -10) {
-                    int change = open ? 20 : -20;
+                int change = open ? 20 : -20;
+                if ((open && getX() < -10) || (!open && getX() > -getWidth()))
                     setLocation(getX() + change, getY());
-                    for (JButton button : MainPanel.buttonMap.values()) {
-                        MainPanel.getINSTANCE().remove(button);
-                    }
-                }
+                if (open)
+                    MainPanel.getINSTANCE().removeItems();
+                else
+                    MainPanel.getINSTANCE().showItems();
 
             }
         });
@@ -78,6 +76,18 @@ public class SkillTreePanel extends JPanel {
     }
 
     private void addItems() {
+        JButton backButton = new JButton("back");
+        backButton.setForeground(Color.white);
+        backButton.setBackground(new Color(0, 0, 0, 0));
+        backButton.setBorder(new LineBorder(Color.white, 2));
+        backButton.setBounds(20, 10, 70, 30);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPanel(false);
+            }
+        });
+        add(backButton);
         for (int i = 0; i < skills.size(); i++) {
             JSONObject skillObject = (JSONObject) skills.get(i);
             gbc.insets = new Insets(10, 5, 20, 5);
@@ -134,11 +144,11 @@ public class SkillTreePanel extends JPanel {
                     else {
                         int xp = Integer.parseInt(skillObject.get("XP").toString());
                         boolean xpEnable = SkillTreeController.buySkill(xp);
-                        if (xpEnable){
+                        if (xpEnable) {
                             skillObject.put("enabled", true);
                             JsonHelper.writeJsonToFile(skillsData, "app/src/main/resources/data/skillTree.json");
                             message = "greate , you have now " + skillObject.get("XP").toString() + " XP";
-                        }else
+                        } else
                             message = "you don't have enough XP";
                     }
                     JOptionPane.showMessageDialog(null, message);
@@ -154,4 +164,5 @@ public class SkillTreePanel extends JPanel {
         }
 
     }
+
 }

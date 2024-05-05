@@ -26,6 +26,7 @@ public class MainPanel extends JPanel {
         buttonMap.get("skillTree").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("kkk");
                 skillTreePanel.showPanel(true);
             }
         });

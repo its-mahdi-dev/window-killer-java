@@ -26,30 +26,10 @@ import java.util.concurrent.TimeUnit;
 public class App {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            
             GameFrame.getINSTANCE();
-            // GamePanel.getINSTANCE();
-            // StorePanel.getINSTANCE();
-            // GamePanel.getINSTANCE().repaint();
-
-            // add items
-            // new EpsilonModel();
-            // EnemyModel.create(new Point2D.Double(450, 400), EnemyType.triangle);
-            // EnemyModel.create(new Point2D.Double(550, 300), EnemyType.square);
-            // EnemyModel.create(new Point2D.Double(850, 200), EnemyType.square);
-            // Update update = new Update();
-
             MainPanel.getINSTANCE();
-
             GameFrame.getINSTANCE().repaint();
-            // new Timer().scheduleAtFixedRate(new TimerTask() {
-            // @Override
-            // public void run() {
-            // // Print and reset counts
-            // System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
-            // update.upsCount = 0;
-            // update.fpsCount = 0;
-            // }
-            // }, 1000, 1000);
         });
     }
 }

@@ -4,11 +4,17 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import gradle.model.EnemyModel;
+import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
+import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
 public class EnemyController {
@@ -130,5 +136,33 @@ public class EnemyController {
             EnemyModel.items.remove(enemyModel);
             EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         }
+    }
+
+    public static void createEnemyWaves(int number) {
+
+        int squareEnemies = number / 2;
+        int triangleEnemies = number - squareEnemies;
+        Random rand = new Random();
+
+        for (int i = 0; i < squareEnemies; i++) {
+
+            int x1 = rand.nextInt(GamePanel.getINSTANCE().getX()) + GamePanel.getINSTANCE().getWidth();
+            int y1 = GamePanel.getINSTANCE().getY() + GamePanel.getINSTANCE().getHeight()
+                    + Constants.ENEMY_SQUARE_DIAMETER;
+            if (i % 2 == 0) {
+                y1 = GamePanel.getINSTANCE().getY() - Constants.ENEMY_SQUARE_DIAMETER;
+            }
+            EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.square);
+        }
+
+        for(int i = 0; i < triangleEnemies; i++) {
+            int y1 = rand.nextInt(GamePanel.getINSTANCE().getY()) + GamePanel.getINSTANCE().getHeight();
+            int x1 = GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth() + Constants.ENEMY_TRIANGLE_DIAMETER;
+            if(i % 2 == 0) 
+                x1 = GamePanel.getINSTANCE().getX() - Constants.ENEMY_TRIANGLE_DIAMETER;
+            
+            EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.triangle);
+        }
+
     }
 }

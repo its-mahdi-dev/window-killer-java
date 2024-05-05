@@ -3,6 +3,7 @@ package gradle.view;
 import javax.swing.*;
 
 import gradle.controller.Constants;
+import gradle.controller.GameController;
 import gradle.controller.KeyController;
 
 import javax.swing.border.LineBorder;
@@ -26,6 +27,12 @@ public class MainPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 skillTreePanel.showPanel(true);
+            }
+        });
+        buttonMap.get("start").addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameController.startGame();
             }
         });
     }

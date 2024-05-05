@@ -1,0 +1,22 @@
+{
+    "skills": [
+        {
+            "id": 1,
+            "name:": "Writ of Ares",
+            "description": "Epsilon's attacks deal two more damage to the enemy.",
+            "image": "ares.png"
+        },
+        {
+            "id": 2,
+            "name:": "Writ of Aceso",
+            "description": "Epsilon recovers 1 HP every second",
+            "image": "aceso.png"
+        },
+        {
+            "id": 3,
+            "name:": "Writ of Proteus",
+            "description": "A vertex is added to Epsilon",
+            "image": "proteus.png"
+        }
+    ]
+}

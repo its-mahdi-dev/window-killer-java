@@ -9,23 +9,25 @@ public class KeyController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_W) {
-            EpsilonController.pressed.replace("up", true);
-        } else if (keyCode == KeyEvent.VK_A) {
-            EpsilonController.pressed.replace("left", true);
-        } else if (keyCode == KeyEvent.VK_S) {
-            EpsilonController.pressed.replace("down", true);
-        } else if (keyCode == KeyEvent.VK_D) {
-            EpsilonController.pressed.replace("right", true);
-        }
+        if (GameSettings.isGameRun) {
+            if (keyCode == KeyEvent.VK_W) {
+                EpsilonController.pressed.replace("up", true);
+            } else if (keyCode == KeyEvent.VK_A) {
+                EpsilonController.pressed.replace("left", true);
+            } else if (keyCode == KeyEvent.VK_S) {
+                EpsilonController.pressed.replace("down", true);
+            } else if (keyCode == KeyEvent.VK_D) {
+                EpsilonController.pressed.replace("right", true);
+            }
 
-        if (keyCode == KeyEvent.VK_P)
-            GameSettings.isPause = !GameSettings.isPause;
-        else if (keyCode == KeyEvent.VK_K)
-            GameSettings.isStore = !GameSettings.isStore;
-        else
-            SkillTreeController.keyControl(e);
-        EpsilonController.updateMovement();
+            if (keyCode == KeyEvent.VK_P)
+                GameSettings.isPause = !GameSettings.isPause;
+            else if (keyCode == KeyEvent.VK_K)
+                GameSettings.isStore = !GameSettings.isStore;
+            else
+                SkillTreeController.keyControl(e);
+            EpsilonController.updateMovement();
+        }
     }
 
     @Override

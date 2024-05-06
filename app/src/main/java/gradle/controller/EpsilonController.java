@@ -5,21 +5,14 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import gradle.interfaces.Collectible;
 import gradle.model.CollectibleModel;
-import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
-import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.CollectibleView;
-import gradle.view.charecretsView.EnemyView;
-import gradle.view.charecretsView.EpsilonView;
-import gradle.view.charecretsView.ShotView;
-import gradle.view.charecretsView.View;
 
 public class EpsilonController {
 

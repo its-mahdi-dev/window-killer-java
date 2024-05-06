@@ -2,20 +2,14 @@ package gradle.model;
 
 import java.awt.geom.Point2D;
 import java.util.*;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 import java.util.List;
 
 import gradle.controller.Constants;
-import gradle.controller.Controller;
 import gradle.controller.Utils;
-import gradle.interfaces.Entity;
 import gradle.interfaces.Rotation;
 import gradle.view.GamePanel;
-import gradle.view.charecretsView.EpsilonView;
-import gradle.view.charecretsView.View;
 
 public abstract class Model {
     private String Id;

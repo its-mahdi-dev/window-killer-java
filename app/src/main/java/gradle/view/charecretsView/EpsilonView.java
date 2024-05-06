@@ -1,14 +1,9 @@
 package gradle.view.charecretsView;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.awt.FontMetrics;
-import gradle.controller.Constants;
-import gradle.model.EpsilonModel;
 import gradle.model.Model;
 
 public class EpsilonView extends View {

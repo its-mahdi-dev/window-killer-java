@@ -4,13 +4,10 @@ import javax.swing.*;
 
 import gradle.controller.Constants;
 import gradle.controller.GameController;
-import gradle.controller.KeyController;
-
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.Map;
 
 public class MainPanel extends JPanel {

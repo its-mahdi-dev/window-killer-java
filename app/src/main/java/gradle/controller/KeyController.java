@@ -2,8 +2,6 @@ package gradle.controller;
 
 import java.awt.event.*;
 
-import gradle.view.StorePanel;
-
 public class KeyController implements KeyListener {
 
     @Override

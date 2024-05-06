@@ -4,10 +4,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 
-import javax.swing.event.*;
-
-import gradle.model.EpsilonModel;;
-
 public class MouseController implements MouseListener, MouseMotionListener {
 
     public static final Point2D.Double mousePos = new Point2D.Double();

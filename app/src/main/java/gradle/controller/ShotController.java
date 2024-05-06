@@ -5,11 +5,8 @@ import java.awt.geom.Point2D;
 import java.awt.Polygon;
 
 import gradle.model.EnemyModel;
-import gradle.model.EpsilonModel;
-import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
-import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.ShotView;
 
 public class ShotController {

@@ -1,19 +1,15 @@
 package gradle.controller;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import netscape.javascript.JSObject;
 
 public class JsonHelper {
 
-    @SuppressWarnings("unchecked")
+
 
     public static JSONObject readJsonFromFile(String path) {
         

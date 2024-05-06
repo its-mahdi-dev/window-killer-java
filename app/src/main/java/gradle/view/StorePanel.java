@@ -1,26 +1,17 @@
 package gradle.view;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-
-import com.google.common.base.Strings;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
 import gradle.controller.StoreController;
 import gradle.model.EpsilonModel;
-import gradle.view.charecretsView.EpsilonView;
 
 public class StorePanel extends JPanel {
     private static StorePanel INSTANCE;
@@ -102,7 +93,8 @@ public class StorePanel extends JPanel {
     private class BoxPanel extends JPanel {
 
         private int boxIndex;
-        private boolean hovered = false;
+        @SuppressWarnings("unused")
+        public boolean hovered = false;
         private Border defaultBorder;
 
         public BoxPanel(int boxIndex) {

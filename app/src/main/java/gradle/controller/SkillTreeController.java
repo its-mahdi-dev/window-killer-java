@@ -8,8 +8,6 @@ import org.json.simple.JSONObject;
 
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
-import gradle.model.Model;
-
 public class SkillTreeController {
     public static final Map<String, Long> skillsTime = new HashMap<>();
     public static final Map<String, Boolean> skills = new HashMap<>();

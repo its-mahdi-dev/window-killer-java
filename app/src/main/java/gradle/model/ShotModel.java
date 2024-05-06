@@ -1,13 +1,10 @@
 package gradle.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import gradle.controller.Constants;
-import gradle.controller.Utils;
 import gradle.view.charecretsView.ShotView;
-import gradle.view.charecretsView.View;
 
 public class ShotModel extends Model {
     public static final List<Model> items = new ArrayList<>();

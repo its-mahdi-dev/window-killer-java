@@ -1,7 +1,5 @@
 package gradle.controller;
 
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -9,7 +7,6 @@ import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
-import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;

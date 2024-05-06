@@ -2,13 +2,10 @@ package gradle.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import gradle.controller.Constants;
 import gradle.controller.MouseController;
 import gradle.view.charecretsView.EpsilonVertexView;
-import gradle.view.charecretsView.ShotView;
-
 public class EpsilonVertexModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();

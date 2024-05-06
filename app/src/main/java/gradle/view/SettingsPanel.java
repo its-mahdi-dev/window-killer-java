@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

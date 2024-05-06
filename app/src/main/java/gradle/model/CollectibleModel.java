@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gradle.controller.Constants;
-import gradle.interfaces.Collectible;
 import gradle.view.charecretsView.CollectibleView;
 
 public class CollectibleModel extends Model {

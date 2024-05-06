@@ -1,14 +1,12 @@
 package gradle.view;
 
 import java.awt.*;
-import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
-import gradle.controller.MouseController;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonVertexView;

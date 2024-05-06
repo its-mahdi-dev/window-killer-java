@@ -1,13 +1,8 @@
 package gradle.controller;
 
 import java.awt.Component;
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.*;
-import gradle.model.EnemyModel;
-import gradle.model.EnemyType;
-import gradle.model.ShotModel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

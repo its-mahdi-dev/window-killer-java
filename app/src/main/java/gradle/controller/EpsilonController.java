@@ -8,6 +8,7 @@ import java.util.Map;
 import gradle.interfaces.Collectible;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyModel;
+import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
@@ -109,7 +110,6 @@ public class EpsilonController {
             Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
             shot.setDirection(direction);
         }
-
     }
 
     public static void checkWallImpact() {
@@ -159,8 +159,12 @@ public class EpsilonController {
     }
 
     public static void removeCollectible(String Id) {
-        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ham.wav");
+
         CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(Id);
+        if (collectibleModel.enemyType == EnemyType.square)
+            Utils.playMusic("squareCollectible", false);
+        else if (collectibleModel.enemyType == EnemyType.triangle)
+            Utils.playMusic("triangleCollectible", false);
         CollectibleModel.removedItems.add(collectibleModel);
         CollectibleView.removedItems.add(CollectibleView.findById(collectibleModel.getId()));
         CollectibleModel.items.remove(collectibleModel);

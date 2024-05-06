@@ -115,7 +115,7 @@ public abstract class Model {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (isImpacting) {
-                        if (isMoving && speed > max_speed) {
+                        if (speed > max_speed) {
                             speed -= velocity;
                         }
                     } else if (speed <= max_speed && speed >= 0) {

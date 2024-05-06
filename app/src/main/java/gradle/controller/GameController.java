@@ -31,8 +31,8 @@ public class GameController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (EpsilonModel.getINSTANCE().w < GamePanel.getINSTANCE().getWidth()) {
-                EpsilonModel.getINSTANCE().w+= 2;
-                EpsilonModel.getINSTANCE().h+= 2;
+                EpsilonModel.getINSTANCE().w += 2;
+                EpsilonModel.getINSTANCE().h += 2;
             } else {
                 resetGame();
             }
@@ -65,7 +65,8 @@ public class GameController {
             EpsilonModel.getINSTANCE().init();
             createWave();
 
-            Update update = new Update();
+            Update.timer1.start();
+            Update.timer2.start();
 
             GameFrame.getINSTANCE().repaint();
 
@@ -74,9 +75,9 @@ public class GameController {
                 @Override
                 public void run() {
                     // Print and reset counts
-                    System.out.println("UPS: " + update.upsCount + ", FPS: " + update.fpsCount);
-                    update.upsCount = 0;
-                    update.fpsCount = 0;
+                    System.out.println("UPS: " + Update.upsCount + ", FPS: " + Update.fpsCount);
+                    Update.upsCount = 0;
+                    Update.fpsCount = 0;
                 }
             }, 1000, 1000);
         });
@@ -109,7 +110,8 @@ public class GameController {
     }
 
     public static void createWave() {
-        if (waveNumber == 1) {
+        Utils.playMusic("nextLevel", false);
+        if (waveNumber == 3) {
             win();
         } else {
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

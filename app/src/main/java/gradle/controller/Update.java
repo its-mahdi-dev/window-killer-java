@@ -23,27 +23,20 @@ import gradle.view.charecretsView.ShotView;
 
 public class Update {
 
-    public int upsCount = 0;
-    public int fpsCount = 0;
-    public static Timer timer1;
-    public static Timer timer2;
+    public static int upsCount = 0;
+    public static int fpsCount = 0;
+    public static Timer timer1 = new Timer((int) Constants.FRAME_UPDATE_TIME, e -> updateView()) {
+        {
+            setCoalesce(true);
+        }
+    };
+    public static Timer timer2 = new Timer((int) Constants.MODEL_UPDATE_TIME, e -> updateModel()) {
+        {
+            setCoalesce(true);
+        }
+    };
 
-    public Update() {
-        timer1 = new Timer((int) Constants.FRAME_UPDATE_TIME, e -> updateView()) {
-            {
-                setCoalesce(true);
-            }
-        };
-        timer2 = new Timer((int) Constants.MODEL_UPDATE_TIME, e -> updateModel()) {
-            {
-                setCoalesce(true);
-            }
-        };
-        timer1.start();
-        timer2.start();
-    }
-
-    public void updateView() {
+    public static void updateView() {
         EpsilonView.items.get(0).setUtil(EpsilonModel.getINSTANCE());
 
         for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
@@ -85,7 +78,7 @@ public class Update {
         fpsCount++;
     }
 
-    public void updateModel() {
+    public static void updateModel() {
         if (!GameSettings.isPause) {
             EpsilonModel.getINSTANCE().move();
             EpsilonController.checkWallImpact();

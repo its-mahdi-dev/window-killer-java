@@ -153,7 +153,7 @@ public class EpsilonController {
         if (Utils.getDistance(EpsilonModel.items.get(0).anchor, collectibleModel.anchor) < EpsilonModel.items.get(0).w
                 / 2) {
             EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
-            epsilonModel.XP += collectibleModel.enemyModel.collectibleXP;
+            epsilonModel.XP += collectibleModel.xp;
             removeCollectible(collectibleModel.getId());
         }
     }

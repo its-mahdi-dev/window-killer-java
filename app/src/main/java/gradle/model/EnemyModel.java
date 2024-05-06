@@ -86,7 +86,6 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             };
         }
 
-        CollectibleModel.removeEnemyCollectibles(enemyModel);
         enemyModel.addItem(enemyModel);
         enemyView.addItem(enemyView);
         enemyView.setUtil(enemyModel);
@@ -120,7 +119,7 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     @Override
     public void setCollectible() {
         for (int i = 0; i < collectibleCount; i++) {
-            CollectibleModel.create(getId(), new Point2D.Double(anchor.getX() + (Math.pow(-1, i) * i * 20),
+            CollectibleModel.create(type, collectibleXP, new Point2D.Double(anchor.getX() + (Math.pow(-1, i) * i * 20),
                     anchor.getY() + (Math.pow(-1, i) * i * 20)));
         }
     }

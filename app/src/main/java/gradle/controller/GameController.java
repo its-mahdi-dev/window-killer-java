@@ -18,6 +18,9 @@ import javax.swing.*;
 import org.json.simple.JSONObject;
 
 public class GameController {
+
+    public static int waveNumber = 0;
+
     public static void startGame() {
         SwingUtilities.invokeLater(() -> {
             GameSettings.isPause = false;
@@ -34,15 +37,8 @@ public class GameController {
             StorePanel.getINSTANCE();
             GamePanel.getINSTANCE().repaint();
             new EpsilonModel();
-            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            createWave();
 
-            // Schedule the task to run after 10 seconds
-            EnemyController.isCreating = true;
-            executor.schedule(() -> {
-                EnemyController.createEnemyWaves(8);
-            }, 5, TimeUnit.SECONDS);
-
-            executor.shutdown();
             Update update = new Update();
 
             GameFrame.getINSTANCE().repaint();
@@ -75,5 +71,16 @@ public class GameController {
                 break;
         }
 
+    }
+
+    public static void createWave() {
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        waveNumber++;
+        EnemyController.isCreating = true;
+        executor.schedule(() -> {
+            EnemyController.createEnemyWaves((6 + (int) GameSettings.level) * waveNumber);
+        }, 5, TimeUnit.SECONDS);
+
+        executor.shutdown();
     }
 }

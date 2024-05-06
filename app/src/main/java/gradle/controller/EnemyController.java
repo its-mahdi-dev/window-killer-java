@@ -145,6 +145,7 @@ public class EnemyController {
     public static void createEnemyWaves(int number) {
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;
+        System.out.println("squ: " + squareEnemies + " tri: " + triangleEnemies + " num: " + number);
         Random rand = new Random();
 
         for (int i = 0; i < squareEnemies; i++) {

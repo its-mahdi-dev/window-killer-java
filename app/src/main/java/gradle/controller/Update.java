@@ -50,20 +50,24 @@ public class Update {
         if (!EnemyController.isCreating && EnemyModel.items.size() > 0) {
             for (int i = 0; i < EnemyView.items.size(); i++) {
                 EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
+                
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
                 if (enemyModel != null)
                     enemyView.setUtil(enemyModel);
+                else System.out.println(enemyView);
             }
         }
         for (int i = 0; i < ShotView.items.size(); i++) {
             ShotView shotView = (ShotView) ShotView.items.get(i);
             ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
-            shotView.setUtil(shotModel);
+            if (shotModel != null)
+                shotView.setUtil(shotModel);
         }
         for (int i = 0; i < CollectibleView.items.size(); i++) {
             CollectibleView collectibleView = (CollectibleView) CollectibleView.items.get(i);
             CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(collectibleView.getId());
-            collectibleView.setUtil(collectibleModel);
+            if (collectibleModel != null)
+                collectibleView.setUtil(collectibleModel);
         }
 
         NavbarView.getINSTANCE().setUtil();
@@ -91,6 +95,9 @@ public class Update {
 
             StoreController.checkItemsTimes();
             SkillTreeController.checkSkillsTime();
+
+            if (!EnemyController.isCreating && EnemyModel.items.size() == 0)
+                GameController.createWave();
         }
         upsCount++;
     }

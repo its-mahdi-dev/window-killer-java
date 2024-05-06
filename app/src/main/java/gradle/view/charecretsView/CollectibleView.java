@@ -34,7 +34,7 @@ public class CollectibleView extends View {
     public void setUtil(Model collectibleModel) {
         CollectibleModel collectible = (CollectibleModel) collectibleModel;
         anchor = collectible.getPanelAnchor();
-        enemyType = collectible.enemyModel.type;
+        enemyType = collectible.enemyType;
         w = collectible.w;
         h = collectible.h;
     }

@@ -11,13 +11,13 @@ import gradle.view.charecretsView.CollectibleView;
 public class CollectibleModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
-    public EnemyModel enemyModel;
+    public EnemyType enemyType;
+    public int xp;
 
-    public CollectibleModel(String EnemyId, Point2D anchor) {
-        enemyModel = (EnemyModel) EnemyModel.findById(EnemyId);
+    public CollectibleModel(Point2D anchor) {
     }
 
-    public static CollectibleModel create(String EnemyId, Point2D anchor) {
+    public static CollectibleModel create(EnemyType type, int xp, Point2D anchor) {
         CollectibleModel collectibleModel;
         CollectibleView collectibleView = null;
         if (CollectibleModel.removedItems.size() > 0) {
@@ -28,10 +28,12 @@ public class CollectibleModel extends Model {
             CollectibleView.removedItems.removeIf(collectible -> collectible.getId() == collectibleModel.getId());
 
         } else {
-            collectibleModel = new CollectibleModel(EnemyId, anchor);
-            collectibleModel.enemyModel = (EnemyModel) EnemyModel.findById(EnemyId);
-            collectibleView = new CollectibleView(collectibleModel.getId(), collectibleModel.enemyModel.type);
+            collectibleModel = new CollectibleModel(anchor);
+            collectibleView = new CollectibleView(collectibleModel.getId(), type);
         }
+
+        collectibleModel.xp = xp;
+        collectibleModel.enemyType = type;
         collectibleModel.w = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.h = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.anchor = anchor;
@@ -43,15 +45,16 @@ public class CollectibleModel extends Model {
         return collectibleModel;
     }
 
-    public static void removeEnemyCollectibles(EnemyModel enemyModel) {
-        for (int i = 0; i < CollectibleModel.items.size(); i++) {
-            CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.items.get(i);
-            if (collectibleModel.enemyModel.equals(enemyModel)) {
-                CollectibleModel.removedItems.add(collectibleModel);
-                CollectibleModel.items.remove(collectibleModel);
-            }
-        }
-    }
+    // public static void removeEnemyCollectibles(EnemyModel enemyModel) {
+    // for (int i = 0; i < CollectibleModel.items.size(); i++) {
+    // CollectibleModel collectibleModel = (CollectibleModel)
+    // CollectibleModel.items.get(i);
+    // if (collectibleModel.enemyModel.equals(enemyModel)) {
+    // CollectibleModel.removedItems.add(collectibleModel);
+    // CollectibleModel.items.remove(collectibleModel);
+    // }
+    // }
+    // }
 
     @Override
     protected List<Model> getItems() {

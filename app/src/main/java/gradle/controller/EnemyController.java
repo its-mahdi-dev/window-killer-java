@@ -23,21 +23,24 @@ public class EnemyController {
 
     public static void checkCollision() {
         removedEnemies = new ArrayList<>();
-        for (Model model : EnemyModel.items) {
-            EnemyModel enemyModel = (EnemyModel) model;
-            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                    EpsilonModel.items.get(0).anchor));
+        if (EnemyModel.items.size() > 0) {
+            for (Model model : EnemyModel.items) {
+                EnemyModel enemyModel = (EnemyModel) model;
+                enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                        EpsilonModel.items.get(0).anchor));
 
-            enemyModel.move();
+                enemyModel.move();
 
-            setPoints(enemyModel);
-            checkEnemyCollision(enemyModel);
-            checkEpsilonColision(enemyModel);
+                setPoints(enemyModel);
+                checkEnemyCollision(enemyModel);
+                checkEpsilonColision(enemyModel);
 
+            }
         }
         for (EnemyModel enemyModel : removedEnemies) {
             remove(enemyModel.getId());
         }
+
     }
 
     public static void setPoints(EnemyModel enemyModel) {
@@ -62,7 +65,6 @@ public class EnemyController {
                 // } else {
                 // epsilonModel.setImpact(enemyModel.direction);
                 // }
-                System.out.println(newDirection);
                 enemyModel.setImpact(newDirection, true, true);
 
                 if (System.currentTimeMillis() - epsilonModel.HP_time > 200) {
@@ -127,9 +129,11 @@ public class EnemyController {
     }
 
     public static void remove(String Id) {
-        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah2.wav");
+
         EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(Id);
+
         if (enemyModel != null) {
+            Utils.playMusic("enemyDeath", false);
             enemyModel.setCollectible();
             EnemyModel.removedItems.add(enemyModel);
             EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
@@ -155,12 +159,13 @@ public class EnemyController {
             EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.square);
         }
 
-        for(int i = 0; i < triangleEnemies; i++) {
+        for (int i = 0; i < triangleEnemies; i++) {
             int y1 = rand.nextInt(GamePanel.getINSTANCE().getY()) + GamePanel.getINSTANCE().getHeight();
-            int x1 = GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth() + Constants.ENEMY_TRIANGLE_DIAMETER;
-            if(i % 2 == 0) 
+            int x1 = GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth()
+                    + Constants.ENEMY_TRIANGLE_DIAMETER;
+            if (i % 2 == 0)
                 x1 = GamePanel.getINSTANCE().getX() - Constants.ENEMY_TRIANGLE_DIAMETER;
-            
+
             EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.triangle);
         }
 

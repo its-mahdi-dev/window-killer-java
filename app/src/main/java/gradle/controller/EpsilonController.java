@@ -102,6 +102,7 @@ public class EpsilonController {
     public static void mousePressed(MouseEvent e) {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
             ShotModel shot = ShotModel.create();
+            Utils.playMusic("shot", false);
             shot.anchor = EpsilonModel.items.get(0).anchor;
             Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),
                     e.getY() + i * (Math.pow(-1, i) * 50));

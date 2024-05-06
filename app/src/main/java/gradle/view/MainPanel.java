@@ -33,8 +33,10 @@ public class MainPanel extends JPanel {
         buttonMap.get("start").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                skillTreePanel.timer.stop();
-                settingsPanel.timer.stop();
+                if (skillTreePanel.timer != null)
+                    skillTreePanel.timer.stop();
+                if (settingsPanel.timer != null)
+                    settingsPanel.timer.stop();
                 GameController.startGame();
             }
         });

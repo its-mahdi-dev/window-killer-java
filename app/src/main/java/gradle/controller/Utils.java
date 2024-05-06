@@ -11,6 +11,7 @@ import gradle.model.ShotModel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -94,13 +95,18 @@ public class Utils {
         return new Point2D.Double(point2d.getX() - panelLocation.getX(), point2d.getY() - panelLocation.getY());
     }
 
-    public static void playMusic(String url) {
+    public static void playMusic(String url, boolean loop) {
         try {
-            File soundFile = new File(url);
+            File soundFile = new File("app/src/main/java/gradle/assets/musics/1/" + url + ".wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);
-            clip.start();
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(GameSettings.volume);
+            if (loop)
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            else
+                clip.start();
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
             ex.printStackTrace();
         }

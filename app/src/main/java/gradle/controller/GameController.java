@@ -15,11 +15,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.*;
 
+import org.json.simple.JSONObject;
+
 public class GameController {
     public static void startGame() {
         SwingUtilities.invokeLater(() -> {
             GameSettings.isPause = false;
             GameSettings.isGameRun = true;
+            JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
+            int volume = Integer.parseInt(settings.get("volume").toString());
+            float gain = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
+            GameSettings.volume = gain;
+            GameSettings.sensitivity = Integer.parseInt(settings.get("sensitivity").toString());
             GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
             // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
             GamePanel.getINSTANCE();

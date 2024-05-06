@@ -106,6 +106,7 @@ public class MainPanel extends JPanel {
         for (Map.Entry<String, JButton> entry : buttonMap.entrySet()) {
 
             JButton button = entry.getValue();
+            button.setFocusPainted(false);
             add(button);
         }
         repaint();

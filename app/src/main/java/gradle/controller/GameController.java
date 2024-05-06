@@ -11,6 +11,9 @@ import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -24,9 +27,23 @@ import org.json.simple.JSONObject;
 public class GameController {
 
     public static int waveNumber = 0;
+    static final javax.swing.Timer winTimer = new javax.swing.Timer(10, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (EpsilonModel.getINSTANCE().w < GamePanel.getINSTANCE().getWidth()) {
+                EpsilonModel.getINSTANCE().w+= 2;
+                EpsilonModel.getINSTANCE().h+= 2;
+            } else {
+                resetGame();
+            }
+        }
+    });
 
     public static void startGame() {
         SwingUtilities.invokeLater(() -> {
+            if (winTimer != null) {
+                winTimer.stop();
+            }
             GameSettings.isPause = false;
             GameSettings.isGameRun = true;
             setSettings();
@@ -44,7 +61,8 @@ public class GameController {
             GamePanel.getINSTANCE().setLocationToCenter(GameFrame.getINSTANCE());
 
             GamePanel.getINSTANCE().repaint();
-            new EpsilonModel();
+            EpsilonModel.getINSTANCE();
+            EpsilonModel.getINSTANCE().init();
             createWave();
 
             Update update = new Update();
@@ -91,14 +109,26 @@ public class GameController {
     }
 
     public static void createWave() {
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        waveNumber++;
-        EnemyController.isCreating = true;
-        executor.schedule(() -> {
-            EnemyController.createEnemyWaves((6 + (int) GameSettings.level) * waveNumber);
-        }, 5, TimeUnit.SECONDS);
+        if (waveNumber == 1) {
+            win();
+        } else {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            waveNumber++;
+            EnemyController.isCreating = true;
+            executor.schedule(() -> {
+                EnemyController.createEnemyWaves((1 + (int) GameSettings.level) * waveNumber);
+            }, 5, TimeUnit.SECONDS);
 
-        executor.shutdown();
+            executor.shutdown();
+        }
+    }
+
+    private static void win() {
+        Utils.playMusic("win", false);
+        EpsilonModel.getINSTANCE().anchor = new Point2D.Double(
+                GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth() / 2,
+                GamePanel.getINSTANCE().getY() + GamePanel.getINSTANCE().getHeight() / 2);
+        winTimer.start();
     }
 
     private static void setSkillTree() {
@@ -110,11 +140,18 @@ public class GameController {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static void GameOver() {
 
         // JOptionPane.showMessageDialog(null, "Game Over");
         Utils.playMusic("gameOver", false);
+        resetGame();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void resetGame() {
+        if (winTimer != null) {
+            winTimer.stop();
+        }
         GameSettings.isPause = true;
         GameSettings.isGameRun = false;
         waveNumber = 0;
@@ -130,8 +167,8 @@ public class GameController {
         SkillTreeController.enemy_hp_decrease = 0;
         SkillTreeController.epsilon_hp_increase = 0;
         StoreController.shotsNumber = 1;
-        EpsilonModel.items.remove(0);
-        EpsilonView.items.remove(0);
+        // EpsilonModel.items.remove(0);
+        // EpsilonView.items.remove(0);
         EnemyController.removeAll();
         EpsilonController.removeAllCollectible();
         ShotController.removeAll();

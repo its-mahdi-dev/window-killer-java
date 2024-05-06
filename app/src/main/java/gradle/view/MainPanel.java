@@ -46,6 +46,12 @@ public class MainPanel extends JPanel {
                 settingsPanel.showPanel(true);
             }
         });
+        buttonMap.get("exit").addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
     Graphics graphics;
 
@@ -82,7 +88,7 @@ public class MainPanel extends JPanel {
     }
 
     protected void showItems() {
-        buttonMap.get("start").setBounds(50, 50, 150, 40);
+        buttonMap.get("start").setBounds(50, 70, 150, 40);
         buttonMap.get("start").setFocusPainted(false);
         buttonMap.get("start").setBackground(new Color(0, 0, 0, 100));
         buttonMap.get("start").setBorder(new LineBorder(Color.GREEN, 2));
@@ -96,12 +102,19 @@ public class MainPanel extends JPanel {
         buttonMap.get("skillTree").setForeground(Color.CYAN);
         buttonMap.get("skillTree").setFont(new Font("Raleway ExtraBold", Font.BOLD, 20));
 
-        buttonMap.get("settings").setBounds(50, 350, 150, 40);
+        buttonMap.get("settings").setBounds(50, 330, 150, 40);
         buttonMap.get("settings").setFocusPainted(false);
         buttonMap.get("settings").setBackground(new Color(0, 0, 0, 100));
         buttonMap.get("settings").setBorder(new LineBorder(Color.YELLOW, 2));
         buttonMap.get("settings").setForeground(Color.YELLOW);
         buttonMap.get("settings").setFont(new Font("Raleway ExtraBold", Font.BOLD,
+                20));
+        buttonMap.get("exit").setBounds(300, 450, 150, 40);
+        buttonMap.get("exit").setFocusPainted(false);
+        buttonMap.get("exit").setBackground(new Color(0, 0, 0, 100));
+        buttonMap.get("exit").setBorder(new LineBorder(Color.RED, 2));
+        buttonMap.get("exit").setForeground(Color.RED);
+        buttonMap.get("exit").setFont(new Font("Raleway ExtraBold", Font.BOLD,
                 20));
         for (Map.Entry<String, JButton> entry : buttonMap.entrySet()) {
 

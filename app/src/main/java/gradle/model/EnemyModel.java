@@ -42,8 +42,8 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
         enemyModel.type = enemyType;
         double x = anchor.getX();
         double y = anchor.getY();
-        enemyModel.max_speed = Constants.ENEMY_SPEED - 0.4 + (GameSettings.level / 5);
-        enemyModel.impact_speed = 2.8;
+        enemyModel.max_speed = Constants.ENEMY_SPEED + (GameSettings.level / 5);
+        enemyModel.impact_speed = 1.5;
         enemyModel.isMoving = true;
         double rotationAngle = Math.toRadians(20);
 

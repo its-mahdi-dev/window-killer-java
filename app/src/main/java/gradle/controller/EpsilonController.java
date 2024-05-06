@@ -156,6 +156,9 @@ public class EpsilonController {
             epsilonModel.XP += collectibleModel.xp;
             removeCollectible(collectibleModel.getId());
         }
+
+        if (System.currentTimeMillis() - collectibleModel.time > 10000)
+            removeCollectible(collectibleModel.getId());
     }
 
     public static void removeCollectible(String Id) {

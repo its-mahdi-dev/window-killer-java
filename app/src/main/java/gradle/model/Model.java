@@ -139,7 +139,7 @@ public abstract class Model {
 
         move(direction, speed);
         if (this instanceof Rotation && isImpacting)
-            moveRotaion(speed * 2);
+            moveRotaion(speed);
     }
 
     public static void addAnchorToEntities(Point2D point2d) {

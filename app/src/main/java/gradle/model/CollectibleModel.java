@@ -13,6 +13,7 @@ public class CollectibleModel extends Model {
     public static final List<Model> removedItems = new ArrayList<>();
     public EnemyType enemyType;
     public int xp;
+    public double time;
 
     public CollectibleModel(Point2D anchor) {
     }
@@ -37,7 +38,7 @@ public class CollectibleModel extends Model {
         collectibleModel.w = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.h = Constants.COLLECTIBLE_DIAMETER;
         collectibleModel.anchor = anchor;
-
+        collectibleModel.time = System.currentTimeMillis();
         collectibleView.setUtil(collectibleModel);
         collectibleView.addItem(collectibleView);
         collectibleModel.addItem(collectibleModel);

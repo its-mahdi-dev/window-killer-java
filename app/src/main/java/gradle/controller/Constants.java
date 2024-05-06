@@ -11,7 +11,8 @@ public class Constants {
                         (int) (PANEL_SIZE.getWidth() - (PANEL_SIZE.getWidth() / 4)),
                         (int) (PANEL_SIZE.getHeight() - (PANEL_SIZE.getHeight() / 4)));
 
-        public static final Dimension MAIN_PANEL_DIMENSION = new Dimension((int) (GAME_FRAME_DIMENSION.getWidth() / 2 - GAME_FRAME_DIMENSION.getWidth() /8),
+        public static final Dimension MAIN_PANEL_DIMENSION = new Dimension(
+                        (int) (GAME_FRAME_DIMENSION.getWidth() / 2 - GAME_FRAME_DIMENSION.getWidth() / 8),
                         (int) (GAME_FRAME_DIMENSION.getHeight() - GAME_FRAME_DIMENSION.getHeight() / 4));
         public static final int FPS = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0]
                         .getDisplayMode().getRefreshRate();
@@ -26,7 +27,7 @@ public class Constants {
         // Entities
         public static final int EPSILON_DIAMETER = 30;
         public static final int EPSILON_VERTEX_DIAMETER = 6;
-        public static final double MOVE_SPEED = 5 * 60D / UPS;
+        public static final double MOVE_SPEED = 4 * 60D / UPS;
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 6;
         public static final double SHOT_SPEED = 25 * 60D / UPS;
@@ -34,7 +35,7 @@ public class Constants {
         // ENEMIES
         public static final int ENEMY_SQUARE_DIAMETER = 50;
         public static final int ENEMY_TRIANGLE_DIAMETER = 40;
-        public static final double ENEMY_SPEED = 1 * 60D / UPS;
+        public static final double ENEMY_SPEED = 2 * 60D / UPS;
 
         public static final double ENEMY_STROKE = 3.0;
         public static final int COLLECTIBLE_DIAMETER = 10;

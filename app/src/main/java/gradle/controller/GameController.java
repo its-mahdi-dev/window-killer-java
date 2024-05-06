@@ -51,7 +51,6 @@ public class GameController {
     });
 
     public static void startGame() {
-        
 
         if (winTimer != null) {
             winTimer.stop();
@@ -63,7 +62,7 @@ public class GameController {
         SkillTreeController.skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
         SkillTreeController.skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
         SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
-        GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
+        MainPanel.getINSTANCE().remove(SettingsPanel.getINSTANCE());
         // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
         GamePanel.getINSTANCE();
 
@@ -130,8 +129,8 @@ public class GameController {
             waveNumber++;
             EnemyController.isCreating = true;
             executor.schedule(() -> {
-                EnemyController.createEnemyWaves((1 + (int) GameSettings.level) * waveNumber);
-            }, 5, TimeUnit.SECONDS);
+                EnemyController.createEnemyWaves((2 + (int) GameSettings.level) * waveNumber);
+            }, 3, TimeUnit.SECONDS);
 
             executor.shutdown();
         }
@@ -171,7 +170,7 @@ public class GameController {
         waveNumber = 0;
         Update.timer1.stop();
         Update.timer2.stop();
-        GameFrame.getINSTANCE().add(SettingsPanel.getINSTANCE());
+        MainPanel.getINSTANCE().add(SettingsPanel.getINSTANCE());
         GameFrame.getINSTANCE().remove(GamePanel.getINSTANCE());
         GameFrame.getINSTANCE().remove(StorePanel.getINSTANCE());
 

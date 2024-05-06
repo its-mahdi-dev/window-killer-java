@@ -80,6 +80,7 @@ public class StorePanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (enabled[boxIndex]) {
                     GameSettings.isStore = false;
+                    GameSettings.isPause = false;
                     StoreController.handleStore(boxIndex);
                 } else {
                     String error_text = "you can't buy this item you wanna " + String.valueOf(xp[boxIndex] - epsilonXp)

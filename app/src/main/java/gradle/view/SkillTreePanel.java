@@ -88,7 +88,7 @@ public class SkillTreePanel extends JPanel {
                 showPanel(false);
             }
         });
-        add(backButton);
+        add(backButton , BorderLayout.WEST);
         for (int i = 0; i < skills.size(); i++) {
             JSONObject skillObject = (JSONObject) skills.get(i);
             gbc.insets = new Insets(10, 5, 20, 5);

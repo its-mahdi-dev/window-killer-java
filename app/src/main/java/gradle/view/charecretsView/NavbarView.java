@@ -69,12 +69,29 @@ public class NavbarView {
         g.drawString(String.valueOf(HP), HP + textWidth - HP_width / 2 + 2,
                 GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT + 13);
         textWidth += 130;
-        g.setFont(new Font("Consolas", Font.PLAIN, 20));
+        g.setFont(new Font("Consolas", Font.PLAIN, 18));
         g.setColor(Color.GREEN);
         String XP_text = "XP: " + String.valueOf(XP);
         g.drawString(XP_text, textWidth + 20, GamePanel.getINSTANCE().getHeight() -
                 Constants.NAVBAR_HEIGHT / 2);
-        textWidth += fm.stringWidth(XP_text);
+        textWidth += fm.stringWidth(XP_text) + 30;
+
+        g.setFont(new Font("Consolas", Font.PLAIN, 12));
+        String k = "store: K";
+        g.drawString(k, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        textWidth += fm.stringWidth(k);
+        String p = "pause: P";
+        g.drawString(p, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        textWidth += fm.stringWidth(p);
+        String f = "ares: F";
+        g.drawString(f, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        textWidth += fm.stringWidth(f);
+        String h = "aceso: H";
+        g.drawString(h, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        textWidth += fm.stringWidth(h);
+        String j = "proteus: j";
+        g.drawString(j, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        textWidth += fm.stringWidth(j);
     }
 
     public void draw(Graphics g) {

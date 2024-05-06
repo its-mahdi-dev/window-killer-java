@@ -26,5 +26,6 @@ public class GameFrame extends JFrame {
             INSTANCE = new GameFrame();
         return INSTANCE;
     }
+    
 
 }

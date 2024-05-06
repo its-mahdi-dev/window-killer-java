@@ -159,11 +159,9 @@ public class StorePanel extends JPanel {
         if (GameSettings.isStore) {
             EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
             epsilonXp = epsilonModel.XP;
-            GameSettings.isPause = true;
             if (getHeight() <= Constants.STORE_PANEL_DIMENSION.getHeight())
                 setSize(new Dimension(getWidth(), getHeight() + 15));
         } else {
-            GameSettings.isPause = false;
             if (getHeight() > 0)
                 setSize(new Dimension(getWidth(), getHeight() - 15));
         }

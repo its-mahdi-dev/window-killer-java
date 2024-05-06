@@ -10,10 +10,16 @@ import gradle.view.StorePanel;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 
+import java.awt.AWTException;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Robot;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +29,11 @@ import javax.swing.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.sun.jna.*;
+import com.sun.jna.platform.win32.*;
+import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.platform.win32.*;
 
 public class GameController {
 
@@ -40,47 +51,48 @@ public class GameController {
     });
 
     public static void startGame() {
-        SwingUtilities.invokeLater(() -> {
-            if (winTimer != null) {
-                winTimer.stop();
+        
+
+        if (winTimer != null) {
+            winTimer.stop();
+        }
+        GameSettings.isPause = false;
+        GameSettings.isGameRun = true;
+        setSettings();
+        setSkillTree();
+        SkillTreeController.skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
+        SkillTreeController.skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
+        SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
+        GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
+        // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
+        GamePanel.getINSTANCE();
+
+        GameFrame.getINSTANCE().add(GamePanel.getINSTANCE());
+        StorePanel.getINSTANCE();
+        GamePanel.getINSTANCE().setSize(Constants.GAME_FRAME_DIMENSION);
+        GamePanel.getINSTANCE().setLocationToCenter(GameFrame.getINSTANCE());
+
+        GamePanel.getINSTANCE().repaint();
+        EpsilonModel.getINSTANCE();
+        EpsilonModel.getINSTANCE().init();
+        createWave();
+
+        Update.timer1.start();
+        Update.timer2.start();
+
+        GameFrame.getINSTANCE().repaint();
+
+        MainPanel.getINSTANCE().setVisible(false);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // Print and reset counts
+                System.out.println("UPS: " + Update.upsCount + ", FPS: " + Update.fpsCount);
+                Update.upsCount = 0;
+                Update.fpsCount = 0;
             }
-            GameSettings.isPause = false;
-            GameSettings.isGameRun = true;
-            setSettings();
-            setSkillTree();
-            SkillTreeController.skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
-            SkillTreeController.skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
-            SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
-            GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
-            // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
-            GamePanel.getINSTANCE();
-
-            GameFrame.getINSTANCE().add(GamePanel.getINSTANCE());
-            StorePanel.getINSTANCE();
-            GamePanel.getINSTANCE().setSize(Constants.GAME_FRAME_DIMENSION);
-            GamePanel.getINSTANCE().setLocationToCenter(GameFrame.getINSTANCE());
-
-            GamePanel.getINSTANCE().repaint();
-            EpsilonModel.getINSTANCE();
-            EpsilonModel.getINSTANCE().init();
-            createWave();
-
-            Update.timer1.start();
-            Update.timer2.start();
-
-            GameFrame.getINSTANCE().repaint();
-
-            MainPanel.getINSTANCE().setVisible(false);
-            new Timer().scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    // Print and reset counts
-                    System.out.println("UPS: " + Update.upsCount + ", FPS: " + Update.fpsCount);
-                    Update.upsCount = 0;
-                    Update.fpsCount = 0;
-                }
-            }, 1000, 1000);
-        });
+        }, 1000, 1000);
+        // });
     }
 
     private static void setSettings() {

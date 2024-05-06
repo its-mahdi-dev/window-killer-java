@@ -87,7 +87,7 @@ public class NavbarView {
     }
 
     public void setUtil() {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         HP = epsilonModel.HP;
         XP = epsilonModel.XP;
     }

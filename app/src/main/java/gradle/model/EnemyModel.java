@@ -31,7 +31,7 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             EnemyModel.removedItems.remove(0);
             enemyView = (EnemyView) EnemyView.findView(enemyModel.getId(),
                     EnemyView.removedItems);
-            EnemyView.removedItems.removeIf(collectible -> collectible.getId() == enemyModel.getId());
+            EnemyView.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
             enemyModel = new EnemyModel(anchor, enemyType);
             enemyView = new EnemyView(enemyModel.getId(), enemyModel.type);

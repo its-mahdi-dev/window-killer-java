@@ -21,13 +21,16 @@ public class EpsilonModel extends Model implements Entity {
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity*2 / 10.0;
         isMoving = false;
-        HP = 100;
+        HP = 4;
         impact_speed = 1 + GameSettings.sensitivity / 100.0;
         addItem(this);
         View view = new EpsilonView(getId());
         view.setUtil(this);
     }
 
+    public static EpsilonModel getINSTANCE(){
+        return (EpsilonModel) items.get(0);
+    }
     @Override
     protected List<Model> getItems() {
         return items;

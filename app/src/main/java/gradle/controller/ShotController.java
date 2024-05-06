@@ -6,6 +6,7 @@ import java.awt.Polygon;
 
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
@@ -65,9 +66,9 @@ public class ShotController {
                     enemyModel.HP -= 5 + (SkillTreeController.enemy_hp_decrease);
                     if (enemyModel.HP >= 0)
                         // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
-                    if (ShotModel.items.contains(shotModel)) {
-                        remove(shotModel.getId());
-                    }
+                        if (ShotModel.items.contains(shotModel)) {
+                            remove(shotModel.getId());
+                        }
                     if (enemyModel.isImpacting) {
                         enemyModel.impact_speed *= 1.05;
                         enemyModel.setImpact(new Point2D.Double(1, 1), false);
@@ -88,5 +89,11 @@ public class ShotController {
         if (polygon.contains(shotModel.anchor))
             return true;
         return false;
+    }
+
+    public static void removeAll() {
+        for (int i = ShotModel.items.size() - 1; i >= 0; i--) {
+            remove(ShotModel.items.get(i).getId());
+        }
     }
 }

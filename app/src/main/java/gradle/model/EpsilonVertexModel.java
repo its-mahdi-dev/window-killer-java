@@ -26,12 +26,12 @@ public class EpsilonVertexModel extends Model {
         epsilonVertexModel.h = Constants.EPSILON_VERTEX_DIAMETER;
         epsilonVertexModel.w = Constants.EPSILON_VERTEX_DIAMETER;
 
-        epsilonVertexModel.anchor = EpsilonModel.items.get(0).anchor;
+        epsilonVertexModel.anchor = EpsilonModel.getINSTANCE().anchor;
         double angle = 0;
         if (items.size() == 0) {
-            double dy = EpsilonModel.items.get(0).anchor.getY() - MouseController.mousePos
+            double dy = EpsilonModel.getINSTANCE().anchor.getY() - MouseController.mousePos
                     .getY();
-            double dx = EpsilonModel.items.get(0).anchor.getX() - MouseController.mousePos
+            double dx = EpsilonModel.getINSTANCE().anchor.getX() - MouseController.mousePos
                     .getX();
             angle = Math.atan2(dy, dx);
         } else {

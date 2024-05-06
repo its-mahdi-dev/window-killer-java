@@ -5,9 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -27,7 +24,7 @@ public class EnemyController {
         for (Model model : EnemyModel.items) {
             EnemyModel enemyModel = (EnemyModel) model;
             enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                    EpsilonModel.items.get(0).anchor));
+                    EpsilonModel.getINSTANCE().anchor));
 
             enemyModel.move();
 
@@ -53,7 +50,7 @@ public class EnemyController {
     }
 
     public static void checkEpsilonColision(EnemyModel enemyModel) {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints, epsilonModel.anchor);
 
         Point2D newDirection = Utils.getDirection(epsilonModel.anchor, enemyModel.anchor);
@@ -170,5 +167,12 @@ public class EnemyController {
         }
 
         isCreating = false;
+    }
+
+    public static void removeAll() {
+
+        for (int i = EnemyModel.items.size() - 1; i >= 0; i--) {
+            remove(EnemyModel.items.get(i).getId());
+        }
     }
 }

@@ -23,7 +23,6 @@ public class EnemyView extends View {
     public EnemyView(String Id, EnemyType enemyType) {
         super(Id);
         this.type = enemyType;
-        items.add(this);
     }
 
     @Override

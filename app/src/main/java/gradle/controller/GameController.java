@@ -1,11 +1,14 @@
 package gradle.controller;
 
+import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.MainPanel;
 import gradle.view.SettingsPanel;
 import gradle.view.StorePanel;
+import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.EpsilonView;
 
 import java.awt.GraphicsEnvironment;
 import java.util.Timer;
@@ -28,11 +31,18 @@ public class GameController {
             GameSettings.isGameRun = true;
             setSettings();
             setSkillTree();
-
+            SkillTreeController.skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
+            SkillTreeController.skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
+            SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
             GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
             // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
             GamePanel.getINSTANCE();
+
+            GameFrame.getINSTANCE().add(GamePanel.getINSTANCE());
             StorePanel.getINSTANCE();
+            GamePanel.getINSTANCE().setSize(Constants.GAME_FRAME_DIMENSION);
+            GamePanel.getINSTANCE().setLocationToCenter(GameFrame.getINSTANCE());
+
             GamePanel.getINSTANCE().repaint();
             new EpsilonModel();
             createWave();
@@ -98,5 +108,37 @@ public class GameController {
             SkillTreeController.skills.put(((JSONObject) skills.get(i)).get("slog").toString(),
                     Boolean.parseBoolean(((JSONObject) skills.get(i)).get("enabled").toString()));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void GameOver() {
+
+        // JOptionPane.showMessageDialog(null, "Game Over");
+        Utils.playMusic("gameOver", false);
+        GameSettings.isPause = true;
+        GameSettings.isGameRun = false;
+        waveNumber = 0;
+        Update.timer1.stop();
+        Update.timer2.stop();
+        GameFrame.getINSTANCE().add(SettingsPanel.getINSTANCE());
+        GameFrame.getINSTANCE().remove(GamePanel.getINSTANCE());
+        GameFrame.getINSTANCE().remove(StorePanel.getINSTANCE());
+
+        JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/data.json");
+        data.put("xp", EpsilonModel.getINSTANCE().XP + Integer.parseInt(data.get("xp").toString()));
+        JsonHelper.writeJsonToFile(data, "app/src/main/resources/data/data.json");
+        SkillTreeController.enemy_hp_decrease = 0;
+        SkillTreeController.epsilon_hp_increase = 0;
+        StoreController.shotsNumber = 1;
+        EpsilonModel.items.remove(0);
+        EpsilonView.items.remove(0);
+        EnemyController.removeAll();
+        EpsilonController.removeAllCollectible();
+        ShotController.removeAll();
+        EnemyController.isCreating = false;
+        MainPanel.getINSTANCE().setVisible(true);
+        MainPanel.getINSTANCE().repaint();
+        GameFrame.getINSTANCE().repaint();
+
     }
 }

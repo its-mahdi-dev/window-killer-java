@@ -15,11 +15,7 @@ public class SkillTreeController {
     public static final Map<String, Boolean> skills = new HashMap<>();
     public static int enemy_hp_decrease;
     public static int epsilon_hp_increase;
-    static {
-        skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
-        skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
-        skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
-    }
+    
 
     public static final long MIN_SKILL_TIME = 5 * 60000;
 
@@ -56,8 +52,8 @@ public class SkillTreeController {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (System.currentTimeMillis() - skillsTime.get("aceso") < MIN_SKILL_TIME)
-                        EpsilonModel.items.get(0).HP = Math.min(100,
-                                EpsilonModel.items.get(0).HP + epsilon_hp_increase);
+                        EpsilonModel.getINSTANCE().HP = Math.min(100,
+                                EpsilonModel.getINSTANCE().HP + epsilon_hp_increase);
                 }
             });
             timer.start();

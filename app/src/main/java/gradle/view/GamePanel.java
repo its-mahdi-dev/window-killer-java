@@ -38,7 +38,6 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         this.addKeyListener(new KeyController());
         setLayout(null);
-        GameFrame.getINSTANCE().add(this);
     }
 
     public void setLocationToCenter(GameFrame gameFrame) {

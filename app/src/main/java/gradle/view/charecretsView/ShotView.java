@@ -12,7 +12,6 @@ public class ShotView extends View {
 
     public ShotView(String Id) {
         super(Id);
-        items.add(this);
     }
 
     @Override

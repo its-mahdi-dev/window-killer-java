@@ -244,7 +244,7 @@ public abstract class Model {
         List<Model> all = new ArrayList<>();
 
         all.addAll(EnemyModel.items);
-        all.add(EpsilonModel.items.get(0));
+        all.add(EpsilonModel.getINSTANCE());
 
         return all;
     }

@@ -85,7 +85,7 @@ public class EpsilonController {
             dy /= Math.sqrt(2);
             dx /= Math.sqrt(2);
         }
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         if (dx != 0 || dy != 0)
             epsilonModel.setDirection(new Point2D.Double(dx, dy));
         int c = 0;
@@ -103,7 +103,7 @@ public class EpsilonController {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
             ShotModel shot = ShotModel.create();
             Utils.playMusic("shot", false);
-            shot.anchor = EpsilonModel.items.get(0).anchor;
+            shot.anchor = EpsilonModel.getINSTANCE().anchor;
             Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),
                     e.getY() + i * (Math.pow(-1, i) * 50));
             Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
@@ -113,7 +113,7 @@ public class EpsilonController {
     }
 
     public static void checkWallImpact() {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         if (epsilonModel.getPanelAnchor().getX() - epsilonModel.w / 2 < 0) {
             if (epsilonModel.direction.getX() <= 0) {
                 if (epsilonModel.isMoving)
@@ -150,9 +150,9 @@ public class EpsilonController {
 
     public static void checkCollectibleCollision(CollectibleModel collectibleModel) {
 
-        if (Utils.getDistance(EpsilonModel.items.get(0).anchor, collectibleModel.anchor) < EpsilonModel.items.get(0).w
+        if (Utils.getDistance(EpsilonModel.getINSTANCE().anchor, collectibleModel.anchor) < EpsilonModel.getINSTANCE().w
                 / 2) {
-            EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+            EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
             epsilonModel.XP += collectibleModel.xp;
             removeCollectible(collectibleModel.getId());
         }
@@ -168,11 +168,11 @@ public class EpsilonController {
     }
 
     public static void updateVertextAnchor() {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         for (Model vertex : EpsilonVertexModel.items) {
-            double dy = EpsilonModel.items.get(0).anchor.getY() - MouseController.mousePos
+            double dy = EpsilonModel.getINSTANCE().anchor.getY() - MouseController.mousePos
                     .getY();
-            double dx = EpsilonModel.items.get(0).anchor.getX() - MouseController.mousePos
+            double dx = EpsilonModel.getINSTANCE().anchor.getX() - MouseController.mousePos
                     .getX();
             double angle = Math.atan2(dy, dx);
 
@@ -181,6 +181,12 @@ public class EpsilonController {
             double y = epsilonModel.anchor.getY()
                     + (epsilonModel.w / 2 - vertex.w / 2) * Math.sin(vertex.angle + angle);
             vertex.anchor = new Point2D.Double(x, y);
+        }
+    }
+
+    public static void removeAllCollectible() {
+        for (int i = CollectibleModel.items.size() - 1; i >= 0; i--) {
+            removeCollectible(CollectibleModel.items.get(i).getId());
         }
     }
 }

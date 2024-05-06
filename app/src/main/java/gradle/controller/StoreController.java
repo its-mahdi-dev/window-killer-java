@@ -23,13 +23,13 @@ public class StoreController {
                 break;
         }
 
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         epsilonModel.XP -= StorePanel.xp[index];
 
     }
 
     private static void increaseHP(int HP) {
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         epsilonModel.HP = Math.min(100, epsilonModel.HP + HP);
     }
 
@@ -39,7 +39,7 @@ public class StoreController {
     }
 
     private static void wave() {
-        EpsilonModel.items.get(0).setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 10, 1.4);
+        EpsilonModel.getINSTANCE().setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 10, 1.4);
     }
 
     public static void checkItemsTimes() {
@@ -47,7 +47,7 @@ public class StoreController {
             shotsNumber = 1;
         }
 
-        EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
 
         for (int i = 0; i < StorePanel.xp.length; i++) {
             StorePanel.enabled[i] = true;

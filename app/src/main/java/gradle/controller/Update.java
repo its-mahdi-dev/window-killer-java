@@ -25,22 +25,26 @@ public class Update {
 
     public int upsCount = 0;
     public int fpsCount = 0;
+    public static Timer timer1;
+    public static Timer timer2;
 
     public Update() {
-        new Timer((int) Constants.FRAME_UPDATE_TIME, e -> updateView()) {
+        timer1 = new Timer((int) Constants.FRAME_UPDATE_TIME, e -> updateView()) {
             {
                 setCoalesce(true);
             }
-        }.start();
-        new Timer((int) Constants.MODEL_UPDATE_TIME, e -> updateModel()) {
+        };
+        timer2 = new Timer((int) Constants.MODEL_UPDATE_TIME, e -> updateModel()) {
             {
                 setCoalesce(true);
             }
-        }.start();
+        };
+        timer1.start();
+        timer2.start();
     }
 
     public void updateView() {
-        EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
+        EpsilonView.items.get(0).setUtil(EpsilonModel.getINSTANCE());
 
         for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
             EpsilonVertexView epsilonView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
@@ -50,11 +54,12 @@ public class Update {
         if (!EnemyController.isCreating && EnemyModel.items.size() > 0) {
             for (int i = 0; i < EnemyView.items.size(); i++) {
                 EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
-                
+
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
                 if (enemyModel != null)
                     enemyView.setUtil(enemyModel);
-                else System.out.println(enemyView);
+                else
+                    System.out.println(enemyView);
             }
         }
         for (int i = 0; i < ShotView.items.size(); i++) {
@@ -82,7 +87,7 @@ public class Update {
 
     public void updateModel() {
         if (!GameSettings.isPause) {
-            EpsilonModel.items.get(0).move();
+            EpsilonModel.getINSTANCE().move();
             EpsilonController.checkWallImpact();
             EpsilonController.updateVertextAnchor();
             if (!EnemyController.isCreating)
@@ -98,6 +103,9 @@ public class Update {
 
             if (!EnemyController.isCreating && EnemyModel.items.size() == 0)
                 GameController.createWave();
+
+            if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
+                GameController.GameOver();
         }
         upsCount++;
     }

@@ -81,8 +81,9 @@ public class StorePanel extends JPanel {
                 if (enabled[boxIndex]) {
                     GameSettings.isStore = false;
                     StoreController.handleStore(boxIndex);
-                }else{
-                    String error_text = "you can't buy this item you wanna " + String.valueOf(xp[boxIndex] - epsilonXp) + " XP more";
+                } else {
+                    String error_text = "you can't buy this item you wanna " + String.valueOf(xp[boxIndex] - epsilonXp)
+                            + " XP more";
                     JOptionPane.showMessageDialog(null, error_text);
                 }
             }
@@ -156,7 +157,7 @@ public class StorePanel extends JPanel {
 
     public void showOrHidePanel() {
         if (GameSettings.isStore) {
-            EpsilonModel epsilonModel = (EpsilonModel) EpsilonModel.items.get(0);
+            EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
             epsilonXp = epsilonModel.XP;
             GameSettings.isPause = true;
             if (getHeight() <= Constants.STORE_PANEL_DIMENSION.getHeight())

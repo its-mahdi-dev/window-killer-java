@@ -16,7 +16,6 @@ public class CollectibleView extends View {
     public CollectibleView(String Id, EnemyType enemyType) {
         super(Id);
         this.enemyType = enemyType;
-        items.add(this);
     }
 
     @Override

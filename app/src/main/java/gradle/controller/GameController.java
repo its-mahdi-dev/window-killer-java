@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.*;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class GameController {
@@ -25,12 +26,9 @@ public class GameController {
         SwingUtilities.invokeLater(() -> {
             GameSettings.isPause = false;
             GameSettings.isGameRun = true;
-            JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
-            setLevel(settings.get("level").toString());
-            int volume = Integer.parseInt(settings.get("volume").toString());
-            float gain = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
-            GameSettings.volume = gain;
-            GameSettings.sensitivity = Integer.parseInt(settings.get("sensitivity").toString());
+            setSettings();
+            setSkillTree();
+
             GameFrame.getINSTANCE().remove(SettingsPanel.getINSTANCE());
             // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
             GamePanel.getINSTANCE();
@@ -54,6 +52,15 @@ public class GameController {
                 }
             }, 1000, 1000);
         });
+    }
+
+    private static void setSettings() {
+        JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
+        setLevel(settings.get("level").toString());
+        int volume = Integer.parseInt(settings.get("volume").toString());
+        float gain = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
+        GameSettings.volume = gain;
+        GameSettings.sensitivity = Integer.parseInt(settings.get("sensitivity").toString());
     }
 
     private static void setLevel(String level) {
@@ -82,5 +89,14 @@ public class GameController {
         }, 5, TimeUnit.SECONDS);
 
         executor.shutdown();
+    }
+
+    private static void setSkillTree() {
+        JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/skillTree.json");
+        JSONArray skills = (JSONArray) data.get("skills");
+        for (int i = 0; i < skills.size(); i++) {
+            SkillTreeController.skills.put(((JSONObject) skills.get(i)).get("slog").toString(),
+                    Boolean.parseBoolean(((JSONObject) skills.get(i)).get("enabled").toString()));
+        }
     }
 }

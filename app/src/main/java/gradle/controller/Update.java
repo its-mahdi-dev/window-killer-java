@@ -43,14 +43,17 @@ public class Update {
         EpsilonView.items.get(0).setUtil(EpsilonModel.items.get(0));
 
         for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
-            EpsilonVertexView shotView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
-            EpsilonVertexModel shotModel = (EpsilonVertexModel) EpsilonVertexModel.findById(shotView.getId());
-            shotView.setUtil(shotModel);
+            EpsilonVertexView epsilonView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
+            EpsilonVertexModel epsilonModel = (EpsilonVertexModel) EpsilonVertexModel.findById(epsilonView.getId());
+            epsilonView.setUtil(epsilonModel);
         }
-        for (int i = 0; i < EnemyView.items.size(); i++) {
-            EnemyView shotView = (EnemyView) EnemyView.items.get(i);
-            EnemyModel shotModel = (EnemyModel) EnemyModel.findById(shotView.getId());
-            shotView.setUtil(shotModel);
+        if (!EnemyController.isCreating && EnemyModel.items.size() > 0) {
+            for (int i = 0; i < EnemyView.items.size(); i++) {
+                EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
+                EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
+                if (enemyModel != null)
+                    enemyView.setUtil(enemyModel);
+            }
         }
         for (int i = 0; i < ShotView.items.size(); i++) {
             ShotView shotView = (ShotView) ShotView.items.get(i);
@@ -58,9 +61,9 @@ public class Update {
             shotView.setUtil(shotModel);
         }
         for (int i = 0; i < CollectibleView.items.size(); i++) {
-            CollectibleView shotView = (CollectibleView) CollectibleView.items.get(i);
-            CollectibleModel shotModel = (CollectibleModel) CollectibleModel.findById(shotView.getId());
-            shotView.setUtil(shotModel);
+            CollectibleView collectibleView = (CollectibleView) CollectibleView.items.get(i);
+            CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(collectibleView.getId());
+            collectibleView.setUtil(collectibleModel);
         }
 
         NavbarView.getINSTANCE().setUtil();
@@ -78,7 +81,8 @@ public class Update {
             EpsilonModel.items.get(0).move();
             EpsilonController.checkWallImpact();
             EpsilonController.updateVertextAnchor();
-            EnemyController.checkCollision();
+            if (!EnemyController.isCreating)
+                EnemyController.checkCollision();
             ShotController.checkCollision();
 
             for (int i = 0; i < CollectibleModel.items.size(); i++) {

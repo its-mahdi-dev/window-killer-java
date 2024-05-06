@@ -23,6 +23,7 @@ public class GameController {
             GameSettings.isPause = false;
             GameSettings.isGameRun = true;
             JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
+            setLevel(settings.get("level").toString());
             int volume = Integer.parseInt(settings.get("volume").toString());
             float gain = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
             GameSettings.volume = gain;
@@ -36,6 +37,7 @@ public class GameController {
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
             // Schedule the task to run after 10 seconds
+            EnemyController.isCreating = true;
             executor.schedule(() -> {
                 EnemyController.createEnemyWaves(8);
             }, 5, TimeUnit.SECONDS);
@@ -56,5 +58,22 @@ public class GameController {
                 }
             }, 1000, 1000);
         });
+    }
+
+    private static void setLevel(String level) {
+        switch (level) {
+            case "easy":
+                GameSettings.level = 1;
+                break;
+            case "medium":
+                GameSettings.level = 2;
+                break;
+            case "high":
+                GameSettings.level = 3;
+                break;
+            default:
+                break;
+        }
+
     }
 }

@@ -20,7 +20,6 @@ public class EpsilonModel extends Model implements Entity {
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity*2 / 10.0;
-        System.out.println(max_speed);
         isMoving = false;
         HP = 100;
         impact_speed = 1 + GameSettings.sensitivity / 100.0;

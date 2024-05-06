@@ -7,9 +7,14 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import org.json.simple.JSONObject;
+
 import gradle.controller.Constants;
 import gradle.controller.EnemyController;
+import gradle.controller.GameSettings;
+import gradle.controller.JsonHelper;
 import gradle.controller.Update;
+import gradle.controller.Utils;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
@@ -26,8 +31,12 @@ import java.util.concurrent.TimeUnit;
 
 public class App {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {  
-            
+        SwingUtilities.invokeLater(() -> {
+            JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
+            int volume = Integer.parseInt(settings.get("volume").toString());
+            float gain = (float) (Math.log(volume / 100.0) / Math.log(10.0) * 20.0);
+            GameSettings.volume = gain;
+            Utils.playMusic("background", true);
             GameFrame.getINSTANCE();
             MainPanel.getINSTANCE();
             GameFrame.getINSTANCE().repaint();

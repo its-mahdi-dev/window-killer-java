@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import gradle.controller.Constants;
+import gradle.controller.GameSettings;
 import gradle.interfaces.Collectible;
 import gradle.interfaces.Entity;
 import gradle.interfaces.Rotation;
@@ -41,7 +42,7 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
         enemyModel.type = enemyType;
         double x = anchor.getX();
         double y = anchor.getY();
-        enemyModel.max_speed = Constants.ENEMY_SPEED;
+        enemyModel.max_speed = Constants.ENEMY_SPEED - 0.4 + (GameSettings.level / 5);
         enemyModel.impact_speed = 2.8;
         enemyModel.isMoving = true;
         double rotationAngle = Math.toRadians(20);

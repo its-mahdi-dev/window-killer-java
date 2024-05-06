@@ -20,23 +20,23 @@ import gradle.view.charecretsView.EnemyView;
 public class EnemyController {
 
     static List<EnemyModel> removedEnemies = new ArrayList<>();
+    public static boolean isCreating = true;
 
     public static void checkCollision() {
         removedEnemies = new ArrayList<>();
-        if (EnemyModel.items.size() > 0) {
-            for (Model model : EnemyModel.items) {
-                EnemyModel enemyModel = (EnemyModel) model;
-                enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                        EpsilonModel.items.get(0).anchor));
+        for (Model model : EnemyModel.items) {
+            EnemyModel enemyModel = (EnemyModel) model;
+            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                    EpsilonModel.items.get(0).anchor));
 
-                enemyModel.move();
+            enemyModel.move();
 
-                setPoints(enemyModel);
-                checkEnemyCollision(enemyModel);
-                checkEpsilonColision(enemyModel);
+            setPoints(enemyModel);
+            checkEnemyCollision(enemyModel);
+            checkEpsilonColision(enemyModel);
 
-            }
         }
+
         for (EnemyModel enemyModel : removedEnemies) {
             remove(enemyModel.getId());
         }
@@ -143,7 +143,6 @@ public class EnemyController {
     }
 
     public static void createEnemyWaves(int number) {
-
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;
         Random rand = new Random();
@@ -169,5 +168,6 @@ public class EnemyController {
             EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.triangle);
         }
 
+        isCreating = false;
     }
 }

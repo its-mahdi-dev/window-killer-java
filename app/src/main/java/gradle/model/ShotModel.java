@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gradle.controller.Constants;
+import gradle.view.Panels;
 import gradle.view.charecretsView.ShotView;
 
 public class ShotModel extends Model {
@@ -14,6 +15,8 @@ public class ShotModel extends Model {
     }
 
     public static ShotModel create() {
+        System.out.println(EpsilonModel.getINSTANCE().currentPanels.size() + " panels: " + Panels.getINSTANCE().getPanels().size());
+        // System.out.println("panelX: " );
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {

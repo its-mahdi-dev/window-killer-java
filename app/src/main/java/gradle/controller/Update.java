@@ -86,6 +86,7 @@ public class Update {
             EpsilonModel.getINSTANCE().move();
             EpsilonController.checkWallImpact();
             EpsilonController.updateVertextAnchor();
+            EpsilonController.setCurrentPanel();
             if (!EnemyController.isCreating)
                 EnemyController.checkCollision();
             ShotController.checkCollision();

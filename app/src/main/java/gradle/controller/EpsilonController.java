@@ -1,8 +1,11 @@
 package gradle.controller;
 
+import java.awt.Panel;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import gradle.model.CollectibleModel;
@@ -12,6 +15,7 @@ import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
+import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
 
 public class EpsilonController {
@@ -115,7 +119,8 @@ public class EpsilonController {
                     epsilonModel.setImpact(new Point2D.Double(1, 0), false);
             }
         }
-        if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()) {
+        if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0)
+                .getWidth()) {
             if (epsilonModel.direction.getX() >= 0) {
                 if (epsilonModel.isMoving)
                     epsilonModel.setImpact(new Point2D.Double(-1, 1), false);
@@ -131,7 +136,8 @@ public class EpsilonController {
                     epsilonModel.setImpact(new Point2D.Double(0, 1), false);
             }
         }
-        if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()) {
+        if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0)
+                .getHeight()) {
             if (epsilonModel.direction.getY() >= 0) {
                 if (epsilonModel.isMoving)
                     epsilonModel.setImpact(new Point2D.Double(1, -1), false);
@@ -188,5 +194,23 @@ public class EpsilonController {
         for (int i = CollectibleModel.items.size() - 1; i >= 0; i--) {
             removeCollectible(CollectibleModel.items.get(i).getId());
         }
+    }
+
+    public static void setCurrentPanel() {
+        HashSet<GamePanel> currentGamePanels = new HashSet<>();
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        for (GamePanel panel : Panels.getINSTANCE().getPanels()) {
+            if ((epsilonModel.anchor.getX() - epsilonModel.w / 2 >= panel.getX()) &&
+                    (epsilonModel.anchor.getX() + epsilonModel.w / 2 <= panel.getX() + panel.getWidth()) &&
+                    (epsilonModel.anchor.getY() - epsilonModel.h / 2 >= panel.getY()) &&
+                    (epsilonModel.anchor.getY() + epsilonModel.h / 2 <= panel.getY() + panel.getHeight())) {
+                currentGamePanels.add(panel);
+            }
+        }
+
+        // System.out.println(currentGamePanels);
+        if (currentGamePanels.size() == 0)
+            currentGamePanels.add(epsilonModel.currentPanels.get(0));
+        EpsilonModel.getINSTANCE().currentPanels = new ArrayList<>(currentGamePanels);
     }
 }

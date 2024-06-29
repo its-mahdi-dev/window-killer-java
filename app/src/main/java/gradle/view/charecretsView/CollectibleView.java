@@ -1,9 +1,12 @@
 package gradle.view.charecretsView;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.*;
 
+import gradle.controller.Utils;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyType;
 import gradle.model.Model;
@@ -19,20 +22,21 @@ public class CollectibleView extends View {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g , Component component) {
+        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         if (enemyType == EnemyType.square)
             g.setColor(Color.green);
         else if (enemyType == EnemyType.triangle)
             g.setColor(Color.yellow);
-        int x = (int) anchor.getX() - w / 2;
-        int y = (int) anchor.getY() - h / 2;
+        int x = (int) newAnchor.getX() - w / 2;
+        int y = (int) newAnchor.getY() - h / 2;
         g.fillOval(x, y, w, h);
     }
 
     @Override
     public void setUtil(Model collectibleModel) {
         CollectibleModel collectible = (CollectibleModel) collectibleModel;
-        anchor = collectible.getPanelAnchor();
+        anchor = collectible.anchor;
         enemyType = collectible.enemyType;
         w = collectible.w;
         h = collectible.h;

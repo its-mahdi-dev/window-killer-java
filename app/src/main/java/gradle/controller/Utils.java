@@ -3,6 +3,8 @@ package gradle.controller;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 import java.io.*;
+import java.util.Map;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -88,6 +90,19 @@ public class Utils {
     public static Point2D getRelatedPoint(Point2D point2d, Component component) {
         Point2D panelLocation = component.getLocation();
         return new Point2D.Double(point2d.getX() - panelLocation.getX(), point2d.getY() - panelLocation.getY());
+    }
+
+    public static Map<String, int[]> getPanelPoints(int[] xPoints, int[] yPoints, Component component) {
+        Point2D[] points = new Point2D[xPoints.length];
+        int[] newXpoints = new int[xPoints.length];
+        int[] newYpoints = new int[xPoints.length];
+        for (int i = 0; i < xPoints.length; i++) {
+            points[i] = getRelatedPoint(new Point2D.Double(xPoints[i], yPoints[i]),
+                    component);
+            newXpoints[i] = (int) points[i].getX();
+            newYpoints[i] = (int) points[i].getY();
+        }
+        return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
     }
 
     public static void playMusic(String url, boolean loop) {

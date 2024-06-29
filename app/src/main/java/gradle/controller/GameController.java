@@ -1,11 +1,15 @@
 package gradle.controller;
 
+import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.MainPanel;
+import gradle.view.Panels;
 import gradle.view.SettingsPanel;
 import gradle.view.StorePanel;
+
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -15,10 +19,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 
 public class GameController {
 
@@ -49,18 +51,30 @@ public class GameController {
         SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
         MainPanel.getINSTANCE().remove(SettingsPanel.getINSTANCE());
         // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
-        GamePanel.getINSTANCE();
+        // GamePanel.getINSTANCE();
 
         GameFrame.getINSTANCE().add(GamePanel.getINSTANCE());
         StorePanel.getINSTANCE();
-        GamePanel.getINSTANCE().setSize(Constants.GAME_FRAME_DIMENSION);
-        GamePanel.getINSTANCE().setLocationToCenter(GameFrame.getINSTANCE());
-
-        GamePanel.getINSTANCE().repaint();
+        GamePanel panel1 = new GamePanel();
+        GamePanel panel2 = new GamePanel();
+        // panel1.setSize(new Dimension(500,500));
+        panel1.setLocation(100, 100);
+        panel2.setSize(new Dimension(500, 500));
+        // panel2.setLocation(700,200);
+        // panel1.setLocationToCenter(GameFrame.getINSTANCE());
+        panel1.repaint();
+        panel2.repaint();
+        Panels.getINSTANCE();
+        Panels.getINSTANCE().addPanel(panel1);
+        Panels.getINSTANCE().addPanel(panel2);
+        Panels.getINSTANCE().repaint();
+        GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         EpsilonModel.getINSTANCE();
+        EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
         createWave();
 
+        System.out.println(EnemyModel.items.size());
         Update.timer1.start();
         Update.timer2.start();
 

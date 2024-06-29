@@ -1,6 +1,5 @@
 package gradle.controller;
 
-
 import javax.swing.*;
 
 import gradle.model.CollectibleModel;
@@ -10,6 +9,7 @@ import gradle.model.EpsilonVertexModel;
 import gradle.model.ShotModel;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
+import gradle.view.Panels;
 import gradle.view.StorePanel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
@@ -66,12 +66,16 @@ public class Update {
         }
 
         NavbarView.getINSTANCE().setUtil();
-        GameFrame.getINSTANCE().repaint();
-        StorePanel.getINSTANCE().showOrHidePanel();
-        if (GameSettings.isStore)
-            StorePanel.getINSTANCE().repaint();
-        if (!GameSettings.isPause)
-            GamePanel.getINSTANCE().changeSize();
+        // GameFrame.getINSTANCE().repaint();
+        for (GamePanel gamePanel : Panels.getINSTANCE().getPanels()) {
+            gamePanel.repaint();
+            gamePanel.changeSize();
+        }
+        // StorePanel.getINSTANCE().showOrHidePanel();
+        // if (GameSettings.isStore)
+        // StorePanel.getINSTANCE().repaint();
+        // if (!GameSettings.isPause)
+        // GamePanel.getINSTANCE().changeSize();
         fpsCount++;
     }
 

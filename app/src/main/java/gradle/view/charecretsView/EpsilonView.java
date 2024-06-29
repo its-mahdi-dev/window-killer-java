@@ -1,9 +1,13 @@
 package gradle.view.charecretsView;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import gradle.controller.Utils;
 import gradle.model.Model;
 
 public class EpsilonView extends View {
@@ -16,14 +20,13 @@ public class EpsilonView extends View {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g , Component component) {
+        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         int radius1 = w / 2;
         g.setColor(Color.CYAN);
-        int x = (int) anchor.getX() - radius1;
-        int y = (int) anchor.getY() - radius1;
+        int x = (int) newAnchor.getX() - radius1;
+        int y = (int) newAnchor.getY() - radius1;
         g.fillOval(x, y, w, h);
-
-        
 
         // g.setColor(Color.red);
         // g.setFont(new Font("Arial", Font.BOLD, 10));
@@ -38,10 +41,11 @@ public class EpsilonView extends View {
 
     @Override
     public void setUtil(Model epsilonModel) {
-        anchor = epsilonModel.getPanelAnchor();
+        anchor = epsilonModel.anchor;
         w = epsilonModel.w;
         h = epsilonModel.h;
         HP = epsilonModel.HP;
+        currentPanels = epsilonModel.currentPanels;
     }
 
     @Override

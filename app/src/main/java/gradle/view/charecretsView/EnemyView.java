@@ -2,13 +2,16 @@ package gradle.view.charecretsView;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.util.*;
 
 import gradle.controller.Constants;
+import gradle.controller.Utils;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.Model;
@@ -26,25 +29,28 @@ public class EnemyView extends View {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Component component) {
+        Map<String, int[]> points = Utils.getPanelPoints(xPoints, yPoints, component);
+        int[] newXpoints = points.get("xPoints");
+        int[] newYpoints = points.get("yPoints");
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE));
         if (type == EnemyType.square) {
             g2d.setColor(Color.GREEN);
-            g2d.drawPolygon(xPoints, yPoints, 4);
+            g2d.drawPolygon(newXpoints, newYpoints, 4);
         } else if (type == EnemyType.triangle) {
             g2d.setColor(Color.YELLOW);
-            g2d.drawPolygon(xPoints, yPoints, 3);
+            g2d.drawPolygon(newXpoints, newYpoints, 3);
         }
-        
+
         int centerX = 0;
         int centerY = 0;
-        for (int i = 0; i < xPoints.length; i++) {
-            centerX += xPoints[i];
-            centerY += yPoints[i];
+        for (int i = 0; i < newXpoints.length; i++) {
+            centerX += newXpoints[i];
+            centerY += newYpoints[i];
         }
-        centerX /= xPoints.length;
-        centerY /= yPoints.length;
+        centerX /= newXpoints.length;
+        centerY /= newYpoints.length;
 
         // Set the font size to 18
         g2d.setFont(new Font("Arial", Font.BOLD, 15));
@@ -60,9 +66,9 @@ public class EnemyView extends View {
         g2d.drawString(text, textX, textY);
 
         g2d.setColor(Color.white);
-        for (int i = 0; i < xPoints.length; i++) {
-            int cenX = xPoints[i] - 2;
-            int cenY = yPoints[i] - 2;
+        for (int i = 0; i < newXpoints.length; i++) {
+            int cenX = newXpoints[i] - 2;
+            int cenY = newYpoints[i] - 2;
 
             g2d.fillOval(cenX, cenY, 4, 4);
         }
@@ -72,12 +78,12 @@ public class EnemyView extends View {
     @Override
     public void setUtil(Model enemyModel) {
         EnemyModel enemy = (EnemyModel) enemyModel;
-        anchor = enemy.getPanelAnchor();
+        anchor = enemy.anchor;
         type = enemy.type;
         w = enemy.w;
         h = enemy.h;
-        xPoints = enemy.getPanelPoints().get("xPoints");
-        yPoints = enemy.getPanelPoints().get("yPoints");
+        xPoints = enemy.getXpointsInt();
+        yPoints = enemy.getYpointsInt();
         HP = enemy.HP;
     }
 

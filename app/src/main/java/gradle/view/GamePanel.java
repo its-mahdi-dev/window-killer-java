@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
     double changingTime;
     double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
 
-    private GamePanel() {
+    public GamePanel() {
         setOpaque(true);
         setBackground(new Color(0, 0, 0, 210));
         setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.cyan),
@@ -52,21 +52,21 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (View epsilonView : EpsilonView.items) {
-            epsilonView.draw(g);
+            epsilonView.draw(g, this);
         }
         for (View epsilonView : EpsilonVertexView.items) {
-            epsilonView.draw(g);
+            epsilonView.draw(g, this);
         }
         for (View shotView : ShotView.items) {
-            shotView.draw(g);
+            shotView.draw(g, this);
         }
 
         for (View enemyView : EnemyView.items) {
-            enemyView.draw(g);
+            enemyView.draw(g, this);
         }
 
         for (View collectibleView : CollectibleView.items) {
-            collectibleView.draw(g);
+            collectibleView.draw(g, this);
         }
 
         NavbarView.getINSTANCE().draw(g);

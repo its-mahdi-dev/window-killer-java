@@ -1,9 +1,12 @@
 package gradle.view.charecretsView;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.*;
 
+import gradle.controller.Utils;
 import gradle.model.Model;
 
 public class ShotView extends View {
@@ -15,16 +18,17 @@ public class ShotView extends View {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g , Component component) {
+        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         g.setColor(Color.white);
-        int x = (int) anchor.getX() - w / 2;
-        int y = (int) anchor.getY() - h / 2;
+        int x = (int) newAnchor.getX() - w / 2;
+        int y = (int) newAnchor.getY() - h / 2;
         g.fillOval(x, y, w, h);
     }
 
     @Override
     public void setUtil(Model shotModel) {
-        anchor = shotModel.getPanelAnchor();
+        anchor = shotModel.anchor;
         w = shotModel.w;
         h = shotModel.h;
     }

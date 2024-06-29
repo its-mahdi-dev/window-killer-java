@@ -2,6 +2,7 @@ package gradle.model;
 
 import java.awt.geom.Point2D;
 import java.util.*;
+import java.awt.Component;
 import java.awt.event.*;
 import javax.swing.Timer;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
 import gradle.controller.Constants;
 import gradle.controller.Utils;
 import gradle.interfaces.Rotation;
-import gradle.view.GamePanel;
 
 public abstract class Model {
     private String Id;
@@ -31,6 +31,8 @@ public abstract class Model {
     public double speed = 0;
     public double max_speed;
     public double velocity;
+
+    public ArrayList<Component> currentPanels = new ArrayList<>();
 
     public Model() {
         Id = UUID.randomUUID().toString();
@@ -162,7 +164,7 @@ public abstract class Model {
         int[] newYpoints = new int[xPoints.length];
         for (int i = 0; i < xPoints.length; i++) {
             points[i] = Utils.getRelatedPoint(new Point2D.Double(xPoints[i], yPoints[i]),
-                    GamePanel.getINSTANCE());
+                    currentPanels.get(0));
             newXpoints[i] = (int) points[i].getX();
             newYpoints[i] = (int) points[i].getY();
         }
@@ -212,7 +214,10 @@ public abstract class Model {
     }
 
     public Point2D getPanelAnchor() {
-        return Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
+        if (currentPanels.size() > 0)
+            return Utils.getRelatedPoint(anchor, currentPanels.get(0));
+        else
+            return anchor;
     }
 
     public void setEnemyImpacts(double max_distance, double increaseSpeed) {

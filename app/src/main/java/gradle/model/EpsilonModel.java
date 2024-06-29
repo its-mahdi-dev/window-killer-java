@@ -30,7 +30,7 @@ public class EpsilonModel extends Model implements Entity {
     }
 
     public void init() {
-        anchor = new Point2D.Double(700, 500);
+        anchor = new Point2D.Double(300, 300);
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity * 2 / 10.0;

@@ -140,26 +140,27 @@ public class EnemyController {
     }
 
     public static void createEnemyWaves(int number) {
+        System.out.println("number: " + number);
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;Random rand = new Random();
-
+        
         for (int i = 0; i < squareEnemies; i++) {
 
-            int x1 = rand.nextInt(GamePanel.getINSTANCE().getX()) + GamePanel.getINSTANCE().getWidth();
-            int y1 = GamePanel.getINSTANCE().getY() + GamePanel.getINSTANCE().getHeight()
+            int x1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getX()) + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth();
+            int y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY() + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()
                     + Constants.ENEMY_SQUARE_DIAMETER;
             if (i % 2 == 0) {
-                y1 = GamePanel.getINSTANCE().getY() - Constants.ENEMY_SQUARE_DIAMETER;
+                y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY() - Constants.ENEMY_SQUARE_DIAMETER;
             }
             EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.square);
         }
 
         for (int i = 0; i < triangleEnemies; i++) {
-            int y1 = rand.nextInt(GamePanel.getINSTANCE().getY()) + GamePanel.getINSTANCE().getHeight();
-            int x1 = GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth()
+            int y1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getY()) + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight();
+            int x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX() + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()
                     + Constants.ENEMY_TRIANGLE_DIAMETER;
             if (i % 2 == 0)
-                x1 = GamePanel.getINSTANCE().getX() - Constants.ENEMY_TRIANGLE_DIAMETER;
+                x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX() - Constants.ENEMY_TRIANGLE_DIAMETER;
 
             EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.triangle);
         }

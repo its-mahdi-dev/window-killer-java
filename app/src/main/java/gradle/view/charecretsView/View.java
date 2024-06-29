@@ -1,5 +1,6 @@
 package gradle.view.charecretsView;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.*;
@@ -15,6 +16,7 @@ public abstract class View {
     public int h;
     public int[] xPoints;
     public int[] yPoints;
+    public ArrayList<Component> currentPanels = new ArrayList<>();
 
     public int HP;
 
@@ -52,7 +54,7 @@ public abstract class View {
         anchor = Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
     }
 
-    public abstract void draw(Graphics g);
+    public abstract void draw(Graphics g , Component component);
 
     public abstract void setUtil(Model model);
 

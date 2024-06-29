@@ -1,10 +1,13 @@
 package gradle.view.charecretsView;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import gradle.controller.Utils;
 import gradle.model.Model;
 
 public class EpsilonVertexView extends View {
@@ -17,7 +20,7 @@ public class EpsilonVertexView extends View {
 
     @Override
     public void setUtil(Model epsilonModel) {
-        anchor = epsilonModel.getPanelAnchor();
+        anchor = epsilonModel.anchor;
         w = epsilonModel.w;
         h = epsilonModel.h;
     }
@@ -41,10 +44,11 @@ public class EpsilonVertexView extends View {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g , Component component) {
+        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         g.setColor(Color.RED);
-        int x = (int) anchor.getX() - w / 2;
-        int y = (int) anchor.getY() - w / 2;
+        int x = (int) newAnchor.getX() - w / 2;
+        int y = (int) newAnchor.getY() - w / 2;
         g.fillOval(x, y, w,
                 w);
     }

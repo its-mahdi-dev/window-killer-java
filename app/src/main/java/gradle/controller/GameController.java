@@ -60,7 +60,7 @@ public class GameController {
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(100, 100);
         // panel2.setSize(new Dimension(500, 500));
-        panel2.setLocation(300,100);
+        panel2.setLocation(300,150);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         panel1.repaint();
         panel2.repaint();

@@ -1,7 +1,7 @@
 package gradle.controller;
 
 import java.awt.geom.Point2D;
-
+import java.util.ArrayList;
 import java.awt.Polygon;
 
 import gradle.model.EnemyModel;
@@ -16,24 +16,41 @@ public class ShotController {
         int dy = 0;
         int dw = 0;
         int dh = 0;
-        if (shotModel.getPanelAnchor().getX() <= 0) {
+        ArrayList<GamePanel> currentPanels = EpsilonModel.getINSTANCE().currentPanels;
+        int maxY = currentPanels.get(0).getY() + currentPanels.get(0).getHeight();
+        int maxX = currentPanels.get(0).getX() + currentPanels.get(0).getWidth();
+        int minX = currentPanels.get(0).getX();
+        int minY = currentPanels.get(0).getY();
+        for (GamePanel panel : currentPanels) {
+            int panelY = panel.getY();
+            int panelX = panel.getX();
+            if (panelY < minY)
+                minY = panelY;
+            if (panelX < minX)
+                minX = panelX;
+            if (panelY + panel.getHeight() > maxY)
+                maxY = panelY + panel.getHeight();
+            if (panelX + panel.getWidth() > maxX)
+                maxX = panelX + panel.getWidth();
+        }
+        if (shotModel.anchor.getX() <= minX) {
             dx = -1;
             dw = 1;
-        } else if (shotModel.getPanelAnchor().getX() > EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()) {
+        } else if (shotModel.anchor.getX() > maxX) {
             dw = 1;
             dx = 1;
-        } else if (shotModel.getPanelAnchor().getY() > EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()) {
+        } else if (shotModel.anchor.getY() > maxY) {
             dh = 1;
             dy = 1;
-        } else if (shotModel.getPanelAnchor().getY() < 0) {
+        } else if (shotModel.anchor.getY() < minY) {
             dy = -1;
             dh = 1;
         }
         if (dx != 0 || dy != 0)
             EpsilonModel.getINSTANCE().currentPanels.get(0).location = new Point2D.Double(dx, dy);
-
         if (dh != 0 || dw != 0)
             EpsilonModel.getINSTANCE().currentPanels.get(0).size = new Point2D.Double(dw, dh);
+
         if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
             remove(shotModel.getId());
             EpsilonModel.getINSTANCE().currentPanels.get(0).setChanging();

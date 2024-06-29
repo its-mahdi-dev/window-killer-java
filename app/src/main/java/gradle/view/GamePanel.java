@@ -126,4 +126,5 @@ public class GamePanel extends JPanel {
         speed = Constants.CHANGE_FRAME_SPEED * 2.5;
     }
 
+
 }

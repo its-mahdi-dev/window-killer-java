@@ -1,6 +1,7 @@
 package gradle.threads;
 
 import gradle.controller.Constants;
+import gradle.model.EpsilonModel;
 import gradle.view.GamePanel;
 
 public class GamePanelThread implements Runnable {
@@ -15,12 +16,13 @@ public class GamePanelThread implements Runnable {
     public void run() {
         while (running) {
             long startTime = System.nanoTime();
-            
+
             gamePanel.repaint();
-            gamePanel.changeSize();
+            if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1)
+                gamePanel.changeSize();
 
             long elapsedTime = System.nanoTime() - startTime;
-            long sleepTime = ((long)Constants.FRAME_UPDATE_TIME * 1_000_000L - elapsedTime) / 1_000_000L;
+            long sleepTime = ((long) Constants.FRAME_UPDATE_TIME * 1_000_000L - elapsedTime) / 1_000_000L;
 
             if (sleepTime > 0) {
                 try {

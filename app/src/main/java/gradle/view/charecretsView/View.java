@@ -16,7 +16,7 @@ public abstract class View {
     public int h;
     public int[] xPoints;
     public int[] yPoints;
-    public ArrayList<Component> currentPanels = new ArrayList<>();
+    public ArrayList<GamePanel> currentPanels = new ArrayList<>();
 
     public int HP;
 
@@ -50,9 +50,6 @@ public abstract class View {
         return null;
     }
 
-    public void serRelativeAnchor(Point2D point2d) {
-        anchor = Utils.getRelatedPoint(anchor, GamePanel.getINSTANCE());
-    }
 
     public abstract void draw(Graphics g , Component component);
 

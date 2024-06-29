@@ -67,15 +67,17 @@ public class Update {
 
         NavbarView.getINSTANCE().setUtil();
         // GameFrame.getINSTANCE().repaint();
-        for (GamePanel gamePanel : Panels.getINSTANCE().getPanels()) {
-            gamePanel.repaint();
-            gamePanel.changeSize();
-        }
+        // for (GamePanel gamePanel : Panels.getINSTANCE().getPanels()) {
+        // gamePanel.repaint();
+        // gamePanel.changeSize();
+        // }
         // StorePanel.getINSTANCE().showOrHidePanel();
         // if (GameSettings.isStore)
         // StorePanel.getINSTANCE().repaint();
         // if (!GameSettings.isPause)
         // GamePanel.getINSTANCE().changeSize();
+        Panels.getINSTANCE().repaint();
+        GameFrame.getINSTANCE().repaint();
         fpsCount++;
     }
 

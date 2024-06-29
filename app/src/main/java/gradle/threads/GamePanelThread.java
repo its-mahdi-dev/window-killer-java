@@ -17,6 +17,7 @@ public class GamePanelThread implements Runnable {
             long startTime = System.nanoTime();
             
             gamePanel.repaint();
+            gamePanel.changeSize();
 
             long elapsedTime = System.nanoTime() - startTime;
             long sleepTime = ((long)Constants.FRAME_UPDATE_TIME * 1_000_000L - elapsedTime) / 1_000_000L;

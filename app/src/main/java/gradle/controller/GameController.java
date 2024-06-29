@@ -2,6 +2,7 @@ package gradle.controller;
 
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.threads.GamePanelThread;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.MainPanel;
@@ -28,7 +29,7 @@ public class GameController {
     static final javax.swing.Timer winTimer = new javax.swing.Timer(10, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (EpsilonModel.getINSTANCE().w < GamePanel.getINSTANCE().getWidth()) {
+            if (EpsilonModel.getINSTANCE().w < EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()) {
                 EpsilonModel.getINSTANCE().w += 2;
                 EpsilonModel.getINSTANCE().h += 2;
             } else {
@@ -53,17 +54,20 @@ public class GameController {
         // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
         // GamePanel.getINSTANCE();
 
-        GameFrame.getINSTANCE().add(GamePanel.getINSTANCE());
         StorePanel.getINSTANCE();
         GamePanel panel1 = new GamePanel();
         GamePanel panel2 = new GamePanel();
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(100, 100);
-        panel2.setSize(new Dimension(500, 500));
-        // panel2.setLocation(700,200);
+        // panel2.setSize(new Dimension(500, 500));
+        panel2.setLocation(700,200);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         panel1.repaint();
         panel2.repaint();
+        Thread threadPanel1 = new Thread(new GamePanelThread(panel1));
+        Thread threadPanel2 = new Thread(new GamePanelThread(panel2));
+        threadPanel1.start();
+        threadPanel2.start();
         Panels.getINSTANCE();
         Panels.getINSTANCE().addPanel(panel1);
         Panels.getINSTANCE().addPanel(panel2);
@@ -72,7 +76,7 @@ public class GameController {
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
-        createWave();
+        // createWave();
 
         System.out.println(EnemyModel.items.size());
         Update.timer1.start();
@@ -138,8 +142,8 @@ public class GameController {
     private static void win() {
         Utils.playMusic("win", false);
         EpsilonModel.getINSTANCE().anchor = new Point2D.Double(
-                GamePanel.getINSTANCE().getX() + GamePanel.getINSTANCE().getWidth() / 2,
-                GamePanel.getINSTANCE().getY() + GamePanel.getINSTANCE().getHeight() / 2);
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getX() + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getY() + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() / 2);
         winTimer.start();
     }
 
@@ -170,7 +174,7 @@ public class GameController {
         Update.timer1.stop();
         Update.timer2.stop();
         MainPanel.getINSTANCE().add(SettingsPanel.getINSTANCE());
-        GameFrame.getINSTANCE().remove(GamePanel.getINSTANCE());
+        GameFrame.getINSTANCE().remove(Panels.getINSTANCE());
         GameFrame.getINSTANCE().remove(StorePanel.getINSTANCE());
 
         JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/data.json");

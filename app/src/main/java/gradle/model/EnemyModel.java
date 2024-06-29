@@ -24,7 +24,6 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     }
 
     public static EnemyModel create(Point2D anchor, EnemyType enemyType) {
-        System.out.println("creared");
         EnemyModel enemyModel;
         EnemyView enemyView;
         if (EnemyModel.removedItems.size() > 0) {

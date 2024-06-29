@@ -33,6 +33,7 @@ public class ShotModel extends Model {
         shotModel.max_speed = Constants.SHOT_SPEED;
 
         shotModel.anchor = EpsilonModel.getINSTANCE().anchor;
+        shotModel.currentPanels = EpsilonModel.getINSTANCE().currentPanels;
         shotView.addItem(shotView);
         shotModel.addItem(shotModel);
         shotView.setUtil(shotModel);

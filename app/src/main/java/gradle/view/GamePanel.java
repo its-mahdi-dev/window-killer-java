@@ -28,13 +28,12 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         setOpaque(true);
-        setBackground(new Color(0, 0, 0, 210));
+        setBackground(new Color(0, 0, 0, 255));
         setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.cyan),
                 BorderFactory.createEmptyBorder(2, 2, 2, 2)));
         setSize(Constants.GAME_FRAME_DIMENSION);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
-        this.addKeyListener(new KeyController());
         setLayout(null);
     }
 
@@ -42,11 +41,11 @@ public class GamePanel extends JPanel {
         setLocation(gameFrame.getWidth() / 2 - getWidth() / 2, gameFrame.getHeight() / 2 - getHeight() / 2);
     }
 
-    public static GamePanel getINSTANCE() {
-        if (INSTANCE == null)
-            INSTANCE = new GamePanel();
-        return INSTANCE;
-    }
+    // public static GamePanel getINSTANCE() {
+    //     if (INSTANCE == null)
+    //         INSTANCE = new GamePanel();
+    //     return INSTANCE;
+    // }
 
     @Override
     protected void paintComponent(Graphics g) {

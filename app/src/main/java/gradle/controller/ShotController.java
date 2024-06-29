@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.Polygon;
 
 import gradle.model.EnemyModel;
+import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.ShotView;
@@ -18,10 +19,10 @@ public class ShotController {
         if (shotModel.getPanelAnchor().getX() <= 0) {
             dx = -1;
             dw = 1;
-        } else if (shotModel.getPanelAnchor().getX() > GamePanel.getINSTANCE().getWidth()) {
+        } else if (shotModel.getPanelAnchor().getX() > EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()) {
             dw = 1;
             dx = 1;
-        } else if (shotModel.getPanelAnchor().getY() > GamePanel.getINSTANCE().getHeight()) {
+        } else if (shotModel.getPanelAnchor().getY() > EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()) {
             dh = 1;
             dy = 1;
         } else if (shotModel.getPanelAnchor().getY() < 0) {
@@ -29,13 +30,13 @@ public class ShotController {
             dh = 1;
         }
         if (dx != 0 || dy != 0)
-            GamePanel.getINSTANCE().location = new Point2D.Double(dx, dy);
+            EpsilonModel.getINSTANCE().currentPanels.get(0).location = new Point2D.Double(dx, dy);
 
         if (dh != 0 || dw != 0)
-            GamePanel.getINSTANCE().size = new Point2D.Double(dw, dh);
+            EpsilonModel.getINSTANCE().currentPanels.get(0).size = new Point2D.Double(dw, dh);
         if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
             remove(shotModel.getId());
-            GamePanel.getINSTANCE().setChanging();
+            EpsilonModel.getINSTANCE().currentPanels.get(0).setChanging();
         }
 
     }

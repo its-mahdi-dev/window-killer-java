@@ -115,7 +115,7 @@ public class EpsilonController {
                     epsilonModel.setImpact(new Point2D.Double(1, 0), false);
             }
         }
-        if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > GamePanel.getINSTANCE().getWidth()) {
+        if (epsilonModel.getPanelAnchor().getX() + epsilonModel.w / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()) {
             if (epsilonModel.direction.getX() >= 0) {
                 if (epsilonModel.isMoving)
                     epsilonModel.setImpact(new Point2D.Double(-1, 1), false);
@@ -131,7 +131,7 @@ public class EpsilonController {
                     epsilonModel.setImpact(new Point2D.Double(0, 1), false);
             }
         }
-        if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > GamePanel.getINSTANCE().getHeight()) {
+        if (epsilonModel.getPanelAnchor().getY() + epsilonModel.h / 2 > EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()) {
             if (epsilonModel.direction.getY() >= 0) {
                 if (epsilonModel.isMoving)
                     epsilonModel.setImpact(new Point2D.Double(1, -1), false);

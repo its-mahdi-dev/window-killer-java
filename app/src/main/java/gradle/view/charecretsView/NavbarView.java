@@ -37,7 +37,7 @@ public class NavbarView {
 
         g.setFont(new Font("Consolas", Font.PLAIN, 20));
         g.setColor(new Color(0, 255, 255, 70));
-        g.fillRect(0, GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT, GamePanel.getINSTANCE().getWidth(),
+        g.fillRect(0, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT, EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth(),
                 Constants.NAVBAR_HEIGHT);
 
         g.setColor(Color.white);
@@ -46,56 +46,56 @@ public class NavbarView {
         FontMetrics fm = g.getFontMetrics();
         int textWidth = 10;
         String HP_text = "HP: ";
-        g.drawString(HP_text, textWidth, GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(HP_text, textWidth, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
 
         textWidth += fm.stringWidth(HP_text) + 10;
         g.setColor(Color.red);
         g.drawRect(textWidth,
-                GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, 100,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, 100,
                 Constants.NAVBAR_HEIGHT / 4);
         g.fillRect(textWidth,
-                GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, HP,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, HP,
                 Constants.NAVBAR_HEIGHT / 4);
         g.setColor(Color.white);
         g.setFont(new Font("Consolas", Font.PLAIN, 14));
         Image healthIcon = new ImageIcon("app/src/main/java/gradle/assets/icons/add-health.png").getImage();
-        g.drawImage(healthIcon, HP + textWidth - 13, GamePanel.getINSTANCE().getHeight() -
+        g.drawImage(healthIcon, HP + textWidth - 13, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() -
                 Constants.NAVBAR_HEIGHT, 26, 26,
                 null);
 
         g.setFont(new Font("Consolas", Font.PLAIN, 12));
         int HP_width = fm.stringWidth(String.valueOf(HP));
         g.drawString(String.valueOf(HP), HP + textWidth - HP_width / 2 + 2,
-                GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT + 13);
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT + 13);
         textWidth += 130;
         g.setFont(new Font("Consolas", Font.PLAIN, 18));
         g.setColor(Color.GREEN);
         String XP_text = "XP: " + String.valueOf(XP);
-        g.drawString(XP_text, textWidth + 20, GamePanel.getINSTANCE().getHeight() -
+        g.drawString(XP_text, textWidth + 20, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() -
                 Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(XP_text) + 30;
 
         g.setFont(new Font("Consolas", Font.PLAIN, 12));
         String k = "store: K";
-        g.drawString(k, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(k, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(k);
         String p = "pause: P";
-        g.drawString(p, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(p, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(p);
         String f = "ares: F";
-        g.drawString(f, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(f, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(f);
         String h = "aceso: H";
-        g.drawString(h, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(h, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(h);
         String j = "proteus: j";
-        g.drawString(j, textWidth,  GamePanel.getINSTANCE().getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(j, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(j);
     }
 
     public void draw(Graphics g) {
-        Point2D mousePoint = Utils.getRelatedPoint(MouseController.mousePos, GamePanel.getINSTANCE());
-        if (GamePanel.getINSTANCE().getHeight() - mousePoint.getY() < Constants.NAVBAR_HEIGHT) {
+        Point2D mousePoint = Utils.getRelatedPoint(MouseController.mousePos, EpsilonModel.getINSTANCE().currentPanels.get(0));
+        if (EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - mousePoint.getY() < Constants.NAVBAR_HEIGHT) {
             drawNavbar(g);
             mouseMovedTime = System.currentTimeMillis();
         } else if (System.currentTimeMillis() - mouseMovedTime < 2000)

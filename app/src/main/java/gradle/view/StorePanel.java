@@ -47,9 +47,9 @@ public class StorePanel extends JPanel {
                 BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
         setSize(new Dimension((int) Constants.STORE_PANEL_DIMENSION.getWidth(), 0));
-        setLocationToCenter(GamePanel.getINSTANCE());
+        setLocationToCenter(Panels.getINSTANCE());
         setFocusable(true);
-        this.addKeyListener(GamePanel.getINSTANCE().getKeyListeners()[0]);
+        this.addKeyListener(Panels.getINSTANCE().getKeyListeners()[0]);
         // setVisible(false);
         setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
@@ -57,7 +57,7 @@ public class StorePanel extends JPanel {
             add(createBoxPanel(i));
         }
 
-        GamePanel.getINSTANCE().add(this);
+        Panels.getINSTANCE().add(this);
     }
 
     private JPanel createBoxPanel(int boxIndex) {
@@ -159,11 +159,11 @@ public class StorePanel extends JPanel {
                 setSize(new Dimension(getWidth(), getHeight() - 15));
         }
 
-        setLocationToCenter(GamePanel.getINSTANCE());
+        setLocationToCenter(Panels.getINSTANCE());
 
     }
 
-    public void setLocationToCenter(GamePanel gamePanel) {
+    public void setLocationToCenter(Panels gamePanel) {
         setLocation(gamePanel.getWidth() / 2 - getWidth() / 2, gamePanel.getHeight() / 2 - getHeight() / 2);
     }
 

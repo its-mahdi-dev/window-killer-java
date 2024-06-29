@@ -25,6 +25,6 @@ public class App {
             GameFrame.getINSTANCE();
             MainPanel.getINSTANCE();
             GameFrame.getINSTANCE().repaint();
-        });
+        }); 
     }
 }

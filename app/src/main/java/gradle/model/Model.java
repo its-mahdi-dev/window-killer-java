@@ -10,6 +10,7 @@ import java.util.List;
 import gradle.controller.Constants;
 import gradle.controller.Utils;
 import gradle.interfaces.Rotation;
+import gradle.view.GamePanel;
 
 public abstract class Model {
     private String Id;
@@ -32,7 +33,7 @@ public abstract class Model {
     public double max_speed;
     public double velocity;
 
-    public ArrayList<Component> currentPanels = new ArrayList<>();
+    public ArrayList<GamePanel> currentPanels = new ArrayList<>();
 
     public Model() {
         Id = UUID.randomUUID().toString();

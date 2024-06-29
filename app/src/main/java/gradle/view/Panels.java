@@ -17,9 +17,10 @@ public class Panels extends JPanel {
 
     private Panels() {
         setOpaque(true);
-        setBackground(new Color(0, 0, 0, 50));
+        setBackground(new Color(0, 0, 0, 0));
         // setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.cyan),
         // BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        // setBackground(Color.red);
         setSize(Constants.GAME_FRAME_DIMENSION);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
@@ -42,6 +43,9 @@ public class Panels extends JPanel {
         this.add(gamePanel);
     }
 
-    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
 
 }

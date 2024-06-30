@@ -101,8 +101,6 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             enemyModel.h = Constants.ENEMY_OMENOCT_DIAMETER;
             double[] xPointsO = new double[8];
             double[] yPointsO = new double[8];
-
-            // Calculate the coordinates of the octagon's vertices with rotation
             for (int i = 0; i < 8; i++) {
                 double angle = 2 * Math.PI * i / 8 + rotationAngle;
                 xPointsO[i] = x + enemyModel.w * Math.cos(angle);

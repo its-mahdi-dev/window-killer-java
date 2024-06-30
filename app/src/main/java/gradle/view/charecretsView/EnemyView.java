@@ -52,6 +52,8 @@ public class EnemyView extends View {
                 fillTriangle(g2d, (int) newAnchor.getX(), (int) newAnchor.getY(), newXpoints[i], newYpoints[i],
                         newXpoints[(i + 1) % 8], newYpoints[(i + 1) % 8]);
             }
+            g2d.setColor(Color.green);
+            g2d.drawLine((int)newAnchor.getX(),(int)newAnchor.getY() ,(int)newAnchor.getX() + w, (int)newAnchor.getY() + h);
         }
 
         int centerX = 0;

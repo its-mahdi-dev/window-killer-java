@@ -26,11 +26,15 @@ public class EnemyController implements UPSController {
             removedEnemies = new ArrayList<>();
             for (Model model : EnemyModel.items) {
                 EnemyModel enemyModel = (EnemyModel) model;
-                enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                        EpsilonModel.getINSTANCE().anchor));
-                
-                enemyModel.move();
 
+                Point2D direction = Utils.getDirection(enemyModel.anchor,
+                        EpsilonModel.getINSTANCE().anchor);
+                if (enemyModel.type == EnemyType.omenoct)
+                    checkOmenoctMove(enemyModel, direction);
+                else
+                    enemyModel.setDirection(direction);
+
+                enemyModel.move();
                 setPoints(enemyModel);
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
@@ -48,6 +52,88 @@ public class EnemyController implements UPSController {
                     enemyView.setUtil(enemyModel);
             }
         }
+    }
+
+    public static void checkOmenoctMove(EnemyModel enemyModel, Point2D direction) {
+        GamePanel currentPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
+        int x1, x2, y1, y2 = 0;
+        int enemyPosition = 0;
+        if (enemyModel.anchor.getX() >= currentPanel.getX()
+                && enemyModel.anchor.getX() <= currentPanel.getX() + currentPanel.getWidth()) {
+            x1 = currentPanel.getX();
+            x2 = x1 + currentPanel.getWidth();
+            if (enemyModel.anchor.getY() < currentPanel.getY()) {
+                y1 = currentPanel.getY();
+                y2 = currentPanel.getY();
+                enemyPosition = 1;
+            } else {
+                y1 = currentPanel.getY() + currentPanel.getHeight();
+                y2 = currentPanel.getY() + currentPanel.getHeight();
+                enemyPosition = 3;
+            }
+        } else {
+            y1 = currentPanel.getY();
+            x2 = y1 + currentPanel.getHeight();
+            if (enemyModel.anchor.getX() < currentPanel.getX()) {
+                x1 = currentPanel.getX();
+                x2 = currentPanel.getX();
+                enemyPosition = 4;
+            } else {
+                x1 = currentPanel.getX() + currentPanel.getWidth();
+                x2 = currentPanel.getX() + currentPanel.getWidth();
+                enemyPosition = 2;
+            }
+        }
+        boolean ableMove = true;
+        switch (enemyPosition) {
+            case 1:
+                if (enemyModel.anchor.getY() + enemyModel.h >= currentPanel.getY())
+                    ableMove = false;
+                break;
+            case 2:
+                if (enemyModel.anchor.getX() - enemyModel.w <= currentPanel.getX() + currentPanel.getWidth())
+                    ableMove = false;
+                break;
+            case 3:
+                if (enemyModel.anchor.getY() - enemyModel.h <= currentPanel.getY() + currentPanel.getHeight())
+                    ableMove = false;
+                break;
+            case 4:
+                if (enemyModel.anchor.getX() + enemyModel.h >= currentPanel.getX())
+                    ableMove = false;
+                break;
+            default:
+                break;
+        }
+        Point2D newDirection = direction;
+        if (!ableMove)
+            newDirection = new Point2D.Double(0, 0);
+
+        if (!ableMove && (enemyModel.anchor.getX() + enemyModel.w > currentPanel.getX() + 5) &&
+                (enemyModel.anchor.getX() - enemyModel.w + 5 < currentPanel.getX() + currentPanel.getWidth()) &&
+                (enemyModel.anchor.getY() + enemyModel.h > currentPanel.getY() + 5) &&
+                (enemyModel.anchor.getY() - enemyModel.h + 5 < currentPanel.getY() + currentPanel.getHeight())) {
+
+            // System.out.println(
+            // (enemyModel.anchor.getX() - enemyModel.w) + " " + (currentPanel.getX() +
+            // currentPanel.getWidth()));
+            if (enemyModel.anchor.getX() + enemyModel.w > currentPanel.getX()
+                    && enemyModel.anchor.getX() < currentPanel.getX() + currentPanel.getWidth() / 2)
+                newDirection = new Point2D.Double(-1, 0);
+            else if (enemyModel.anchor.getX() - enemyModel.w < currentPanel.getX() +
+                    currentPanel.getWidth()
+                    && enemyModel.anchor.getX() > currentPanel.getX() + currentPanel.getWidth() / 2)
+                newDirection = new Point2D.Double(1, 0);
+            else if (enemyModel.anchor.getY() + enemyModel.h > currentPanel.getY()
+                    && enemyModel.anchor.getY() < currentPanel.getY() + currentPanel.getHeight() / 2)
+                newDirection = new Point2D.Double(0, -1);
+            else if (enemyModel.anchor.getY() - enemyModel.h < currentPanel.getY() +
+                    currentPanel.getHeight()
+                    && enemyModel.anchor.getY() > currentPanel.getY() + currentPanel.getHeight() / 2)
+                newDirection = new Point2D.Double(0, 1);
+        }
+        enemyModel.setDirection(newDirection);
+
     }
 
     public static void setPoints(EnemyModel enemyModel) {

@@ -80,8 +80,11 @@ public class GameController implements UPSController {
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(100, 100);
         // panel2.setSize(new Dimension(500, 500));
-        panel2.setLocation(300, 150);
+        panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
+        EpsilonModel.getINSTANCE();
+        EpsilonModel.getINSTANCE().currentPanels.add(panel1);
+        EpsilonModel.getINSTANCE().init();
         panel1.repaint();
         panel2.repaint();
         Thread threadPanel1 = new Thread(new GamePanelThread(panel1));
@@ -93,15 +96,10 @@ public class GameController implements UPSController {
         Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        EpsilonModel.getINSTANCE();
-        EpsilonModel.getINSTANCE().currentPanels.add(panel1);
-        EpsilonModel.getINSTANCE().init();
         // createWave();
-        EnemyController.isCreating = true;
-        EnemyModel.create(new Point2D.Double(600, 200), EnemyType.omenoct);
+        EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.omenoct);
         EnemyController.isCreating = false;
 
-        System.out.println(EnemyModel.items.size());
         Update.timer1.start();
         Update.timer2.start();
         startUPS();

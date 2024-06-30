@@ -23,6 +23,7 @@ import gradle.view.charecretsView.EpsilonView;
 
 public class EpsilonController implements UPSController {
 
+    public static boolean isCreating = true;
     public static final Map<String, Boolean> pressed = new HashMap<>();
     static {
         pressed.put("up", false);
@@ -167,8 +168,6 @@ public class EpsilonController implements UPSController {
         }
     }
 
-   
-
     public static void updateVertextAnchor() {
         EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         for (Model vertex : EpsilonVertexModel.items) {
@@ -185,8 +184,6 @@ public class EpsilonController implements UPSController {
             vertex.anchor = new Point2D.Double(x, y);
         }
     }
-
-    
 
     public static void setCurrentPanel() {
         HashSet<GamePanel> currentGamePanels = new HashSet<>();

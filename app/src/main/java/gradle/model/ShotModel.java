@@ -6,6 +6,7 @@ import java.util.List;
 import gradle.controller.Constants;
 import gradle.view.Panels;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 
 public class ShotModel extends Model {
@@ -14,6 +15,8 @@ public class ShotModel extends Model {
 
     public ShotModel() {
     }
+
+    
 
     public static ShotModel create() {
         ShotModel shotModel;

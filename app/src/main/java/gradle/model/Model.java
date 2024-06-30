@@ -5,7 +5,6 @@ import java.util.*;
 import java.awt.Component;
 import java.awt.event.*;
 import javax.swing.Timer;
-import java.util.List;
 
 import gradle.controller.Constants;
 import gradle.controller.Utils;
@@ -103,6 +102,16 @@ public abstract class Model {
                     (y + d * Math.sin(angle - Math.PI * 2 / 3)),
                     (y + d * Math.sin(angle + Math.PI * 2 / 3))
             };
+        } else if (xPoints.length == 8) {
+            double[] xPointsO = new double[8];
+            double[] yPointsO = new double[8];
+            for (int i = 0; i < 8; i++) {
+                double newAngle = 2 * Math.PI * i / 8 + angle;
+                xPointsO[i] = x + w * Math.cos(newAngle);
+                yPointsO[i] = y + h * Math.sin(newAngle);
+            }
+            xPoints = xPointsO;
+            yPoints = yPointsO;
         }
     }
 

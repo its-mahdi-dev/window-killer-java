@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
         setBackground(new Color(0, 0, 0, 255));
         setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.cyan),
                 BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        setSize(Constants.GAME_FRAME_DIMENSION);
+        setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         setLayout(null);

@@ -2,6 +2,7 @@ package gradle.controller;
 
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
+import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -40,7 +41,7 @@ public class GameController implements UPSController {
         StorePanel.getINSTANCE().showOrHidePanel();
         if (GameSettings.isStore)
             StorePanel.getINSTANCE().repaint();
-        Panels.getINSTANCE().repaint();
+        // Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().repaint();
     }
 
@@ -95,7 +96,10 @@ public class GameController implements UPSController {
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
-        createWave();
+        // createWave();
+        EnemyController.isCreating = true;
+        EnemyModel.create(new Point2D.Double(600, 200), EnemyType.omenoct);
+        EnemyController.isCreating = false;
 
         System.out.println(EnemyModel.items.size());
         Update.timer1.start();

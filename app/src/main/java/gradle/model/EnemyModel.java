@@ -18,6 +18,12 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     public int power;
     public int collectibleXP;
     private int collectibleCount;
+    public Map<String, Integer> attacks = new HashMap<>();
+    {
+        attacks.put("melee", 0);
+        attacks.put("ranged", 0);
+        attacks.put("aoe", 0);
+    }
 
     public EnemyModel(Point2D anchor, EnemyType enemyType) {
 
@@ -65,6 +71,7 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
                     (y + enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle)),
                     (y - enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle))
             };
+            enemyModel.attacks.replace("melee", 6);
         } else if (enemyModel.type == EnemyType.triangle) {
             enemyModel.collectibleCount = 2;
             enemyModel.collectibleXP = 5;
@@ -83,6 +90,29 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
                     (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
                     (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
             };
+
+            enemyModel.attacks.replace("melee", 10);
+        } else if (enemyModel.type == EnemyType.omenoct) {
+            enemyModel.collectibleCount = 8;
+            enemyModel.collectibleXP = 4;
+            enemyModel.HP = 20;
+            enemyModel.power = 8;
+            enemyModel.w = Constants.ENEMY_OMENOCT_DIAMETER;
+            enemyModel.h = Constants.ENEMY_OMENOCT_DIAMETER;
+            double[] xPointsO = new double[8];
+            double[] yPointsO = new double[8];
+
+            // Calculate the coordinates of the octagon's vertices with rotation
+            for (int i = 0; i < 8; i++) {
+                double angle = 2 * Math.PI * i / 8 + rotationAngle;
+                xPointsO[i] = x + enemyModel.w * Math.cos(angle);
+                yPointsO[i] = y + enemyModel.h * Math.sin(angle);
+            }
+            enemyModel.xPoints = xPointsO;
+            enemyModel.yPoints = yPointsO;
+
+            enemyModel.attacks.replace("melee", 8);
+            enemyModel.attacks.replace("ranged", 4);
         }
 
         enemyModel.addItem(enemyModel);
@@ -112,14 +142,35 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             num = 4;
         else if (type == EnemyType.triangle)
             num = 3;
+        else if (type == EnemyType.omenoct)
+            num = 8;
         return num;
     }
 
     @Override
     public void setCollectible() {
+        int max = 200;
+        int min = 50;
+        int range = max - min + 1;
         for (int i = 0; i < collectibleCount; i++) {
-            CollectibleModel.create(type, collectibleXP, new Point2D.Double(anchor.getX() + (Math.pow(-1, i) * i * 20),
-                    anchor.getY() + (Math.pow(-1, i) * i * 20)));
+            CollectibleModel.create(type, collectibleXP,
+                    new Point2D.Double(anchor.getX() + generateRandomDouble(),
+                            anchor.getY() + generateRandomDouble()));
+        }
+    }
+
+    public static double generateRandomDouble() {
+
+        Random random = new Random();
+        // Generate a random number to decide the range
+        boolean isNegative = random.nextBoolean();
+
+        if (isNegative) {
+            // Generate a number between -100 and -20
+            return -20 - (random.nextDouble() * (100 - 20));
+        } else {
+            // Generate a number between 20 and 100
+            return 20 + (random.nextDouble() * (100 - 20));
         }
     }
 

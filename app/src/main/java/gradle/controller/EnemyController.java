@@ -28,13 +28,12 @@ public class EnemyController implements UPSController {
                 EnemyModel enemyModel = (EnemyModel) model;
                 enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
                         EpsilonModel.getINSTANCE().anchor));
-
+                
                 enemyModel.move();
 
                 setPoints(enemyModel);
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
-
             }
 
             for (EnemyModel enemyModel : removedEnemies) {
@@ -151,7 +150,6 @@ public class EnemyController implements UPSController {
     }
 
     public static void createEnemyWaves(int number) {
-        System.out.println("number: " + number);
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;
         Random rand = new Random();

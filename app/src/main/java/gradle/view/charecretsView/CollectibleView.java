@@ -28,6 +28,8 @@ public class CollectibleView extends View {
             g.setColor(Color.green);
         else if (enemyType == EnemyType.triangle)
             g.setColor(Color.yellow);
+        else if (enemyType == EnemyType.omenoct)
+            g.setColor(Color.red);
         int x = (int) newAnchor.getX() - w / 2;
         int y = (int) newAnchor.getY() - h / 2;
         g.fillOval(x, y, w, h);

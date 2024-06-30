@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.RenderingHints;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 
@@ -31,6 +34,7 @@ public class EnemyView extends View {
     @Override
     public void draw(Graphics g, Component component) {
         Map<String, int[]> points = Utils.getPanelPoints(xPoints, yPoints, component);
+        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         int[] newXpoints = points.get("xPoints");
         int[] newYpoints = points.get("yPoints");
         Graphics2D g2d = (Graphics2D) g;
@@ -41,6 +45,13 @@ public class EnemyView extends View {
         } else if (type == EnemyType.triangle) {
             g2d.setColor(Color.YELLOW);
             g2d.drawPolygon(newXpoints, newYpoints, 3);
+        } else if (type == EnemyType.omenoct) {
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            for (int i = 0; i < 8; i++) {
+                g2d.setColor(i % 2 == 0 ? Color.RED : Color.WHITE);
+                fillTriangle(g2d, (int) newAnchor.getX(), (int) newAnchor.getY(), newXpoints[i], newYpoints[i],
+                        newXpoints[(i + 1) % 8], newYpoints[(i + 1) % 8]);
+            }
         }
 
         int centerX = 0;
@@ -73,6 +84,15 @@ public class EnemyView extends View {
             g2d.fillOval(cenX, cenY, 4, 4);
         }
 
+    }
+
+    private void fillTriangle(Graphics2D g2d, int x1, int y1, int x2, int y2, int x3, int y3) {
+        Path2D triangle = new Path2D.Double();
+        triangle.moveTo(x1, y1);
+        triangle.lineTo(x2, y2);
+        triangle.lineTo(x3, y3);
+        triangle.closePath();
+        g2d.fill(triangle);
     }
 
     @Override

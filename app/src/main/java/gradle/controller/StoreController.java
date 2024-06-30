@@ -1,9 +1,10 @@
 package gradle.controller;
 
+import gradle.interfaces.UPSController;
 import gradle.model.EpsilonModel;
 import gradle.view.StorePanel;
 
-public class StoreController {
+public class StoreController implements UPSController {
 
     public static double shotTime = System.currentTimeMillis();
     public static int shotsNumber = 1;
@@ -42,7 +43,8 @@ public class StoreController {
         EpsilonModel.getINSTANCE().setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 10, 1.4);
     }
 
-    public static void checkItemsTimes() {
+    @Override
+    public void check() {
         if (System.currentTimeMillis() - shotTime > 10000) {
             shotsNumber = 1;
         }

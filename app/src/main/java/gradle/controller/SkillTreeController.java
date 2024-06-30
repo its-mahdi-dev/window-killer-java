@@ -6,14 +6,15 @@ import javax.swing.Timer;
 
 import org.json.simple.JSONObject;
 
+import gradle.interfaces.UPSController;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
-public class SkillTreeController {
+
+public class SkillTreeController implements UPSController {
     public static final Map<String, Long> skillsTime = new HashMap<>();
     public static final Map<String, Boolean> skills = new HashMap<>();
     public static int enemy_hp_decrease;
     public static int epsilon_hp_increase;
-    
 
     public static final long MIN_SKILL_TIME = 5 * 60000;
 
@@ -65,8 +66,8 @@ public class SkillTreeController {
         }
     }
 
-    public static void checkSkillsTime() {
-
+    @Override
+    public void check() {
     }
 
     public static boolean buySkill(int xp) {

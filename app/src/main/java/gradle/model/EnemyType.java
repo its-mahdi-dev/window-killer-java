@@ -1,5 +1,5 @@
 package gradle.model;
 
 public enum EnemyType {
-    square, triangle
+    square, triangle, octagon
 }

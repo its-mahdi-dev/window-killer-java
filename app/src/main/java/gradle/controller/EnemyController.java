@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
@@ -14,30 +15,32 @@ import gradle.model.Model;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
-public class EnemyController {
+public class EnemyController implements UPSController {
 
     static List<EnemyModel> removedEnemies = new ArrayList<>();
     public static boolean isCreating = true;
 
-    public static void checkCollision() {
-        removedEnemies = new ArrayList<>();
-        for (Model model : EnemyModel.items) {
-            EnemyModel enemyModel = (EnemyModel) model;
-            enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                    EpsilonModel.getINSTANCE().anchor));
+    @Override
+    public void check() {
+        if (!isCreating) {
+            removedEnemies = new ArrayList<>();
+            for (Model model : EnemyModel.items) {
+                EnemyModel enemyModel = (EnemyModel) model;
+                enemyModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                        EpsilonModel.getINSTANCE().anchor));
 
-            enemyModel.move();
+                enemyModel.move();
 
-            setPoints(enemyModel);
-            checkEnemyCollision(enemyModel);
-            checkEpsilonColision(enemyModel);
+                setPoints(enemyModel);
+                checkEnemyCollision(enemyModel);
+                checkEpsilonColision(enemyModel);
 
+            }
+
+            for (EnemyModel enemyModel : removedEnemies) {
+                remove(enemyModel.getId());
+            }
         }
-
-        for (EnemyModel enemyModel : removedEnemies) {
-            remove(enemyModel.getId());
-        }
-
     }
 
     public static void setPoints(EnemyModel enemyModel) {
@@ -142,12 +145,15 @@ public class EnemyController {
     public static void createEnemyWaves(int number) {
         System.out.println("number: " + number);
         int squareEnemies = number / 2;
-        int triangleEnemies = number - squareEnemies;Random rand = new Random();
-        
+        int triangleEnemies = number - squareEnemies;
+        Random rand = new Random();
+
         for (int i = 0; i < squareEnemies; i++) {
 
-            int x1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getX()) + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth();
-            int y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY() + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()
+            int x1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getX())
+                    + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth();
+            int y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
+                    + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()
                     + Constants.ENEMY_SQUARE_DIAMETER;
             if (i % 2 == 0) {
                 y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY() - Constants.ENEMY_SQUARE_DIAMETER;
@@ -156,8 +162,10 @@ public class EnemyController {
         }
 
         for (int i = 0; i < triangleEnemies; i++) {
-            int y1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getY()) + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight();
-            int x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX() + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()
+            int y1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getY())
+                    + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight();
+            int x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
+                    + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()
                     + Constants.ENEMY_TRIANGLE_DIAMETER;
             if (i % 2 == 0)
                 x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX() - Constants.ENEMY_TRIANGLE_DIAMETER;

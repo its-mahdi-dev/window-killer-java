@@ -35,7 +35,6 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
         } else {
             enemyModel = new EnemyModel(anchor, enemyType);
             enemyView = new EnemyView(enemyModel.getId(), enemyModel.type);
-
         }
 
         enemyModel.anchor = anchor;

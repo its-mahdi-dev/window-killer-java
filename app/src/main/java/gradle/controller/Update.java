@@ -82,28 +82,7 @@ public class Update {
     }
 
     public static void updateModel() {
-        if (!GameSettings.isPause) {
-            EpsilonModel.getINSTANCE().move();
-            EpsilonController.checkWallImpact();
-            EpsilonController.updateVertextAnchor();
-            EpsilonController.setCurrentPanel();
-            if (!EnemyController.isCreating)
-                EnemyController.checkCollision();
-            ShotController.checkCollision();
 
-            for (int i = 0; i < CollectibleModel.items.size(); i++) {
-                EpsilonController.checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
-            }
-
-            StoreController.checkItemsTimes();
-            SkillTreeController.checkSkillsTime();
-
-            if (!EnemyController.isCreating && EnemyModel.items.size() == 0)
-                GameController.createWave();
-
-            if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
-                GameController.GameOver();
-        }
         upsCount++;
     }
 

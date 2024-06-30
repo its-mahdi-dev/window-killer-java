@@ -1,8 +1,10 @@
 package gradle.controller;
 
+import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.threads.GamePanelThread;
+import gradle.threads.UPSThread;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.MainPanel;
@@ -23,7 +25,16 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class GameController {
+public class GameController implements UPSController {
+
+    @Override
+    public void check() {
+        if (!EnemyController.isCreating && EnemyModel.items.size() == 0)
+            GameController.createWave();
+
+        if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
+            GameController.GameOver();
+    }
 
     public static int waveNumber = 0;
     static final javax.swing.Timer winTimer = new javax.swing.Timer(10, new ActionListener() {
@@ -60,7 +71,7 @@ public class GameController {
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(100, 100);
         // panel2.setSize(new Dimension(500, 500));
-        panel2.setLocation(300,150);
+        panel2.setLocation(300, 150);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         panel1.repaint();
         panel2.repaint();
@@ -81,6 +92,7 @@ public class GameController {
         System.out.println(EnemyModel.items.size());
         Update.timer1.start();
         Update.timer2.start();
+        startUPS();
 
         GameFrame.getINSTANCE().repaint();
 
@@ -142,8 +154,10 @@ public class GameController {
     private static void win() {
         Utils.playMusic("win", false);
         EpsilonModel.getINSTANCE().anchor = new Point2D.Double(
-                EpsilonModel.getINSTANCE().currentPanels.get(0).getX() + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2,
-                EpsilonModel.getINSTANCE().currentPanels.get(0).getY() + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() / 2);
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
+                        + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
+                        + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() / 2);
         winTimer.start();
     }
 
@@ -193,5 +207,14 @@ public class GameController {
         MainPanel.getINSTANCE().repaint();
         GameFrame.getINSTANCE().repaint();
 
+    }
+
+    public static void startUPS() {
+        new Thread(new UPSThread(new GameController())).start();
+        new Thread(new UPSThread(new EnemyController())).start();
+        new Thread(new UPSThread(new EpsilonController())).start();
+        new Thread(new UPSThread(new ShotController())).start();
+        new Thread(new UPSThread(new SkillTreeController())).start();
+        new Thread(new UPSThread(new StoreController())).start();
     }
 }

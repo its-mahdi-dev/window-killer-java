@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import gradle.interfaces.UPSController;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
@@ -18,7 +19,7 @@ import gradle.view.GamePanel;
 import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
 
-public class EpsilonController {
+public class EpsilonController implements UPSController {
 
     public static final Map<String, Boolean> pressed = new HashMap<>();
     static {
@@ -37,6 +38,17 @@ public class EpsilonController {
     }
 
     public EpsilonController() {
+    }
+
+    @Override
+    public void check() {
+        EpsilonModel.getINSTANCE().move();
+        checkWallImpact();
+        updateVertextAnchor();
+        setCurrentPanel();
+        for (int i = 0; i < CollectibleModel.items.size(); i++) {
+            checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
+        }
     }
 
     public static void updateMovement() {

@@ -4,13 +4,45 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.awt.Polygon;
 
+import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.ShotView;
 
-public class ShotController {
+public class ShotController implements UPSController {
+
+    @Override
+    public void check() {
+        for (int i = 0; i < ShotModel.items.size(); i++) {
+            ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
+            shotModel.move();
+
+            checkShotWithPanel(shotModel);
+            for (int j = 0; j < EnemyModel.items.size(); j++) {
+                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
+                if (checkEpsilonShot(enemyModel, shotModel)) {
+                    enemyModel.HP -= 5 + (SkillTreeController.enemy_hp_decrease);
+                    if (enemyModel.HP >= 0)
+                        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
+                        if (ShotModel.items.contains(shotModel)) {
+                            remove(shotModel.getId());
+                        }
+                    if (enemyModel.isImpacting) {
+                        enemyModel.impact_speed *= 1.05;
+                        enemyModel.setImpact(new Point2D.Double(1, 1), false);
+                    } else
+                        enemyModel.setImpact(false);
+                }
+                if (enemyModel.HP <= 0) {
+                    EnemyController.remove(enemyModel.getId());
+                }
+
+            }
+        }
+    }
+
     public static void checkShotWithPanel(ShotModel shotModel) {
         int dx = 0;
         int dy = 0;
@@ -67,35 +99,6 @@ public class ShotController {
             ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
         }
 
-    }
-
-    public static void checkCollision() {
-        for (int i = 0; i < ShotModel.items.size(); i++) {
-            ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
-            shotModel.move();
-
-            checkShotWithPanel(shotModel);
-            for (int j = 0; j < EnemyModel.items.size(); j++) {
-                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
-                if (checkEpsilonShot(enemyModel, shotModel)) {
-                    enemyModel.HP -= 5 + (SkillTreeController.enemy_hp_decrease);
-                    if (enemyModel.HP >= 0)
-                        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
-                        if (ShotModel.items.contains(shotModel)) {
-                            remove(shotModel.getId());
-                        }
-                    if (enemyModel.isImpacting) {
-                        enemyModel.impact_speed *= 1.05;
-                        enemyModel.setImpact(new Point2D.Double(1, 1), false);
-                    } else
-                        enemyModel.setImpact(false);
-                }
-                if (enemyModel.HP <= 0) {
-                    EnemyController.remove(enemyModel.getId());
-                }
-
-            }
-        }
     }
 
     private static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {

@@ -34,50 +34,13 @@ public class Update {
     };
 
     public static void updateView() {
-        EpsilonView.items.get(0).setUtil(EpsilonModel.getINSTANCE());
+        
+        
+       
+        
+        
 
-        for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
-            EpsilonVertexView epsilonView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
-            EpsilonVertexModel epsilonModel = (EpsilonVertexModel) EpsilonVertexModel.findById(epsilonView.getId());
-            epsilonView.setUtil(epsilonModel);
-        }
-        if (!EnemyController.isCreating && EnemyModel.items.size() > 0) {
-            for (int i = 0; i < EnemyView.items.size(); i++) {
-                EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
-
-                EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
-                if (enemyModel != null)
-                    enemyView.setUtil(enemyModel);
-                else
-                    System.out.println(enemyView);
-            }
-        }
-        for (int i = 0; i < ShotView.items.size(); i++) {
-            ShotView shotView = (ShotView) ShotView.items.get(i);
-            ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
-            if (shotModel != null)
-                shotView.setUtil(shotModel);
-        }
-        for (int i = 0; i < CollectibleView.items.size(); i++) {
-            CollectibleView collectibleView = (CollectibleView) CollectibleView.items.get(i);
-            CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(collectibleView.getId());
-            if (collectibleModel != null)
-                collectibleView.setUtil(collectibleModel);
-        }
-
-        NavbarView.getINSTANCE().setUtil();
-        // GameFrame.getINSTANCE().repaint();
-        // for (GamePanel gamePanel : Panels.getINSTANCE().getPanels()) {
-        // gamePanel.repaint();
-        // gamePanel.changeSize();
-        // }
-        // StorePanel.getINSTANCE().showOrHidePanel();
-        // if (GameSettings.isStore)
-        // StorePanel.getINSTANCE().repaint();
-        // if (!GameSettings.isPause)
-        // GamePanel.getINSTANCE().changeSize();
-        Panels.getINSTANCE().repaint();
-        GameFrame.getINSTANCE().repaint();
+        
         fpsCount++;
     }
 

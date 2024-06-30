@@ -41,6 +41,14 @@ public class EnemyController implements UPSController {
                 remove(enemyModel.getId());
             }
         }
+        if (!isCreating && EnemyModel.items.size() > 0) {
+            for (int i = 0; i < EnemyView.items.size(); i++) {
+                EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
+                EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
+                if (enemyModel != null)
+                    enemyView.setUtil(enemyModel);
+            }
+        }
     }
 
     public static void setPoints(EnemyModel enemyModel) {

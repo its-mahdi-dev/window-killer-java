@@ -18,6 +18,8 @@ import gradle.model.ShotModel;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
+import gradle.view.charecretsView.EpsilonVertexView;
+import gradle.view.charecretsView.EpsilonView;
 
 public class EpsilonController implements UPSController {
 
@@ -46,8 +48,12 @@ public class EpsilonController implements UPSController {
         checkWallImpact();
         updateVertextAnchor();
         setCurrentPanel();
-        for (int i = 0; i < CollectibleModel.items.size(); i++) {
-            checkCollectibleCollision((CollectibleModel) CollectibleModel.items.get(i));
+
+        EpsilonView.items.get(0).setUtil(EpsilonModel.getINSTANCE());
+        for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
+            EpsilonVertexView epsilonView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
+            EpsilonVertexModel epsilonModel = (EpsilonVertexModel) EpsilonVertexModel.findById(epsilonView.getId());
+            epsilonView.setUtil(epsilonModel);
         }
     }
 
@@ -161,31 +167,7 @@ public class EpsilonController implements UPSController {
         }
     }
 
-    public static void checkCollectibleCollision(CollectibleModel collectibleModel) {
-
-        if (Utils.getDistance(EpsilonModel.getINSTANCE().anchor, collectibleModel.anchor) < EpsilonModel.getINSTANCE().w
-                / 2) {
-            EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
-            epsilonModel.XP += collectibleModel.xp;
-            removeCollectible(collectibleModel.getId());
-        }
-
-        if (System.currentTimeMillis() - collectibleModel.time > 10000)
-            removeCollectible(collectibleModel.getId());
-    }
-
-    public static void removeCollectible(String Id) {
-
-        CollectibleModel collectibleModel = (CollectibleModel) CollectibleModel.findById(Id);
-        if (collectibleModel.enemyType == EnemyType.square)
-            Utils.playMusic("squareCollectible", false);
-        else if (collectibleModel.enemyType == EnemyType.triangle)
-            Utils.playMusic("triangleCollectible", false);
-        CollectibleModel.removedItems.add(collectibleModel);
-        CollectibleView.removedItems.add(CollectibleView.findById(collectibleModel.getId()));
-        CollectibleModel.items.remove(collectibleModel);
-        CollectibleView.items.removeIf(collectible -> collectible.getId() == collectibleModel.getId());
-    }
+   
 
     public static void updateVertextAnchor() {
         EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
@@ -204,11 +186,7 @@ public class EpsilonController implements UPSController {
         }
     }
 
-    public static void removeAllCollectible() {
-        for (int i = CollectibleModel.items.size() - 1; i >= 0; i--) {
-            removeCollectible(CollectibleModel.items.get(i).getId());
-        }
-    }
+    
 
     public static void setCurrentPanel() {
         HashSet<GamePanel> currentGamePanels = new HashSet<>();

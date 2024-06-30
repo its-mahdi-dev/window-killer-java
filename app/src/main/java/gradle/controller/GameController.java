@@ -11,6 +11,7 @@ import gradle.view.MainPanel;
 import gradle.view.Panels;
 import gradle.view.SettingsPanel;
 import gradle.view.StorePanel;
+import gradle.view.charecretsView.NavbarView;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -34,6 +35,13 @@ public class GameController implements UPSController {
 
         if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
             GameController.GameOver();
+
+        NavbarView.getINSTANCE().setUtil();
+        StorePanel.getINSTANCE().showOrHidePanel();
+        if (GameSettings.isStore)
+            StorePanel.getINSTANCE().repaint();
+        Panels.getINSTANCE().repaint();
+        GameFrame.getINSTANCE().repaint();
     }
 
     public static int waveNumber = 0;
@@ -87,7 +95,7 @@ public class GameController implements UPSController {
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
-        // createWave();
+        createWave();
 
         System.out.println(EnemyModel.items.size());
         Update.timer1.start();
@@ -200,7 +208,7 @@ public class GameController implements UPSController {
         // EpsilonModel.items.remove(0);
         // EpsilonView.items.remove(0);
         EnemyController.removeAll();
-        EpsilonController.removeAllCollectible();
+        CollectibleController.removeAllCollectible();
         ShotController.removeAll();
         EnemyController.isCreating = false;
         MainPanel.getINSTANCE().setVisible(true);
@@ -216,5 +224,6 @@ public class GameController implements UPSController {
         new Thread(new UPSThread(new ShotController())).start();
         new Thread(new UPSThread(new SkillTreeController())).start();
         new Thread(new UPSThread(new StoreController())).start();
+        new Thread(new UPSThread(new CollectibleController())).start();
     }
 }

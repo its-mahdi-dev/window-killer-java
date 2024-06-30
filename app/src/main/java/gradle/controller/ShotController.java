@@ -41,6 +41,12 @@ public class ShotController implements UPSController {
 
             }
         }
+        for (int i = 0; i < ShotView.items.size(); i++) {
+            ShotView shotView = (ShotView) ShotView.items.get(i);
+            ShotModel shotModel = (ShotModel) ShotModel.findById(shotView.getId());
+            if (shotModel != null)
+                shotView.setUtil(shotModel);
+        }
     }
 
     public static void checkShotWithPanel(ShotModel shotModel) {

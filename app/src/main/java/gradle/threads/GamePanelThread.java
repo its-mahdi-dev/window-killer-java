@@ -1,6 +1,7 @@
 package gradle.threads;
 
 import gradle.controller.Constants;
+import gradle.controller.GameSettings;
 import gradle.model.EpsilonModel;
 import gradle.view.GamePanel;
 
@@ -18,7 +19,7 @@ public class GamePanelThread implements Runnable {
             long startTime = System.nanoTime();
 
             gamePanel.repaint();
-            if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1)
+            if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 && !GameSettings.isPause)
                 gamePanel.changeSize();
 
             long elapsedTime = System.nanoTime() - startTime;

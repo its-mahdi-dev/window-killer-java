@@ -7,6 +7,7 @@ import javax.swing.border.LineBorder;
 import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
+import gradle.model.EpsilonModel;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonVertexView;
@@ -42,9 +43,9 @@ public class GamePanel extends JPanel {
     }
 
     // public static GamePanel getINSTANCE() {
-    //     if (INSTANCE == null)
-    //         INSTANCE = new GamePanel();
-    //     return INSTANCE;
+    // if (INSTANCE == null)
+    // INSTANCE = new GamePanel();
+    // return INSTANCE;
     // }
 
     @Override
@@ -68,7 +69,8 @@ public class GamePanel extends JPanel {
             collectibleView.draw(g, this);
         }
 
-        NavbarView.getINSTANCE().draw(g);
+        if (EpsilonModel.getINSTANCE().currentPanels.get(0).equals(this))
+            NavbarView.getINSTANCE().draw(g);
     }
 
     public void changeSize(Point2D location, Point2D size) {
@@ -125,6 +127,5 @@ public class GamePanel extends JPanel {
         changeCounter++;
         speed = Constants.CHANGE_FRAME_SPEED * 2.5;
     }
-
 
 }

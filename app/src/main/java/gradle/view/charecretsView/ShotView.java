@@ -8,19 +8,26 @@ import java.util.*;
 
 import gradle.controller.Utils;
 import gradle.model.Model;
+import gradle.model.ShotModel;
+import gradle.model.ShotType;
 
 public class ShotView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
+
+    public ShotType shotType;
 
     public ShotView(String Id) {
         super(Id);
     }
 
     @Override
-    public void draw(Graphics g , Component component) {
+    public void draw(Graphics g, Component component) {
         Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
-        g.setColor(Color.white);
+        if(shotType == ShotType.epsilon)
+            g.setColor(Color.white);
+        else if(shotType == ShotType.enemy)
+            g.setColor(Color.red);
         int x = (int) newAnchor.getX() - w / 2;
         int y = (int) newAnchor.getY() - h / 2;
         g.fillOval(x, y, w, h);
@@ -31,6 +38,7 @@ public class ShotView extends View {
         anchor = shotModel.anchor;
         w = shotModel.w;
         h = shotModel.h;
+        shotType = ((ShotModel) shotModel).shotType;
     }
 
     @Override

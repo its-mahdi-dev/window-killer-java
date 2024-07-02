@@ -31,6 +31,7 @@ public class Constants {
         public static final int DIAGONAL_SPEED = 2;
         public static final int SHOT_DIAMETER = 6;
         public static final double SHOT_SPEED = 25 * 60D / UPS;
+        public static final double ENEMY_SHOT_SPEED = 10 * 60D / UPS;
 
         // ENEMIES
         public static final int ENEMY_SQUARE_DIAMETER = 50;

@@ -20,7 +20,7 @@ public class ShotModel extends Model {
     public ShotModel() {
     }
 
-    public static ShotModel create(Point2D anchor, ShotType type , int power) {
+    public static ShotModel create(Point2D anchor, ShotType type, int power) {
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {
@@ -37,7 +37,11 @@ public class ShotModel extends Model {
 
         shotModel.h = Constants.SHOT_DIAMETER;
         shotModel.w = Constants.SHOT_DIAMETER;
-        shotModel.max_speed = Constants.SHOT_SPEED;
+
+        if (type == ShotType.epsilon)
+            shotModel.max_speed = Constants.SHOT_SPEED;
+        else if (type == ShotType.enemy)
+            shotModel.max_speed = Constants.ENEMY_SHOT_SPEED;
 
         shotModel.anchor = anchor;
         shotModel.shotType = type;

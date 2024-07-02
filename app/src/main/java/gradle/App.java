@@ -16,7 +16,6 @@ import gradle.view.MainPanel;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("mmmm");
         SwingUtilities.invokeLater(() -> {
             JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
             int volume = Integer.parseInt(settings.get("volume").toString());

@@ -46,6 +46,9 @@ public class ShotController implements UPSController {
                 if (Utils.getDistance(shotModel.anchor,
                         EpsilonModel.getINSTANCE().anchor) <= EpsilonModel.getINSTANCE().w / 2) {
                     EpsilonModel.getINSTANCE().HP -= shotModel.power;
+                    if (ShotModel.items.contains(shotModel)) {
+                        remove(shotModel.getId());
+                    }
                 }
             }
         }

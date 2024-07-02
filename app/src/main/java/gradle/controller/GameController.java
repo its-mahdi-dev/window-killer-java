@@ -98,6 +98,7 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         // createWave();
         EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.omenoct);
+        EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 
         // Update.timer1.start();

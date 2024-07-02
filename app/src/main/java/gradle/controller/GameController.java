@@ -100,22 +100,22 @@ public class GameController implements UPSController {
         EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.omenoct);
         EnemyController.isCreating = false;
 
-        Update.timer1.start();
-        Update.timer2.start();
+        // Update.timer1.start();
+        // Update.timer2.start();
         startUPS();
 
         GameFrame.getINSTANCE().repaint();
 
         MainPanel.getINSTANCE().setVisible(false);
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                // Print and reset counts
-                System.out.println("UPS: " + Update.upsCount + ", FPS: " + Update.fpsCount);
-                Update.upsCount = 0;
-                Update.fpsCount = 0;
-            }
-        }, 1000, 1000);
+        // new Timer().scheduleAtFixedRate(new TimerTask() {
+        // @Override
+        // public void run() {
+        // // Print and reset counts
+        // System.out.println("UPS: " + Update.upsCount + ", FPS: " + Update.fpsCount);
+        // Update.upsCount = 0;
+        // Update.fpsCount = 0;
+        // }
+        // }, 1000, 1000);
         // });
     }
 

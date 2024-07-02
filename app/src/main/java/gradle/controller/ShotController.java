@@ -8,6 +8,7 @@ import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
+import gradle.model.ShotType;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.ShotView;
 
@@ -19,26 +20,33 @@ public class ShotController implements UPSController {
             ShotModel shotModel = (ShotModel) ShotModel.items.get(i);
             shotModel.move();
 
-            checkShotWithPanel(shotModel);
-            for (int j = 0; j < EnemyModel.items.size(); j++) {
-                EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
-                if (checkEpsilonShot(enemyModel, shotModel)) {
-                    enemyModel.HP -= 5 + (SkillTreeController.enemy_hp_decrease);
-                    if (enemyModel.HP >= 0)
-                        // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
-                        if (ShotModel.items.contains(shotModel)) {
-                            remove(shotModel.getId());
-                        }
-                    if (enemyModel.isImpacting) {
-                        enemyModel.impact_speed *= 1.05;
-                        enemyModel.setImpact(new Point2D.Double(1, 1), false);
-                    } else
-                        enemyModel.setImpact(false);
-                }
-                if (enemyModel.HP <= 0) {
-                    EnemyController.remove(enemyModel.getId());
-                }
+            if (shotModel.shotType == ShotType.epsilon) {
+                checkShotWithPanel(shotModel);
+                for (int j = 0; j < EnemyModel.items.size(); j++) {
+                    EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
+                    if (checkEpsilonShot(enemyModel, shotModel)) {
+                        enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
+                        if (enemyModel.HP >= 0)
+                            // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
+                            if (ShotModel.items.contains(shotModel)) {
+                                remove(shotModel.getId());
+                            }
+                        if (enemyModel.isImpacting) {
+                            enemyModel.impact_speed *= 1.05;
+                            enemyModel.setImpact(new Point2D.Double(1, 1), false);
+                        } else
+                            enemyModel.setImpact(false);
+                    }
+                    if (enemyModel.HP <= 0) {
+                        EnemyController.remove(enemyModel.getId());
+                    }
 
+                }
+            } else if (shotModel.shotType == ShotType.enemy) {
+                if (Utils.getDistance(shotModel.anchor,
+                        EpsilonModel.getINSTANCE().anchor) <= EpsilonModel.getINSTANCE().w / 2) {
+                    EpsilonModel.getINSTANCE().HP -= shotModel.power;
+                }
             }
         }
         for (int i = 0; i < ShotView.items.size(); i++) {

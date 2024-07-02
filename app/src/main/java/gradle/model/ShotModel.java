@@ -3,6 +3,7 @@ package gradle.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.view.Panels;
 import gradle.view.charecretsView.EnemyView;
@@ -13,12 +14,13 @@ public class ShotModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
+    public ShotType shotType;
+    public int power;
+
     public ShotModel() {
     }
 
-    
-
-    public static ShotModel create() {
+    public static ShotModel create(Point2D anchor, ShotType type , int power) {
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {
@@ -37,7 +39,9 @@ public class ShotModel extends Model {
         shotModel.w = Constants.SHOT_DIAMETER;
         shotModel.max_speed = Constants.SHOT_SPEED;
 
-        shotModel.anchor = EpsilonModel.getINSTANCE().anchor;
+        shotModel.anchor = anchor;
+        shotModel.shotType = type;
+        shotModel.power = power;
         shotModel.currentPanels = EpsilonModel.getINSTANCE().currentPanels;
         shotView.addItem(shotView);
         shotModel.addItem(shotModel);

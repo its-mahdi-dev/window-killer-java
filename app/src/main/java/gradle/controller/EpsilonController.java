@@ -15,6 +15,7 @@ import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
+import gradle.model.ShotType;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
@@ -118,7 +119,7 @@ public class EpsilonController implements UPSController {
 
     public static void mousePressed(MouseEvent e) {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
-            ShotModel shot = ShotModel.create();
+            ShotModel shot = ShotModel.create(EpsilonModel.getINSTANCE().anchor, ShotType.epsilon, Constants.EPSILON_SHOT_POWER);
             Utils.playMusic("shot", false);
             shot.anchor = EpsilonModel.getINSTANCE().anchor;
             Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),

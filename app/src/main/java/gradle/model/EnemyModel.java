@@ -1,10 +1,14 @@
 package gradle.model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.*;
+import javax.swing.Timer;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
+import gradle.controller.Utils;
 import gradle.interfaces.Collectible;
 import gradle.interfaces.Entity;
 import gradle.interfaces.Rotation;
@@ -18,6 +22,7 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     public int power;
     public int collectibleXP;
     private int collectibleCount;
+    Timer shotTimer;
     public Map<String, Integer> attacks = new HashMap<>();
     {
         attacks.put("melee", 0);
@@ -32,6 +37,8 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     public static EnemyModel create(Point2D anchor, EnemyType enemyType) {
         EnemyModel enemyModel;
         EnemyView enemyView;
+        
+        System.out.println("aaa");
         if (EnemyModel.removedItems.size() > 0) {
             enemyModel = (EnemyModel) EnemyModel.removedItems.get(0);
             EnemyModel.removedItems.remove(0);
@@ -111,6 +118,15 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
 
             enemyModel.attacks.replace("melee", 8);
             enemyModel.attacks.replace("ranged", 4);
+            enemyModel.shotTimer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println(enemyModel.anchor);
+                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy, 5);
+                    shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
+                }
+            });
+            // enemyModel.shotTimer.start();
         }
 
         enemyModel.addItem(enemyModel);

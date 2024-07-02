@@ -45,4 +45,5 @@ public class Constants {
 
         public static final int MAX_DISTANCE_IMPACT = 300;
         public static final int EPSILON_POWER = 10;
+        static final int EPSILON_SHOT_POWER = 5;
 }

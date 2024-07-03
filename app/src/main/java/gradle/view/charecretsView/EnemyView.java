@@ -7,11 +7,14 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.*;
+
+import javax.swing.ImageIcon;
 
 import gradle.controller.Constants;
 import gradle.controller.Utils;
@@ -25,6 +28,7 @@ public class EnemyView extends View {
     public static final List<View> removedItems = new ArrayList<>();
 
     public EnemyType type;
+    public double angle;
 
     public EnemyView(String Id, EnemyType enemyType) {
         super(Id);
@@ -53,7 +57,25 @@ public class EnemyView extends View {
                         newXpoints[(i + 1) % 8], newYpoints[(i + 1) % 8]);
             }
             g2d.setColor(Color.green);
-            g2d.drawLine((int)newAnchor.getX(),(int)newAnchor.getY() ,(int)newAnchor.getX() + w, (int)newAnchor.getY() + h);
+            g2d.drawLine((int) newAnchor.getX(), (int) newAnchor.getY(), (int) newAnchor.getX() + w,
+                    (int) newAnchor.getY() + h);
+        } else if (type == EnemyType.necropick) {
+            g2d.setColor(Color.GRAY);
+
+            g2d.drawPolygon(newXpoints, newYpoints, 4);
+            Polygon polygon = new Polygon(newXpoints, newYpoints, 4);
+            Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/necropick.png").getImage();
+            g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
+
+            // Rotate the graphics context
+            g2d.rotate(angle);
+
+            // Draw the image (adjusting for the negative width and height to handle rotation correctly)
+            g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
+
+            // Reset transformations (optional)
+            g2d.rotate(-angle);
+            g2d.translate(-(int) newAnchor.getX(), -(int) newAnchor.getY());
         }
 
         int centerX = 0;
@@ -107,6 +129,7 @@ public class EnemyView extends View {
         xPoints = enemy.getXpointsInt();
         yPoints = enemy.getYpointsInt();
         HP = enemy.HP;
+        angle = enemy.angle;
     }
 
     @Override

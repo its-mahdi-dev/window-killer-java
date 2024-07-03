@@ -9,6 +9,7 @@ import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.ShotView;
 
@@ -48,6 +49,10 @@ public class ShotController implements UPSController {
                     EpsilonModel.getINSTANCE().HP -= shotModel.power;
                     if (ShotModel.items.contains(shotModel)) {
                         remove(shotModel.getId());
+                    }
+                } else {
+                    if (ShotModel.items.contains(shotModel)) {
+                        checkEnemyShots(shotModel);
                     }
                 }
             }
@@ -116,6 +121,12 @@ public class ShotController implements UPSController {
             ShotView.items.removeIf(shot -> shot.getId() == shotModel.getId());
         }
 
+    }
+
+    private static void checkEnemyShots(ShotModel shotModel) {
+        if (shotModel.anchor.getX() < 0 || shotModel.anchor.getX() > GameFrame.getINSTANCE().getWidth()
+                || shotModel.anchor.getY() < 0 || shotModel.anchor.getY() > GameFrame.getINSTANCE().getHeight())
+            remove(shotModel.getId());
     }
 
     private static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {

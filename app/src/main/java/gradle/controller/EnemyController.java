@@ -227,8 +227,9 @@ public class EnemyController implements UPSController {
 
         if (enemyModel != null) {
             Utils.playMusic("enemyDeath", false);
+            if (enemyModel.shotTimer != null)
+                enemyModel.shotTimer.stop();
             enemyModel.setCollectible();
-            enemyModel.shotTimer.stop();
             EnemyModel.removedItems.add(enemyModel);
             EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
             EnemyModel.items.remove(enemyModel);

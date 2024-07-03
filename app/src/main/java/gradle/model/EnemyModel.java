@@ -120,11 +120,30 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             enemyModel.shotTimer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy, 5);
+                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,  enemyModel.attacks.get("ranged"));
                     shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
                 }
             });
             enemyModel.shotTimer.start();
+        }else if(enemyModel.type == EnemyType.necropick){
+            enemyModel.collectibleCount = 1;
+            enemyModel.collectibleXP = 5;
+            enemyModel.HP = 10;
+            enemyModel.power = 6;
+            enemyModel.w = Constants.ENEMY_NECRIPICN_WIDTH;
+            enemyModel.h = Constants.ENEMY_NECRIPICN_HEIGHT;
+            enemyModel.xPoints = new double[] {
+                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
+                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
+                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle)),
+                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle))
+            };
+            enemyModel.yPoints = new double[] {
+                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
+                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
+                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle)),
+                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle))
+            };
         }
 
         enemyModel.addItem(enemyModel);

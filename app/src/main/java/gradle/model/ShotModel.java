@@ -21,6 +21,7 @@ public class ShotModel extends Model {
     }
 
     public static ShotModel create(Point2D anchor, ShotType type, int power) {
+        System.out.println(items.size() + " -> " + removedItems.size());
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {

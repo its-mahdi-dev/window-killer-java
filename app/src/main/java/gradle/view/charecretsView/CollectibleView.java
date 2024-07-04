@@ -22,7 +22,7 @@ public class CollectibleView extends View {
     }
 
     @Override
-    public void draw(Graphics g , Component component) {
+    public void draw(Graphics g, Component component) {
         Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
         if (enemyType == EnemyType.square)
             g.setColor(Color.green);
@@ -30,6 +30,8 @@ public class CollectibleView extends View {
             g.setColor(Color.yellow);
         else if (enemyType == EnemyType.omenoct)
             g.setColor(Color.red);
+        else if (enemyType == EnemyType.necropick)
+            g.setColor(Color.gray);
         int x = (int) newAnchor.getX() - w / 2;
         int y = (int) newAnchor.getY() - h / 2;
         g.fillOval(x, y, w, h);

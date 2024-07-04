@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.Map.Entry;
 
 import javax.swing.Timer;
@@ -154,6 +157,8 @@ public class EnemyController implements UPSController {
     }
 
     public static void checkEpsilonColision(EnemyModel enemyModel) {
+        if (enemyModel.hovering)
+            return;
         EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints, epsilonModel.anchor);
 
@@ -170,7 +175,7 @@ public class EnemyController implements UPSController {
 
                 if (System.currentTimeMillis() - epsilonModel.HP_time > 200) {
                     epsilonModel.HP_time = System.currentTimeMillis();
-                    epsilonModel.HP -= enemyModel.power;
+                    epsilonModel.HP -= enemyModel.attacks.get("melee");
                 }
             }
         }
@@ -179,6 +184,7 @@ public class EnemyController implements UPSController {
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
+                System.out.println("killl");
                 // if (epsilonModel.isMoving) {
                 // epsilonModel.setImpact();
                 // } else {
@@ -205,8 +211,12 @@ public class EnemyController implements UPSController {
     }
 
     public static void checkEnemyCollision(EnemyModel enemyModel) {
+        if (enemyModel.hovering)
+            return;
         for (int i = 0; i < EnemyModel.items.size(); i++) {
             EnemyModel enemy = (EnemyModel) EnemyModel.items.get(i);
+            if (enemy.hovering)
+                continue;
             if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
                 Point2D newDirection = Utils.getDirection(enemy.anchor, enemyModel.anchor);
                 // enemyModel.anchor = new Point2D.Double(
@@ -322,17 +332,15 @@ public class EnemyController implements UPSController {
 
             List<Point2D> aroundPoints = Utils.generateSymmetricPoints(enemyModel.anchor, 8);
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            for (int i = 0; i < aroundPoints.size(); i++) {
-                Point2D direction = Utils.getDirection(enemyModel.anchor, aroundPoints.get(i));
-                ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy, 5);
-                shotModel.setDirection(direction);
-            }
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.schedule(() -> {
+                for (int i = 0; i < aroundPoints.size(); i++) {
+                    Point2D direction = Utils.getDirection(enemyModel.anchor, aroundPoints.get(i));
+                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy, 5);
+                    shotModel.setDirection(direction);
+                }
+            }, 3, TimeUnit.SECONDS);
+
         } else {
             // enemyModel.ableMove = true;
             enemyModel.hovering = true;

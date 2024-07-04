@@ -59,7 +59,6 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
         enemyModel.max_speed = Constants.ENEMY_SPEED + (GameSettings.level / 5);
         enemyModel.impact_speed = 1.5;
         enemyModel.isMoving = true;
-        double rotationAngle = Math.toRadians(20);
 
         if (enemyModel.type == EnemyType.square) {
             enemyModel.collectibleCount = 1;
@@ -91,8 +90,8 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             enemyModel.timers.put("shotTimer", shoTimer);
             enemyModel.timers.get("shotTimer").start();
         } else if (enemyModel.type == EnemyType.necropick) {
-            enemyModel.collectibleCount = 1;
-            enemyModel.collectibleXP = 5;
+            enemyModel.collectibleCount = 4;
+            enemyModel.collectibleXP = 2;
             enemyModel.HP = 10;
             enemyModel.power = 6;
             enemyModel.times.put("hovering", System.currentTimeMillis());

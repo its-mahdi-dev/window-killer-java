@@ -149,7 +149,7 @@ public abstract class Model {
         }
 
         move(direction, speed);
-        if (this instanceof Rotation && isImpacting)
+        if (this instanceof Rotation && isImpacting && ableMove)
             moveRotaion(speed);
     }
 

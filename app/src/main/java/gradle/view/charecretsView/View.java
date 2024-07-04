@@ -17,13 +17,14 @@ public abstract class View {
     public int[] xPoints;
     public int[] yPoints;
     public ArrayList<GamePanel> currentPanels = new ArrayList<>();
-
+    public boolean visible;
     public int HP;
 
     private String Id;
 
     public View(String Id) {
         this.Id = Id;
+        visible = true;
     }
 
     public String getId() {
@@ -50,8 +51,7 @@ public abstract class View {
         return null;
     }
 
-
-    public abstract void draw(Graphics g , Component component);
+    public abstract void draw(Graphics g, Component component);
 
     public abstract void setUtil(Model model);
 

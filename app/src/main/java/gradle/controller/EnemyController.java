@@ -4,7 +4,11 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Map.Entry;
+
+import javax.swing.Timer;
 
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
@@ -35,7 +39,9 @@ public class EnemyController implements UPSController {
                     enemyModel.setDirection(direction);
 
                 enemyModel.move();
-                setPoints(enemyModel);
+                checkEnemyAbilities(enemyModel);
+                if (enemyModel.ableMove)
+                    setPoints(enemyModel);
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
             }
@@ -227,8 +233,8 @@ public class EnemyController implements UPSController {
 
         if (enemyModel != null) {
             Utils.playMusic("enemyDeath", false);
-            if (enemyModel.shotTimer != null)
-                enemyModel.shotTimer.stop();
+            for (Timer timers : enemyModel.timers.values())
+                timers.stop();
             enemyModel.setCollectible();
             EnemyModel.removedItems.add(enemyModel);
             EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
@@ -274,6 +280,46 @@ public class EnemyController implements UPSController {
 
         for (int i = EnemyModel.items.size() - 1; i >= 0; i--) {
             remove(EnemyModel.items.get(i).getId());
+        }
+    }
+
+    private static void checkEnemyAbilities(EnemyModel enemyModel) {
+        if (enemyModel.type == EnemyType.necropick) {
+            if (System.currentTimeMillis() - enemyModel.times.get("hovering") >= 4000) {
+                enemyModel.times.replace("hovering", System.currentTimeMillis());
+                startNecripick(enemyModel);
+            }
+            // if (System.currentTimeMillis() - enemyModel.times.get("gravity") >= 4000 &&
+            // enemyModel.hovering) {
+            // enemyModel.times.replace("hovering", System.currentTimeMillis());
+            // enemyModel.hovering = false;
+            // enemyModel.gravity = true;
+            // System.out.println("finish hovering");
+            // }
+            if (enemyModel.hovering)
+                enemyModel.visible = false;
+            else
+                enemyModel.visible = true;
+        }
+    }
+
+    private static void startNecripick(EnemyModel enemyModel) {
+        if (enemyModel.hovering) {
+            System.out.println("start");
+            Point2D epsilonAnchor = EpsilonModel.getINSTANCE().anchor;
+            // enemyModel.ableMove = false;
+            enemyModel.hovering = false;
+            int[] possibleValues = { -1, 1 };
+            Random random = new Random();
+            int randomX = random.nextInt(possibleValues.length);
+            int randomY = random.nextInt(possibleValues.length);
+            enemyModel.anchor = new Point2D.Double(
+                    epsilonAnchor.getX() + possibleValues[randomX] * Constants.NECROPICK_EPSILON_RADIUS,
+                    epsilonAnchor.getY() + possibleValues[randomY] * Constants.NECROPICK_EPSILON_RADIUS);
+            enemyModel.setRelativePoints();
+        } else {
+            // enemyModel.ableMove = true;
+            enemyModel.hovering = true;
         }
     }
 }

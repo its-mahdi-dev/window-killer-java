@@ -63,14 +63,14 @@ public class EnemyView extends View {
             g2d.setColor(Color.GRAY);
 
             g2d.drawPolygon(newXpoints, newYpoints, 4);
-            Polygon polygon = new Polygon(newXpoints, newYpoints, 4);
             Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/necropick.png").getImage();
             g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
 
             // Rotate the graphics context
             g2d.rotate(angle);
 
-            // Draw the image (adjusting for the negative width and height to handle rotation correctly)
+            // Draw the image (adjusting for the negative width and height to handle
+            // rotation correctly)
             g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
 
             // Reset transformations (optional)
@@ -130,6 +130,7 @@ public class EnemyView extends View {
         yPoints = enemy.getYpointsInt();
         HP = enemy.HP;
         angle = enemy.angle;
+        visible = enemy.visible;
     }
 
     @Override

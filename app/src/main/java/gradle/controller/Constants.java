@@ -41,6 +41,8 @@ public class Constants {
         public static final int ENEMY_NECRIPICN_HEIGHT = 50;
         public static final double ENEMY_SPEED = 2 * 60D / UPS;
 
+        public static final int NECROPICK_EPSILON_RADIUS = 100;
+
         public static final double ENEMY_STROKE = 3.0;
         public static final int COLLECTIBLE_DIAMETER = 10;
 

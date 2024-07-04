@@ -20,6 +20,7 @@ public abstract class Model {
     public double[] yPoints;
     Timer timer;
     public boolean isMoving = true;
+    public boolean ableMove = true;
     public double impact_time;
     public double impact_speed;
     public boolean isImpacting;
@@ -27,6 +28,7 @@ public abstract class Model {
     public double angle;
     public int HP;
     public double HP_time;
+    public boolean visible;
 
     public double speed = 0;
     public double max_speed;
@@ -36,6 +38,7 @@ public abstract class Model {
 
     public Model() {
         Id = UUID.randomUUID().toString();
+        visible = true;
     }
 
     public String getId() {
@@ -69,7 +72,9 @@ public abstract class Model {
     }
 
     public void move(Point2D direction, double speed) {
-        anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed, anchor.getY() + direction.getY() * speed);
+        if (ableMove)
+            anchor = new Point2D.Double(anchor.getX() + direction.getX() * speed,
+                    anchor.getY() + direction.getY() * speed);
     }
 
     public void moveRotaion(double deg) {

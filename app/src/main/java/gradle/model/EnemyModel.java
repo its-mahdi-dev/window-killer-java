@@ -22,7 +22,10 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
     public int power;
     public int collectibleXP;
     private int collectibleCount;
-    public Timer shotTimer;
+    public Map<String, Timer> timers = new HashMap<>();
+    public Map<String, Long> times = new HashMap<>();
+    public boolean hovering;
+    public boolean gravity;
     public Map<String, Integer> attacks = new HashMap<>();
     {
         attacks.put("melee", 0);
@@ -63,88 +66,41 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             enemyModel.collectibleXP = 5;
             enemyModel.HP = 10;
             enemyModel.power = 6;
-            enemyModel.w = Constants.ENEMY_SQUARE_DIAMETER;
-            enemyModel.h = Constants.ENEMY_SQUARE_DIAMETER;
-            enemyModel.xPoints = new double[] {
-                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle))
-            };
-            enemyModel.yPoints = new double[] {
-                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle))
-            };
             enemyModel.attacks.replace("melee", 6);
         } else if (enemyModel.type == EnemyType.triangle) {
             enemyModel.collectibleCount = 2;
             enemyModel.collectibleXP = 5;
             enemyModel.HP = 15;
             enemyModel.power = 10;
-            enemyModel.w = Constants.ENEMY_TRIANGLE_DIAMETER;
-            enemyModel.h = Constants.ENEMY_TRIANGLE_DIAMETER;
-            double d = Math.sqrt(3) / 2 * enemyModel.h;
-            enemyModel.xPoints = new double[] {
-                    (x + d * Math.cos(rotationAngle)),
-                    (x + d * Math.cos(rotationAngle - Math.PI * 2 / 3)),
-                    (x + d * Math.cos(rotationAngle + Math.PI * 2 / 3))
-            };
-            enemyModel.yPoints = new double[] {
-                    (y + d * Math.sin(rotationAngle)),
-                    (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
-                    (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
-            };
-
             enemyModel.attacks.replace("melee", 10);
         } else if (enemyModel.type == EnemyType.omenoct) {
             enemyModel.collectibleCount = 8;
             enemyModel.collectibleXP = 4;
             enemyModel.HP = 20;
             enemyModel.power = 8;
-            enemyModel.w = Constants.ENEMY_OMENOCT_DIAMETER;
-            enemyModel.h = Constants.ENEMY_OMENOCT_DIAMETER;
-            double[] xPointsO = new double[8];
-            double[] yPointsO = new double[8];
-            for (int i = 0; i < 8; i++) {
-                double angle = 2 * Math.PI * i / 8 + rotationAngle;
-                xPointsO[i] = x + enemyModel.w * Math.cos(angle);
-                yPointsO[i] = y + enemyModel.h * Math.sin(angle);
-            }
-            enemyModel.xPoints = xPointsO;
-            enemyModel.yPoints = yPointsO;
-
             enemyModel.attacks.replace("melee", 8);
             enemyModel.attacks.replace("ranged", 4);
-            enemyModel.shotTimer = new Timer(2000, new ActionListener() {
+            Timer shoTimer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,  enemyModel.attacks.get("ranged"));
+                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
+                            enemyModel.attacks.get("ranged"));
                     shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
                 }
             });
-            enemyModel.shotTimer.start();
-        }else if(enemyModel.type == EnemyType.necropick){
+            enemyModel.timers.put("shotTimer", shoTimer);
+            enemyModel.timers.get("shotTimer").start();
+        } else if (enemyModel.type == EnemyType.necropick) {
             enemyModel.collectibleCount = 1;
             enemyModel.collectibleXP = 5;
             enemyModel.HP = 10;
             enemyModel.power = 6;
-            enemyModel.w = Constants.ENEMY_NECRIPICN_WIDTH;
-            enemyModel.h = Constants.ENEMY_NECRIPICN_HEIGHT;
-            enemyModel.xPoints = new double[] {
-                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) + enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x + enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle)),
-                    (x - enemyModel.w / 2 * Math.cos(rotationAngle) - enemyModel.h / 2 * Math.sin(rotationAngle))
-            };
-            enemyModel.yPoints = new double[] {
-                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) - enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y + enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle)),
-                    (y - enemyModel.w / 2 * Math.sin(rotationAngle) + enemyModel.h / 2 * Math.cos(rotationAngle))
-            };
+            enemyModel.times.put("hovering", System.currentTimeMillis());
+            enemyModel.times.put("gravity", System.currentTimeMillis());
+            enemyModel.hovering = false;
+            enemyModel.ableMove = false;
         }
+        enemyModel.setRelativePoints();
 
         enemyModel.addItem(enemyModel);
         enemyView.addItem(enemyView);
@@ -203,6 +159,71 @@ public class EnemyModel extends Model implements Collectible, Rotation, Entity {
             // Generate a number between 20 and 100
             return 20 + (random.nextDouble() * (100 - 20));
         }
+    }
+
+    public void setRelativePoints() {
+        double x = anchor.getX();
+        double y = anchor.getY();
+        double rotationAngle = Math.toRadians(20);
+
+        if (type == EnemyType.square) {
+            w = Constants.ENEMY_SQUARE_DIAMETER;
+            h = Constants.ENEMY_SQUARE_DIAMETER;
+            xPoints = new double[] {
+                    (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
+                    (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
+            };
+            yPoints = new double[] {
+                    (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
+                    (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
+            };
+        } else if (type == EnemyType.triangle) {
+            w = Constants.ENEMY_TRIANGLE_DIAMETER;
+            h = Constants.ENEMY_TRIANGLE_DIAMETER;
+            double d = Math.sqrt(3) / 2 * h;
+            xPoints = new double[] {
+                    (x + d * Math.cos(rotationAngle)),
+                    (x + d * Math.cos(rotationAngle - Math.PI * 2 / 3)),
+                    (x + d * Math.cos(rotationAngle + Math.PI * 2 / 3))
+            };
+            yPoints = new double[] {
+                    (y + d * Math.sin(rotationAngle)),
+                    (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
+                    (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
+            };
+        } else if (type == EnemyType.omenoct) {
+            w = Constants.ENEMY_OMENOCT_DIAMETER;
+            h = Constants.ENEMY_OMENOCT_DIAMETER;
+            double[] xPointsO = new double[8];
+            double[] yPointsO = new double[8];
+            for (int i = 0; i < 8; i++) {
+                double angle = 2 * Math.PI * i / 8 + rotationAngle;
+                xPointsO[i] = x + w * Math.cos(angle);
+                yPointsO[i] = y + h * Math.sin(angle);
+            }
+            xPoints = xPointsO;
+            yPoints = yPointsO;
+        } else if (type == EnemyType.necropick) {
+            w = Constants.ENEMY_NECRIPICN_WIDTH;
+            h = Constants.ENEMY_NECRIPICN_HEIGHT;
+            xPoints = new double[] {
+                    (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
+                    (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
+            };
+            yPoints = new double[] {
+                    (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
+                    (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
+            };
+        }
+
     }
 
 }

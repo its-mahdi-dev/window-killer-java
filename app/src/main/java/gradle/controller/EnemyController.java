@@ -184,7 +184,6 @@ public class EnemyController implements UPSController {
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
-                System.out.println("killl");
                 // if (epsilonModel.isMoving) {
                 // epsilonModel.setImpact();
                 // } else {

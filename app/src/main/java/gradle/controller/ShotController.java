@@ -22,7 +22,6 @@ public class ShotController implements UPSController {
             shotModel.move();
 
             if (shotModel.shotType == ShotType.epsilon) {
-                checkShotWithPanel(shotModel);
                 for (int j = 0; j < EnemyModel.items.size(); j++) {
                     EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
                     if (checkEpsilonShot(enemyModel, shotModel)) {
@@ -50,11 +49,13 @@ public class ShotController implements UPSController {
                     if (ShotModel.items.contains(shotModel)) {
                         remove(shotModel.getId());
                     }
-                } else {
-                    if (ShotModel.items.contains(shotModel)) {
-                        checkEnemyShots(shotModel);
-                    }
                 }
+            }
+            if (ShotModel.items.contains(shotModel)) {
+                if (shotModel.rigid)
+                    checkShotWithPanel(shotModel);
+                else
+                    checkEnemyShots(shotModel);
             }
         }
         for (int i = 0; i < ShotView.items.size(); i++) {

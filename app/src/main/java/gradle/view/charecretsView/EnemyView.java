@@ -29,6 +29,9 @@ public class EnemyView extends View {
 
     public EnemyType type;
     public double angle;
+    public int HP;
+    public int[] xPoints;
+    public int[] yPoints;
 
     public EnemyView(String Id, EnemyType enemyType) {
         super(Id);

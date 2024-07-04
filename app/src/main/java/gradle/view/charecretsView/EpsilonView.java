@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gradle.controller.Utils;
+import gradle.model.Entity;
+import gradle.model.EpsilonModel;
 import gradle.model.Model;
 
 public class EpsilonView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
+    public int HP;
     public EpsilonView(String Id) {
         super(Id);
         items.add(this);
@@ -44,7 +47,7 @@ public class EpsilonView extends View {
         anchor = epsilonModel.anchor;
         w = epsilonModel.w;
         h = epsilonModel.h;
-        HP = epsilonModel.HP;
+        HP = ((EpsilonModel) epsilonModel).HP;
         currentPanels = epsilonModel.currentPanels;
     }
 

@@ -5,15 +5,16 @@ import java.util.*;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
-import gradle.interfaces.Entity;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
-public class EpsilonModel extends Model implements Entity {
+public class EpsilonModel extends Entity{
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
     public boolean shotStore;
     public int XP;
+    public int HP;
+    public double HP_time;
 
     private EpsilonModel() {
         init();

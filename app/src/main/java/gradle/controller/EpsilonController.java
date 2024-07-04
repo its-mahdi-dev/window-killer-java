@@ -126,6 +126,7 @@ public class EpsilonController implements UPSController {
                     e.getY() + i * (Math.pow(-1, i) * 50));
             Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
             shot.setDirection(direction);
+            // shot.rigid = false;
         }
     }
 

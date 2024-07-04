@@ -16,6 +16,8 @@ import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
+import gradle.model.ShotModel;
+import gradle.model.ShotType;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
@@ -317,6 +319,20 @@ public class EnemyController implements UPSController {
                     epsilonAnchor.getX() + possibleValues[randomX] * Constants.NECROPICK_EPSILON_RADIUS,
                     epsilonAnchor.getY() + possibleValues[randomY] * Constants.NECROPICK_EPSILON_RADIUS);
             enemyModel.setRelativePoints();
+
+            List<Point2D> aroundPoints = Utils.generateSymmetricPoints(enemyModel.anchor, 8);
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            for (int i = 0; i < aroundPoints.size(); i++) {
+                Point2D direction = Utils.getDirection(enemyModel.anchor, aroundPoints.get(i));
+                ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy, 5);
+                shotModel.setDirection(direction);
+            }
         } else {
             // enemyModel.ableMove = true;
             enemyModel.hovering = true;

@@ -3,6 +3,8 @@ package gradle.controller;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
@@ -120,6 +122,24 @@ public class Utils {
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static List<Point2D> generateSymmetricPoints(Point2D center, int numPoints, double radius) {
+        List<Point2D> points = new ArrayList<>();
+        double angleIncrement = 2 * Math.PI / numPoints;
+
+        for (int i = 0; i < numPoints; i++) {
+            double angle = i * angleIncrement;
+            double x = center.getX() + radius * Math.cos(angle);
+            double y = center.getY() + radius * Math.sin(angle);
+            points.add(new Point2D.Double(x, y));
+        }
+
+        return points;
+    }
+
+    public static List<Point2D> generateSymmetricPoints(Point2D center, int numPoints) {
+        return generateSymmetricPoints(center, 10, numPoints);
     }
 
 }

@@ -6,6 +6,7 @@ import java.awt.Polygon;
 
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
+import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
@@ -34,7 +35,7 @@ public class ShotController implements UPSController {
                         if (enemyModel.isImpacting) {
                             enemyModel.impact_speed *= 1.05;
                             enemyModel.setImpact(new Point2D.Double(1, 1), false);
-                        } else
+                        } else if (enemyModel.type != EnemyType.wyrm)
                             enemyModel.setImpact(false);
                     }
                     if (enemyModel.HP <= 0) {

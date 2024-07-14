@@ -114,6 +114,17 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
             enemyModel.clockwise = true;
             enemyModel.minRadius = Constants.WYRM_MIN_RADIUS;
             enemyModel.angleMove = 0;
+            Timer shoTimer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
+                            enemyModel.attacks.get("ranged"));
+                    shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
+                    shotModel.rigid = false;
+                }
+            });
+            enemyModel.timers.put("shotTimer", shoTimer);
+            enemyModel.timers.get("shotTimer").start();
         }
         enemyModel.setRelativePoints();
 

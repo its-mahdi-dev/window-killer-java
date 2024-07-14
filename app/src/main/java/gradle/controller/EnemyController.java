@@ -197,18 +197,20 @@ public class EnemyController implements UPSController {
                 // } else {
                 // epsilonModel.setImpact(enemyModel.direction);
                 // }
-                for (Model vertex : EpsilonVertexModel.items) {
-                    // System.out.println(Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor)
-                    // + " -> " + point2ds[0]
-                    // + " -- " + point2ds[1]
-                    // + " ->" + vertex.anchor);
-                    if (Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) < vertex.w * 2) {
-                        enemyModel.HP -= Constants.EPSILON_POWER;
-                        if (enemyModel.HP <= 0) {
-                            removedEnemies.add(enemyModel);
+                if (enemyModel.type != EnemyType.wyrm) {
+                    for (Model vertex : EpsilonVertexModel.items) {
+                        // System.out.println(Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor)
+                        // + " -> " + point2ds[0]
+                        // + " -- " + point2ds[1]
+                        // + " ->" + vertex.anchor);
+                        if (Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) < vertex.w * 2) {
+                            enemyModel.HP -= Constants.EPSILON_POWER;
+                            if (enemyModel.HP <= 0) {
+                                removedEnemies.add(enemyModel);
+                            }
                         }
-                    }
 
+                    }
                 }
                 enemyModel.setImpact(newDirection, true, true);
             }
@@ -229,7 +231,11 @@ public class EnemyController implements UPSController {
                 // enemyModel.anchor = new Point2D.Double(
                 // enemyModel.anchor.getX() + (newDirection.getX() * -5),
                 // enemyModel.anchor.getY() + (newDirection.getY() * -5));
-                enemyModel.setImpact(newDirection, true, true);
+                if (enemyModel.type == EnemyType.wyrm) {
+                    System.out.println(enemyModel.clockwise);
+                    enemyModel.clockwise = !enemyModel.clockwise;
+                } else
+                    enemyModel.setImpact(newDirection, true, true);
                 // enemy.setImpact();
             }
         }

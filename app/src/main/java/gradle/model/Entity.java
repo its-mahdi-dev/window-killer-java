@@ -80,7 +80,6 @@ public abstract class Entity extends Model {
         }
     }
 
-
     public void setImpact(Point2D point2d, boolean isCollision) {
         setImpact(point2d, isCollision, false);
 
@@ -122,7 +121,6 @@ public abstract class Entity extends Model {
     public void setImpact(boolean isCollision) {
         setImpact(new Point2D.Double(-1, -1), isCollision);
     }
-    
 
     public void setEnemyImpacts(double max_distance, double increaseSpeed) {
         for (Model newModel : getAllEntities()) {
@@ -134,10 +132,16 @@ public abstract class Entity extends Model {
                 Point2D newDirection = Utils.getDirection(anchor, entity.anchor);
                 // if (newDirection.getX() * entity.direction.getX() <= 0
                 // && newDirection.getY() * entity.direction.getY() <= 0)
-                entity.setImpact(newDirection, newSpeed, true);
+                if (entity instanceof EnemyModel) {
+                    EnemyModel enemyModel = (EnemyModel) entity;
+                    if (enemyModel.type != EnemyType.wyrm)
+                        entity.setImpact(newDirection, newSpeed, true);
+                } else
+                    entity.setImpact(newDirection, newSpeed, true);
             }
         }
     }
+
     public void setEnemyImpacts() {
         setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT, 1);
     }

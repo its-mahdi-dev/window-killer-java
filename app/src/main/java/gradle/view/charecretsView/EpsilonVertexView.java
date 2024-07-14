@@ -31,7 +31,7 @@ public class EpsilonVertexView extends View {
     }
 
     @Override
-    protected List<View> getRemovedItems() {
+    public List<View> getRemovedItems() {
         return removedItems;
     }
 

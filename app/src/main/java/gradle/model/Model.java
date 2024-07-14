@@ -64,7 +64,7 @@ public abstract class Model {
 
     
 
-    protected abstract List<Model> getItems();
+    public abstract List<Model> getItems();
 
-    protected abstract List<Model> getRemovedItems();
+    public abstract List<Model> getRemovedItems();
 }

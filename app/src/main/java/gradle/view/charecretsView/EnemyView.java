@@ -21,13 +21,16 @@ import gradle.controller.Utils;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.Model;
+import gradle.model.enemies.ArchmireEnemy;
+import gradle.view.charecretsView.enemies.ArchmireEnemyView;
+import gradle.view.charecretsView.enemies.NecropickEnemyView;
+import gradle.view.charecretsView.enemies.OmenoctEnemyView;
+import gradle.view.charecretsView.enemies.SquareEnemyView;
+import gradle.view.charecretsView.enemies.TriangleEnemyView;
+import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
-public class EnemyView extends View {
+public abstract class EnemyView extends View {
 
-    public static final List<View> items = new ArrayList<>();
-    public static final List<View> removedItems = new ArrayList<>();
-
-    public EnemyType type;
     public double angle;
     public int HP;
     public int[] xPoints;
@@ -35,67 +38,18 @@ public class EnemyView extends View {
 
     public EnemyView(String Id, EnemyType enemyType) {
         super(Id);
-        this.type = enemyType;
     }
 
-    @Override
-    public void draw(Graphics g, Component component) {
-        Map<String, int[]> points = Utils.getPanelPoints(xPoints, yPoints, component);
-        Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
-        int[] newXpoints = points.get("xPoints");
-        int[] newYpoints = points.get("yPoints");
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE));
-        if (type == EnemyType.square) {
-            g2d.setColor(Color.GREEN);
-            g2d.drawPolygon(newXpoints, newYpoints, 4);
-        } else if (type == EnemyType.triangle) {
-            g2d.setColor(Color.YELLOW);
-            g2d.drawPolygon(newXpoints, newYpoints, 3);
-        } else if (type == EnemyType.omenoct) {
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            for (int i = 0; i < 8; i++) {
-                g2d.setColor(i % 2 == 0 ? Color.RED : Color.WHITE);
-                fillTriangle(g2d, (int) newAnchor.getX(), (int) newAnchor.getY(), newXpoints[i], newYpoints[i],
-                        newXpoints[(i + 1) % 8], newYpoints[(i + 1) % 8]);
-            }
-            g2d.setColor(Color.green);
-            g2d.drawLine((int) newAnchor.getX(), (int) newAnchor.getY(), (int) newAnchor.getX() + w,
-                    (int) newAnchor.getY() + h);
-        } else if (type == EnemyType.necropick) {
-            g2d.setColor(Color.GRAY);
+    public void drawBase(Graphics2D g2d, Point2D newAnchor) {
 
-            g2d.drawPolygon(newXpoints, newYpoints, 4);
-            Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/necropick.png").getImage();
-            g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
-
-            g2d.rotate(angle);
-            g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
-            g2d.rotate(-angle);
-            g2d.translate(-(int) newAnchor.getX(), -(int) newAnchor.getY());
-        } else if (type == EnemyType.wyrm) {
-            
-            g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE / 2));
-            g2d.setColor(Color.PINK);
-
-            g2d.drawPolygon(newXpoints, newYpoints, 4);
-            Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/wyrm.png").getImage();
-            g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
-
-            g2d.rotate(angle);
-            g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
-            g2d.rotate(-angle);
-            g2d.translate(-(int) newAnchor.getX(), -(int) newAnchor.getY());
-        }
-
-        int centerX = 0;
-        int centerY = 0;
-        for (int i = 0; i < newXpoints.length; i++) {
-            centerX += newXpoints[i];
-            centerY += newYpoints[i];
-        }
-        centerX /= newXpoints.length;
-        centerY /= newYpoints.length;
+        int centerX = (int) newAnchor.getX();
+        int centerY = (int) newAnchor.getY();
+        // for (int i = 0; i < newXpoints.length; i++) {
+        // centerX += newXpoints[i];
+        // centerY += newYpoints[i];
+        // }
+        // centerX /= newXpoints.length;
+        // centerY /= newYpoints.length;
 
         // Set the font size to 18
         g2d.setFont(new Font("Arial", Font.BOLD, 15));
@@ -110,51 +64,43 @@ public class EnemyView extends View {
         int textY = centerY + textHeight / 2;
         g2d.drawString(text, textX, textY);
 
-        g2d.setColor(Color.white);
-        for (int i = 0; i < newXpoints.length; i++) {
-            int cenX = newXpoints[i] - 2;
-            int cenY = newYpoints[i] - 2;
+        // g2d.setColor(Color.white);
+        // for (int i = 0; i < newXpoints.length; i++) {
+        // int cenX = newXpoints[i] - 2;
+        // int cenY = newYpoints[i] - 2;
 
-            g2d.fillOval(cenX, cenY, 4, 4);
-        }
+        // g2d.fillOval(cenX, cenY, 4, 4);
+        // }
 
     }
 
-    private void fillTriangle(Graphics2D g2d, int x1, int y1, int x2, int y2, int x3, int y3) {
-        Path2D triangle = new Path2D.Double();
-        triangle.moveTo(x1, y1);
-        triangle.lineTo(x2, y2);
-        triangle.lineTo(x3, y3);
-        triangle.closePath();
-        g2d.fill(triangle);
-    }
-
-    @Override
-    public void setUtil(Model enemyModel) {
+    public void setBaseUtil(Model enemyModel) {
         EnemyModel enemy = (EnemyModel) enemyModel;
         anchor = enemy.anchor;
-        type = enemy.type;
         w = enemy.w;
         h = enemy.h;
+        HP = enemy.HP;
+        visible = enemy.visible;
         xPoints = enemy.getXpointsInt();
         yPoints = enemy.getYpointsInt();
-        HP = enemy.HP;
-        angle = enemy.angle;
-        visible = enemy.visible;
     }
 
-    @Override
-    public List<View> getItems() {
-        return items;
+    public static List<View> getEnemyViews() {
+        List<View> enemyViews = new ArrayList<>();
+        enemyViews.addAll(ArchmireEnemyView.items);
+        enemyViews.addAll(WyrmEnemyView.items);
+        enemyViews.addAll(NecropickEnemyView.items);
+        enemyViews.addAll(SquareEnemyView.items);
+        enemyViews.addAll(TriangleEnemyView.items);
+        enemyViews.addAll(OmenoctEnemyView.items);
+        return enemyViews;
     }
 
-    @Override
-    protected List<View> getRemovedItems() {
-        return removedItems;
-    }
+    public abstract List<View> getRemovedItems();
 
     public static View findById(String Id) {
-        return View.findView(Id, items);
+        return View.findView(Id, getEnemyViews());
     }
+
 
 }

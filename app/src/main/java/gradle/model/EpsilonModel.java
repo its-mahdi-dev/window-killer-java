@@ -8,7 +8,7 @@ import gradle.controller.GameSettings;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
-public class EpsilonModel extends Entity{
+public class EpsilonModel extends Entity {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
     public boolean shotStore;
@@ -41,12 +41,12 @@ public class EpsilonModel extends Entity{
     }
 
     @Override
-    protected List<Model> getItems() {
+    public List<Model> getItems() {
         return items;
     }
 
     @Override
-    protected List<Model> getRemovedItems() {
+    public List<Model> getRemovedItems() {
         return removedItems;
     }
 

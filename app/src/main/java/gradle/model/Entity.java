@@ -150,7 +150,7 @@ public abstract class Entity extends Model {
 
         List<Model> all = new ArrayList<>();
 
-        all.addAll(EnemyModel.items);
+        // all.addAll(EnemyModel.items);
         all.add(EpsilonModel.getINSTANCE());
 
         return all;

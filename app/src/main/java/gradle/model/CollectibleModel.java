@@ -57,12 +57,12 @@ public class CollectibleModel extends Model {
     // }
 
     @Override
-    protected List<Model> getItems() {
+    public List<Model> getItems() {
         return items;
     }
 
     @Override
-    protected List<Model> getRemovedItems() {
+    public List<Model> getRemovedItems() {
         return removedItems;
     }
 

@@ -10,7 +10,7 @@ import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
 
-public class ShotModel extends Entity{
+public class ShotModel extends Entity {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
@@ -55,12 +55,12 @@ public class ShotModel extends Entity{
     }
 
     @Override
-    protected List<Model> getItems() {
+    public List<Model> getItems() {
         return items;
     }
 
     @Override
-    protected List<Model> getRemovedItems() {
+    public List<Model> getRemovedItems() {
         return removedItems;
     }
 

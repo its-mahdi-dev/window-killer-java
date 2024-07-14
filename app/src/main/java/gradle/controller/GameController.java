@@ -4,6 +4,7 @@ import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
+import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
 import gradle.view.GameFrame;
@@ -31,7 +32,7 @@ public class GameController implements UPSController {
 
     @Override
     public void check() {
-        if (!EnemyController.isCreating && EnemyModel.items.size() == 0)
+        if (!EnemyController.isCreating && EnemyModel.getAllEnemies().size() == 0)
             GameController.createWave();
 
         if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
@@ -98,7 +99,7 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        EnemyModel.create(new Point2D.Double(600,300) , EnemyType.wyrm);
+        WyrmEnemy.create(new Point2D.Double(600,300));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 

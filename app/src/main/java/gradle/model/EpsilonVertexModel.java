@@ -6,6 +6,7 @@ import java.util.List;
 import gradle.controller.Constants;
 import gradle.controller.MouseController;
 import gradle.view.charecretsView.EpsilonVertexView;
+
 public class EpsilonVertexModel extends Model {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
@@ -44,12 +45,12 @@ public class EpsilonVertexModel extends Model {
     }
 
     @Override
-    protected List<Model> getItems() {
+    public List<Model> getItems() {
         return items;
     }
 
     @Override
-    protected List<Model> getRemovedItems() {
+    public List<Model> getRemovedItems() {
         return removedItems;
     }
 

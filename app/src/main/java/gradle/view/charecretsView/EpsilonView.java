@@ -57,7 +57,7 @@ public class EpsilonView extends View {
     }
 
     @Override
-    protected List<View> getRemovedItems() {
+    public List<View> getRemovedItems() {
         return removedItems;
     }
 

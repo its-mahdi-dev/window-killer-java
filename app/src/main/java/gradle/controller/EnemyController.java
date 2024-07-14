@@ -21,6 +21,8 @@ import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.enemies.SquareEnemy;
+import gradle.model.enemies.TriangleEnemy;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
@@ -33,7 +35,7 @@ public class EnemyController implements UPSController {
     public void check() {
         if (!isCreating) {
             removedEnemies = new ArrayList<>();
-            for (Model model : EnemyModel.items) {
+            for (Model model : EnemyModel.getAllEnemies()) {
                 EnemyModel enemyModel = (EnemyModel) model;
 
                 Point2D direction = Utils.getDirection(enemyModel.anchor,
@@ -63,9 +65,9 @@ public class EnemyController implements UPSController {
                 remove(enemyModel.getId());
             }
         }
-        if (!isCreating && EnemyModel.items.size() > 0) {
-            for (int i = 0; i < EnemyView.items.size(); i++) {
-                EnemyView enemyView = (EnemyView) EnemyView.items.get(i);
+        if (!isCreating && EnemyModel.getAllEnemies().size() > 0) {
+            for (int i = 0; i < EnemyView.getEnemyViews().size(); i++) {
+                EnemyView enemyView = (EnemyView) EnemyView.getEnemyViews().get(i);
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
                 if (enemyModel != null)
                     enemyView.setUtil(enemyModel);
@@ -222,8 +224,8 @@ public class EnemyController implements UPSController {
     public static void checkEnemyCollision(EnemyModel enemyModel) {
         if (enemyModel.hovering)
             return;
-        for (int i = 0; i < EnemyModel.items.size(); i++) {
-            EnemyModel enemy = (EnemyModel) EnemyModel.items.get(i);
+        for (int i = 0; i < EnemyModel.getAllEnemies().size(); i++) {
+            EnemyModel enemy = (EnemyModel) EnemyModel.getAllEnemies().get(i);
             if (enemy.hovering)
                 continue;
             if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
@@ -243,7 +245,7 @@ public class EnemyController implements UPSController {
 
     private static boolean isEnemyCollision(EnemyModel enemyModel1, EnemyModel enemyModel2) {
         Polygon polygon = new Polygon(enemyModel1.getXpointsInt(), enemyModel1.getYpointsInt(),
-                enemyModel1.getEnemyPointsNumber());
+                enemyModel1.xPoints.length);
         for (int i = 0; i < enemyModel2.xPoints.length; i++) {
             if (polygon.contains(new Point2D.Double(enemyModel2.xPoints[i], enemyModel2.yPoints[i])))
                 return true;
@@ -262,10 +264,11 @@ public class EnemyController implements UPSController {
                 timers.stop();
             enemyModel.timers.clear();
             enemyModel.setCollectible();
-            EnemyModel.removedItems.add(enemyModel);
-            EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));
-            EnemyModel.items.remove(enemyModel);
-            EnemyView.items.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+            enemyModel.getRemovedItems().add(enemyModel);
+            EnemyView enemyView = (EnemyView) EnemyView.findById(enemyModel.getId());
+            enemyView.getRemovedItems().add(enemyView);
+            enemyModel.getItems().remove(enemyModel);
+            enemyView.getItems().removeIf(enemy -> enemy.getId() == enemyModel.getId());
         }
     }
 
@@ -284,7 +287,7 @@ public class EnemyController implements UPSController {
             if (i % 2 == 0) {
                 y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY() - Constants.ENEMY_SQUARE_DIAMETER;
             }
-            EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.square);
+            SquareEnemy.create(new Point2D.Double(x1, y1));
         }
 
         for (int i = 0; i < triangleEnemies; i++) {
@@ -296,7 +299,7 @@ public class EnemyController implements UPSController {
             if (i % 2 == 0)
                 x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX() - Constants.ENEMY_TRIANGLE_DIAMETER;
 
-            EnemyModel.create(new Point2D.Double(x1, y1), EnemyType.triangle);
+            TriangleEnemy.create(new Point2D.Double(x1, y1));
         }
 
         isCreating = false;
@@ -304,8 +307,8 @@ public class EnemyController implements UPSController {
 
     public static void removeAll() {
 
-        for (int i = EnemyModel.items.size() - 1; i >= 0; i--) {
-            remove(EnemyModel.items.get(i).getId());
+        for (int i = EnemyModel.getAllEnemies().size() - 1; i >= 0; i--) {
+            remove(EnemyModel.getAllEnemies().get(i).getId());
         }
     }
 

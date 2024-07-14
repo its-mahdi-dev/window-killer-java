@@ -61,7 +61,7 @@ public class GamePanel extends JPanel {
             shotView.draw(g, this);
         }
 
-        for (View enemyView : EnemyView.items) {
+        for (View enemyView : EnemyView.getEnemyViews()) {
             if (enemyView.visible)
                 enemyView.draw(g, this);
         }

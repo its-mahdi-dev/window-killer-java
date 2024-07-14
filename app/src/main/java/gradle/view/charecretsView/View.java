@@ -54,5 +54,5 @@ public abstract class View {
 
     public abstract List<View> getItems();
 
-    protected abstract List<View> getRemovedItems();
+    public abstract List<View> getRemovedItems();
 }

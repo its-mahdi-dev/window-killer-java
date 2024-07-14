@@ -23,8 +23,8 @@ public class ShotController implements UPSController {
             shotModel.move();
 
             if (shotModel.shotType == ShotType.epsilon) {
-                for (int j = 0; j < EnemyModel.items.size(); j++) {
-                    EnemyModel enemyModel = (EnemyModel) EnemyModel.items.get(j);
+                for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
+                    EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
                     if (checkEpsilonShot(enemyModel, shotModel)) {
                         enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
                         if (enemyModel.HP >= 0)
@@ -133,7 +133,7 @@ public class ShotController implements UPSController {
 
     private static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {
         Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
-                enemyModel.getEnemyPointsNumber());
+                enemyModel.xPoints.length);
         if (polygon.contains(shotModel.anchor))
             return true;
         return false;

@@ -119,14 +119,15 @@ public class EpsilonController implements UPSController {
 
     public static void mousePressed(MouseEvent e) {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
-            ShotModel shot = ShotModel.create(EpsilonModel.getINSTANCE().anchor, ShotType.epsilon, Constants.EPSILON_SHOT_POWER);
+            ShotModel shot = ShotModel.create(EpsilonModel.getINSTANCE().anchor, ShotType.epsilon,
+                    Constants.EPSILON_SHOT_POWER);
             Utils.playMusic("shot", false);
             shot.anchor = EpsilonModel.getINSTANCE().anchor;
             Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),
                     e.getY() + i * (Math.pow(-1, i) * 50));
             Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
             shot.setDirection(direction);
-            // shot.rigid = false;
+            shot.rigid = true;
         }
     }
 

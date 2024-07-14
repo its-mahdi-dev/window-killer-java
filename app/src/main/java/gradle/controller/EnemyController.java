@@ -38,12 +38,20 @@ public class EnemyController implements UPSController {
 
                 Point2D direction = Utils.getDirection(enemyModel.anchor,
                         EpsilonModel.getINSTANCE().anchor);
-                if (enemyModel.type == EnemyType.omenoct)
-                    checkOmenoctMove(enemyModel, direction);
-                else
-                    enemyModel.setDirection(direction);
+                if (enemyModel.type == EnemyType.wyrm) {
+                    // enemyModel.updatePosition();
+                    Point2D newDirection = Utils.getTangentialDirection(enemyModel, EpsilonModel.getINSTANCE().anchor);
+                    enemyModel.setDirection(newDirection);
+                    enemyModel.move();
+                    enemyModel.setRelativePoints();
+                } else {
+                    if (enemyModel.type == EnemyType.omenoct)
+                        checkOmenoctMove(enemyModel, direction);
+                    else
+                        enemyModel.setDirection(direction);
 
-                enemyModel.move();
+                    enemyModel.move();
+                }
                 checkEnemyAbilities(enemyModel);
                 if (enemyModel.ableMove)
                     setPoints(enemyModel);
@@ -246,6 +254,7 @@ public class EnemyController implements UPSController {
             Utils.playMusic("enemyDeath", false);
             for (Timer timers : enemyModel.timers.values())
                 timers.stop();
+            enemyModel.timers.clear();
             enemyModel.setCollectible();
             EnemyModel.removedItems.add(enemyModel);
             EnemyView.removedItems.add(EnemyView.findById(enemyModel.getId()));

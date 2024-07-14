@@ -25,6 +25,11 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
     private int collectibleCount;
     public int HP;
     public double HP_time;
+
+    public boolean clockwise;
+    public double minRadius;
+    public double angleMove;
+
     public Map<String, Timer> timers = new HashMap<>();
     public Map<String, Long> times = new HashMap<>();
     public Map<String, Integer> attacks = new HashMap<>();
@@ -34,7 +39,7 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
         attacks.put("aoe", 0);
     }
 
-    public EnemyModel(Point2D anchor, EnemyType enemyType) {
+    public EnemyModel() {
 
     }
 
@@ -49,7 +54,7 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
                     EnemyView.removedItems);
             EnemyView.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
-            enemyModel = new EnemyModel(anchor, enemyType);
+            enemyModel = new EnemyModel();
             enemyView = new EnemyView(enemyModel.getId(), enemyModel.type);
         }
 
@@ -99,6 +104,16 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
             enemyModel.times.put("gravity", System.currentTimeMillis());
             enemyModel.hovering = false;
             enemyModel.ableMove = false;
+        } else if (enemyModel.type == EnemyType.wyrm) {
+            enemyModel.collectibleCount = 2;
+            enemyModel.collectibleXP = 8;
+            enemyModel.HP = 12;
+            enemyModel.attacks.replace("ranged", 8);
+            enemyModel.hovering = false;
+            enemyModel.ableMove = true;
+            enemyModel.clockwise = true;
+            enemyModel.minRadius = Constants.WYRM_MIN_RADIUS;
+            enemyModel.angleMove = 0;
         }
         enemyModel.setRelativePoints();
 
@@ -208,8 +223,23 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
             xPoints = xPointsO;
             yPoints = yPointsO;
         } else if (type == EnemyType.necropick) {
-            w = Constants.ENEMY_NECRIPICN_WIDTH;
-            h = Constants.ENEMY_NECRIPICN_HEIGHT;
+            w = Constants.ENEMY_NECRIPICK_WIDTH;
+            h = Constants.ENEMY_NECRIPICK_HEIGHT;
+            xPoints = new double[] {
+                    (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
+                    (x + w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle)),
+                    (x - w / 2 * Math.cos(rotationAngle) - h / 2 * Math.sin(rotationAngle))
+            };
+            yPoints = new double[] {
+                    (y - w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) - h / 2 * Math.cos(rotationAngle)),
+                    (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
+                    (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
+            };
+        } else if (type == EnemyType.wyrm) {
+            w = Constants.ENEMY_WYRM_WIDTH;
+            h = Constants.ENEMY_WYRM_HEIGHT;
             xPoints = new double[] {
                     (x - w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
                     (x + w / 2 * Math.cos(rotationAngle) + h / 2 * Math.sin(rotationAngle)),
@@ -302,6 +332,23 @@ public class EnemyModel extends Entity implements Collectible, Rotation, Polygan
         return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
     }
 
-    
+    public void updatePosition() {
+        if (ableMove) {
+            // Update the angle based on the direction of rotation
+            if (clockwise) {
+                angleMove += max_speed / 2; // Clockwise rotation
+            } else {
+                angleMove -= max_speed / 2; // Counterclockwise rotation
+            }
+
+            // Calculate the new position using the angleMove and radius
+            double x = EpsilonModel.getINSTANCE().anchor.getX() + minRadius * Math.cos(angleMove);
+            double y = EpsilonModel.getINSTANCE().anchor.getY() + minRadius * Math.sin(angleMove);
+
+            // Update the anchor position
+            anchor = new Point2D.Double(x, y);
+            // System.out.println(anchor);
+        }
+    }
 
 }

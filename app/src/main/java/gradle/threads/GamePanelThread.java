@@ -4,6 +4,7 @@ import gradle.controller.Constants;
 import gradle.controller.GameSettings;
 import gradle.model.EpsilonModel;
 import gradle.view.GamePanel;
+import gradle.view.charecretsView.EnemyView;
 
 public class GamePanelThread implements Runnable {
     private final GamePanel gamePanel;
@@ -17,10 +18,10 @@ public class GamePanelThread implements Runnable {
     public void run() {
         while (running) {
             long startTime = System.nanoTime();
-
             gamePanel.repaint();
-            if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 && !GameSettings.isPause)
-                gamePanel.changeSize();
+            // if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 &&
+            // !GameSettings.isPause)
+            // gamePanel.changeSize();
 
             long elapsedTime = System.nanoTime() - startTime;
             long sleepTime = ((long) Constants.FRAME_UPDATE_TIME * 1_000_000L - elapsedTime) / 1_000_000L;

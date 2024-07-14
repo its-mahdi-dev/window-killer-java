@@ -14,12 +14,35 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import gradle.model.EnemyModel;
+
 public class Utils {
     public static Point2D getDirection(Point2D point1, Point2D point2) {
         double angle = Math.atan2(point2.getY() - point1.getY(), point2.getX() - point1.getX());
         double xVelocity = Math.cos(angle);
         double yVelocity = Math.sin(angle);
         return new Point2D.Double(xVelocity, yVelocity);
+    }
+
+    public static Point2D getTangentialDirection(EnemyModel enemyModel, Point2D center) {
+        double angleChange = enemyModel.max_speed / enemyModel.minRadius; // Angle change per update
+        if (enemyModel.clockwise) {
+            enemyModel.angleMove -= angleChange;
+        } else {
+            enemyModel.angleMove += angleChange;
+        }
+
+        // Calculate the new position using the updated angle
+        double newX = center.getX() + enemyModel.minRadius * Math.cos(enemyModel.angleMove);
+        double newY = center.getY() + enemyModel.minRadius * Math.sin(enemyModel.angleMove);
+
+        // Calculate the direction vector
+        double dx = newX - enemyModel.anchor.getX();
+        double dy = newY - enemyModel.anchor.getY();
+
+        // Normalize the direction vector
+        double length = Math.sqrt(dx * dx + dy * dy);
+        return new Point2D.Double(dx / length, dy / length);
     }
 
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {

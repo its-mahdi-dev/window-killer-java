@@ -69,14 +69,21 @@ public class EnemyView extends View {
             Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/necropick.png").getImage();
             g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
 
-            // Rotate the graphics context
             g2d.rotate(angle);
-
-            // Draw the image (adjusting for the negative width and height to handle
-            // rotation correctly)
             g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
+            g2d.rotate(-angle);
+            g2d.translate(-(int) newAnchor.getX(), -(int) newAnchor.getY());
+        } else if (type == EnemyType.wyrm) {
+            
+            g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE / 2));
+            g2d.setColor(Color.PINK);
 
-            // Reset transformations (optional)
+            g2d.drawPolygon(newXpoints, newYpoints, 4);
+            Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/wyrm.png").getImage();
+            g2d.translate((int) newAnchor.getX(), (int) newAnchor.getY());
+
+            g2d.rotate(angle);
+            g2d.drawImage(necro, -w / 2, -h / 2, w, h, null);
             g2d.rotate(-angle);
             g2d.translate(-(int) newAnchor.getX(), -(int) newAnchor.getY());
         }

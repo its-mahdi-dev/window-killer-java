@@ -37,8 +37,10 @@ public class Constants {
         public static final int ENEMY_SQUARE_DIAMETER = 50;
         public static final int ENEMY_TRIANGLE_DIAMETER = 40;
         public static final int ENEMY_OMENOCT_DIAMETER = 50;
-        public static final int ENEMY_NECRIPICN_WIDTH = 30;
-        public static final int ENEMY_NECRIPICN_HEIGHT = 50;
+        public static final int ENEMY_NECRIPICK_WIDTH = 30;
+        public static final int ENEMY_NECRIPICK_HEIGHT = 50;
+        public static final int ENEMY_WYRM_WIDTH = 50;
+        public static final int ENEMY_WYRM_HEIGHT = 40;
         public static final double ENEMY_SPEED = 2 * 60D / UPS;
 
         public static final int NECROPICK_EPSILON_RADIUS = 100;
@@ -51,4 +53,5 @@ public class Constants {
         public static final int MAX_DISTANCE_IMPACT = 300;
         public static final int EPSILON_POWER = 10;
         static final int EPSILON_SHOT_POWER = 5;
+        public static final int WYRM_MIN_RADIUS = 300;
 }

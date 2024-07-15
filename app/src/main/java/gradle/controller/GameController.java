@@ -4,6 +4,8 @@ import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
+import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -99,12 +101,13 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        WyrmEnemy.create(new Point2D.Double(600,300));
+        ArchmireEnemy.create(new Point2D.Double(600, 300));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 
         // Update.timer1.start();
         // Update.timer2.start();
+        GameSettings.gameRunnig = true;
         startUPS();
 
         GameFrame.getINSTANCE().repaint();

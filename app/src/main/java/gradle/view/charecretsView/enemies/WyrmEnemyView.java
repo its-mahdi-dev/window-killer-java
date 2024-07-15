@@ -52,8 +52,6 @@ public class WyrmEnemyView extends EnemyView {
         int[] newYpoints = points.get("yPoints");
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE));
-
         g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE / 2));
         g2d.setColor(Color.PINK);
 

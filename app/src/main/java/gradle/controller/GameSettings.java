@@ -8,5 +8,6 @@ public class GameSettings {
     public static float volume = 0.5f;
     public static int sensitivity = 0;
     public static double level = 1; 
+    public static boolean gameRunnig;
     // private GameSettings()
 }

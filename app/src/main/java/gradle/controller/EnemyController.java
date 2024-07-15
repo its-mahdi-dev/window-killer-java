@@ -13,6 +13,9 @@ import java.util.Map.Entry;
 
 import javax.swing.Timer;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -21,6 +24,7 @@ import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.TriangleEnemy;
 import gradle.view.GamePanel;
@@ -57,6 +61,9 @@ public class EnemyController implements UPSController {
                 checkEnemyAbilities(enemyModel);
                 if (enemyModel.ableMove)
                     setPoints(enemyModel);
+                if (enemyModel.type == EnemyType.archmire)
+                    ((ArchmireEnemy) enemyModel).updatePathHistory();
+
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
             }
@@ -167,6 +174,17 @@ public class EnemyController implements UPSController {
     }
 
     public static void checkEpsilonColision(EnemyModel enemyModel) {
+        if (enemyModel.type == EnemyType.archmire) {
+            Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                    enemyModel.xPoints.length);
+            if (polygon.contains(EpsilonModel.getINSTANCE().anchor)) {
+                System.out.println("collision");
+            }
+            if (isPointInPastArea(enemyModel, EpsilonModel.getINSTANCE().anchor.getX(),
+                    EpsilonModel.getINSTANCE().anchor.getY())) {
+                System.out.println("colllllll");
+            }
+        }
         if (enemyModel.hovering)
             return;
         EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
@@ -303,6 +321,20 @@ public class EnemyController implements UPSController {
         }
 
         isCreating = false;
+    }
+
+    public static boolean isPointInPastArea(EnemyModel enemyModel, double x, double y) {
+        ArchmireEnemy archmireEnemy = (ArchmireEnemy) enemyModel;
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate pointCoordinate = new Coordinate(x, y);
+        org.locationtech.jts.geom.Point point = geometryFactory.createPoint(pointCoordinate);
+
+        for (org.locationtech.jts.geom.Polygon polygon : archmireEnemy.pathHistory) {
+            if (polygon.contains(point)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void removeAll() {

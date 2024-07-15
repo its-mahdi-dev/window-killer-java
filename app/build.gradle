@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'net.java.dev.jna:jna-platform:5.12.1'
+    implementation 'org.locationtech.jts:jts-core:1.18.2'
 }
 
 application {

@@ -22,7 +22,6 @@ public class ShotModel extends Entity {
     }
 
     public static ShotModel create(Point2D anchor, ShotType type, int power) {
-        System.out.println(((ArchmireEnemy) ArchmireEnemy.items.get(0)).pathHistory.size());
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {

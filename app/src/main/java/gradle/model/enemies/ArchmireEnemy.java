@@ -34,11 +34,11 @@ public class ArchmireEnemy extends EnemyModel {
     }
 
     public static EnemyModel create(Point2D anchor) {
-        EnemyModel enemyModel;
+        ArchmireEnemy enemyModel;
         ArchmireEnemyView enemyView;
 
         if (removedItems.size() > 0) {
-            enemyModel = (EnemyModel) removedItems.get(0);
+            enemyModel = (ArchmireEnemy) removedItems.get(0);
             removedItems.remove(0);
             enemyView = (ArchmireEnemyView) EnemyView.findView(enemyModel.getId(),
                     ArchmireEnemyView.removedItems);
@@ -47,7 +47,7 @@ public class ArchmireEnemy extends EnemyModel {
             enemyModel = new ArchmireEnemy();
             enemyView = new ArchmireEnemyView(enemyModel.getId(), enemyModel.type);
         }
-
+        enemyModel.pathHistory = new LinkedList<>();
         enemyModel.anchor = anchor;
         enemyModel.type = EnemyType.archmire;
         enemyModel.max_speed = Constants.ENEMY_SPEED / 2 + (GameSettings.level / 5);
@@ -63,6 +63,8 @@ public class ArchmireEnemy extends EnemyModel {
         enemyModel.clockwise = true;
         enemyModel.angleMove = 0;
         ((ArchmireEnemy) enemyModel).maxSteps = 5 * 20;
+        enemyModel.attacks.replace("aoe", 2);
+        enemyModel.attacks.replace("drown", 10);
         enemyModel.setRelativePoints();
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;

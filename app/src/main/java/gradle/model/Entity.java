@@ -101,6 +101,8 @@ public abstract class Entity extends Model {
     }
 
     public void setImpact(Point2D point2d, double speed, boolean correctDirection) {
+        if (hovering)
+            return;
         if (isMoving && !correctDirection) {
             direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
         } else {

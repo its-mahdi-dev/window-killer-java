@@ -66,6 +66,7 @@ public class EnemyController implements UPSController {
 
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
+                if(enemyModel.HP <= 0) removedEnemies.add(enemyModel);
             }
 
             for (EnemyModel enemyModel : removedEnemies) {
@@ -178,11 +179,27 @@ public class EnemyController implements UPSController {
             Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
                     enemyModel.xPoints.length);
             if (polygon.contains(EpsilonModel.getINSTANCE().anchor)) {
-                System.out.println("collision");
+                if (EpsilonModel.getINSTANCE().times.get("archmire") == null) {
+                    EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
+                    EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("drown");
+                } else {
+                    if (System.currentTimeMillis() - EpsilonModel.getINSTANCE().times.get("archmire") > 1000) {
+                        EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
+                        EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("drown");
+                    }
+                }
             }
             if (isPointInPastArea(enemyModel, EpsilonModel.getINSTANCE().anchor.getX(),
                     EpsilonModel.getINSTANCE().anchor.getY())) {
-                System.out.println("colllllll");
+                if (EpsilonModel.getINSTANCE().times.get("archmire") == null) {
+                    EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
+                    EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("aoe");
+                } else {
+                    if (System.currentTimeMillis() - EpsilonModel.getINSTANCE().times.get("archmire") > 1000) {
+                        EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
+                        EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("aoe");
+                    }
+                }
             }
         }
         if (enemyModel.hovering)
@@ -240,6 +257,38 @@ public class EnemyController implements UPSController {
     }
 
     public static void checkEnemyCollision(EnemyModel enemyModel) {
+        if (enemyModel.type == EnemyType.archmire) {
+            for (int i = 0; i < EnemyModel.getAllEnemies().size(); i++) {
+                EnemyModel enemy = (EnemyModel) EnemyModel.getAllEnemies().get(i);
+                if (enemy.equals(enemyModel))
+                    continue;
+                Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                        enemyModel.xPoints.length);
+                if (polygon.contains(enemy.anchor)) {
+                    if (enemy.times.get("archmire") == null) {
+                        enemy.times.put("archmire", System.currentTimeMillis());
+                        enemy.HP -= enemyModel.attacks.get("drown");
+                    } else {
+                        if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                            enemy.times.put("archmire", System.currentTimeMillis());
+                            enemy.HP -= enemyModel.attacks.get("drown");
+                        }
+                    }
+                }
+                if (isPointInPastArea(enemyModel, enemy.anchor.getX(),
+                        enemy.anchor.getY())) {
+                    if (enemy.times.get("archmire") == null) {
+                        enemy.times.put("archmire", System.currentTimeMillis());
+                        enemy.HP -= enemyModel.attacks.get("aoe");
+                    } else {
+                        if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                            enemy.times.put("archmire", System.currentTimeMillis());
+                            enemy.HP -= enemyModel.attacks.get("aoe");
+                        }
+                    }
+                }
+            }
+        }
         if (enemyModel.hovering)
             return;
         for (int i = 0; i < EnemyModel.getAllEnemies().size(); i++) {

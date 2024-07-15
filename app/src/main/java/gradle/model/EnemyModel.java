@@ -40,6 +40,7 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         attacks.put("melee", 0);
         attacks.put("ranged", 0);
         attacks.put("aoe", 0);
+        attacks.put("drown", 0);
     }
 
     public EnemyModel() {

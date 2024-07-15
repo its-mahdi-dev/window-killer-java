@@ -17,6 +17,9 @@ import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.threads.GamePanelThread;
+import gradle.view.GamePanel;
+import gradle.view.Panels;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
@@ -25,16 +28,18 @@ public class WyrmEnemy extends EnemyModel {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
+    public GamePanel panel;
+
     public WyrmEnemy() {
 
     }
 
     public static EnemyModel create(Point2D anchor) {
-        EnemyModel enemyModel;
+        WyrmEnemy enemyModel;
         WyrmEnemyView enemyView;
 
         if (removedItems.size() > 0) {
-            enemyModel = (EnemyModel) removedItems.get(0);
+            enemyModel = (WyrmEnemy) removedItems.get(0);
             removedItems.remove(0);
             enemyView = (WyrmEnemyView) EnemyView.findView(enemyModel.getId(),
                     WyrmEnemyView.removedItems);
@@ -72,6 +77,17 @@ public class WyrmEnemy extends EnemyModel {
         enemyModel.timers.get("shotTimer").start();
 
         enemyModel.setRelativePoints();
+
+        GamePanel gamePanel = new GamePanel();
+        enemyModel.panel = gamePanel;
+        // gamePanel.setLocation((int) enemyModel.anchor.getX() - enemyModel.w - 10,
+        // (int) enemyModel.anchor.getY() - enemyModel.h - 10);
+        enemyModel.setPanelAnchor();
+        enemyModel.panel.setSize(enemyModel.w + 10, enemyModel.h + 10);
+        enemyModel.panel.isometric = true;
+        Thread threadPanel2 = new Thread(new GamePanelThread(enemyModel.panel));
+        threadPanel2.start();
+        Panels.getINSTANCE().addPanel(enemyModel.panel);
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;
     }
@@ -109,6 +125,7 @@ public class WyrmEnemy extends EnemyModel {
                 (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
                 (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
         };
+        setPanelAnchor();
     }
 
     public void updatePosition() {
@@ -127,7 +144,13 @@ public class WyrmEnemy extends EnemyModel {
             // Update the anchor position
             anchor = new Point2D.Double(x, y);
             // System.out.println(anchor);
+            setPanelAnchor();
         }
+    }
+
+    private void setPanelAnchor() {
+        if (panel != null)
+            panel.setLocation((int) anchor.getX() - w / 2 - 5, (int) anchor.getY() - h / 2 - 5);
     }
 
 }

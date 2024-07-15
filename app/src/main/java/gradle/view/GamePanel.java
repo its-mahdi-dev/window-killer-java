@@ -25,6 +25,8 @@ public class GamePanel extends JPanel {
     boolean isChanging;
     int changeCounter;
     double changingTime;
+    public boolean rigid;
+    public boolean isometric;
     double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
 
     public GamePanel() {

@@ -20,7 +20,7 @@ public class GamePanelThread implements Runnable {
             long startTime = System.nanoTime();
             gamePanel.repaint();
             if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 &&
-                    !GameSettings.isPause)
+                    !GameSettings.isPause && !gamePanel.isometric)
                 gamePanel.changeSize();
 
             long elapsedTime = System.nanoTime() - startTime;

@@ -24,27 +24,7 @@ public class Utils {
         return new Point2D.Double(xVelocity, yVelocity);
     }
 
-    public static Point2D getTangentialDirection(EnemyModel enemyModel, Point2D center) {
-        double angleChange = enemyModel.max_speed / enemyModel.minRadius; // Angle change per update
-        if (enemyModel.clockwise) {
-            enemyModel.angleMove -= angleChange;
-        } else {
-            enemyModel.angleMove += angleChange;
-        }
-
-        // Calculate the new position using the updated angle
-        double newX = center.getX() + enemyModel.minRadius * Math.cos(enemyModel.angleMove);
-        double newY = center.getY() + enemyModel.minRadius * Math.sin(enemyModel.angleMove);
-
-        // Calculate the direction vector
-        double dx = newX - enemyModel.anchor.getX();
-        double dy = newY - enemyModel.anchor.getY();
-
-        // Normalize the direction vector
-        double length = Math.sqrt(dx * dx + dy * dy);
-        return new Point2D.Double(dx / length, dy / length);
-    }
-
+    
     public static double getDistance(Point2D point1, Point2D point2, Point2D point3) {
         double deltaX = point2.getX() - point1.getX();
         if (deltaX == 0) {

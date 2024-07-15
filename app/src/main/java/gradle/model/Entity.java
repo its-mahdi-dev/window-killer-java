@@ -76,7 +76,7 @@ public abstract class Entity extends Model {
         move(direction, speed);
         if (this instanceof Rotation && isImpacting && ableMove) {
             Rotation entity = (Rotation) this;
-            entity.moveRotaion(angle);
+            entity.moveRotaion(speed);
         }
     }
 

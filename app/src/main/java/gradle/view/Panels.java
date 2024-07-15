@@ -6,6 +6,7 @@ import java.util.*;
 import javax.swing.border.LineBorder;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
+import gradle.threads.GamePanelThread;
 
 public class Panels extends JPanel {
     private static Panels INSTANCE;
@@ -39,13 +40,23 @@ public class Panels extends JPanel {
     }
 
     public void addPanel(GamePanel gamePanel) {
+        GamePanelThread threadPanel = new GamePanelThread(gamePanel);
+        Thread thread = new Thread(threadPanel);
+        gamePanel.panelThread = threadPanel;
+        thread.start();
         panels.add(gamePanel);
         this.add(gamePanel);
+    }
+    public void removePanel(GamePanel gamePanel) {
+        gamePanel.panelThread.stopRunning();
+        panels.remove(gamePanel);
+        this.remove(gamePanel);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
 
 }

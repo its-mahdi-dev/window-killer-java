@@ -17,12 +17,14 @@ public abstract class Model {
     public int w;
     public int h;
     public double angle;
+    public long created_time;
     public ArrayList<GamePanel> currentPanels = new ArrayList<>();
     
 
 
     public Model() {
         Id = UUID.randomUUID().toString();
+        created_time = System.currentTimeMillis();
     }
 
     public String getId() {

@@ -13,6 +13,7 @@ import gradle.interfaces.Collectible;
 import gradle.interfaces.PolyganPoints;
 import gradle.interfaces.Rotation;
 import gradle.model.enemies.ArchmireEnemy;
+import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.NecropickEnemy;
 import gradle.model.enemies.OmenoctEnemy;
 import gradle.model.enemies.SquareEnemy;
@@ -29,10 +30,6 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
     public int HP;
     public double HP_time;
 
-    public boolean clockwise;
-    public double minRadius;
-    public double angleMove;
-
     public Map<String, Timer> timers = new HashMap<>();
     public Map<String, Long> times = new HashMap<>();
     public Map<String, Integer> attacks = new HashMap<>();
@@ -44,18 +41,14 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
     }
 
     public EnemyModel() {
-
     }
 
-
-
-    public void init(EnemyModel enemyModel, EnemyView enemyView){
+    public void init(EnemyModel enemyModel, EnemyView enemyView) {
         enemyModel.addItem(enemyModel);
         enemyView.addItem(enemyView);
         enemyView.setUtil(enemyModel);
     }
-   
-  
+
     @Override
     public void setCollectible() {
         for (int i = 0; i < collectibleCount; i++) {
@@ -79,7 +72,6 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
             return 20 + (random.nextDouble() * (100 - 20));
         }
     }
-
 
     public abstract void setRelativePoints();
 
@@ -159,7 +151,7 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         return Map.of("xPoints", newXpoints, "yPoints", newYpoints);
     }
 
-    public static List<Model> getAllEnemies(){
+    public static List<Model> getAllEnemies() {
         List<Model> enemies = new ArrayList<>();
         enemies.addAll(ArchmireEnemy.items);
         enemies.addAll(WyrmEnemy.items);
@@ -167,6 +159,7 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         enemies.addAll(SquareEnemy.items);
         enemies.addAll(OmenoctEnemy.items);
         enemies.addAll(TriangleEnemy.items);
+        enemies.addAll(BarricadosMiniboss.items);
         return enemies;
     }
 
@@ -174,8 +167,9 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         return Model.findModel(Id, getAllEnemies());
     }
 
-
-    // public  List<Model> getAllRemovedItems() {
-    //     return getRemovedItems();
+    // public List<Model> getAllRemovedItems() {
+    // return getRemovedItems();
     // }
+
+    public abstract void removeUtils();
 }

@@ -28,6 +28,10 @@ public class WyrmEnemy extends EnemyModel {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
+    
+    public boolean clockwise;
+    public double minRadius;
+    public double angleMove;
     public GamePanel panel;
 
     public WyrmEnemy() {
@@ -85,8 +89,6 @@ public class WyrmEnemy extends EnemyModel {
         enemyModel.setPanelAnchor();
         enemyModel.panel.setSize(enemyModel.w + 10, enemyModel.h + 10);
         enemyModel.panel.isometric = true;
-        Thread threadPanel2 = new Thread(new GamePanelThread(enemyModel.panel));
-        threadPanel2.start();
         Panels.getINSTANCE().addPanel(enemyModel.panel);
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;
@@ -152,5 +154,32 @@ public class WyrmEnemy extends EnemyModel {
         if (panel != null)
             panel.setLocation((int) anchor.getX() - w / 2 - 5, (int) anchor.getY() - h / 2 - 5);
     }
+    public Point2D getTangentialDirection(Point2D center) {
+        double angleChange = max_speed / minRadius; // Angle change per update
+        if (clockwise) {
+            angleMove -= angleChange;
+        } else {
+            angleMove += angleChange;
+        }
+
+        // Calculate the new position using the updated angle
+        double newX = center.getX() + minRadius * Math.cos(angleMove);
+        double newY = center.getY() + minRadius * Math.sin(angleMove);
+
+        // Calculate the direction vector
+        double dx = newX - anchor.getX();
+        double dy = newY - anchor.getY();
+
+        // Normalize the direction vector
+        double length = Math.sqrt(dx * dx + dy * dy);
+        return new Point2D.Double(dx / length, dy / length);
+    }
+
+    @Override
+    public void removeUtils() {
+        Panels.getINSTANCE().removePanel(panel);
+    }
+
+
 
 }

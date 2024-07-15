@@ -42,7 +42,7 @@ public class ArchmireEnemy extends EnemyModel {
             removedItems.remove(0);
             enemyView = (ArchmireEnemyView) EnemyView.findView(enemyModel.getId(),
                     ArchmireEnemyView.removedItems);
-            WyrmEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+            ArchmireEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
             enemyModel = new ArchmireEnemy();
             enemyView = new ArchmireEnemyView(enemyModel.getId(), enemyModel.type);
@@ -60,8 +60,6 @@ public class ArchmireEnemy extends EnemyModel {
         // enemyModel.attacks.replace("ranged", 8);
         enemyModel.hovering = true;
         enemyModel.ableMove = true;
-        enemyModel.clockwise = true;
-        enemyModel.angleMove = 0;
         ((ArchmireEnemy) enemyModel).maxSteps = 5 * 20;
         enemyModel.attacks.replace("aoe", 2);
         enemyModel.attacks.replace("drown", 10);
@@ -127,5 +125,10 @@ public class ArchmireEnemy extends EnemyModel {
                 pathHistory.poll();
             }
         }
+    }
+
+    @Override
+    public void removeUtils() {
+       
     }
 }

@@ -27,6 +27,7 @@ import gradle.model.ShotType;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.TriangleEnemy;
+import gradle.model.enemies.WyrmEnemy;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
@@ -46,7 +47,8 @@ public class EnemyController implements UPSController {
                         EpsilonModel.getINSTANCE().anchor);
                 if (enemyModel.type == EnemyType.wyrm) {
                     // enemyModel.updatePosition();
-                    Point2D newDirection = Utils.getTangentialDirection(enemyModel, EpsilonModel.getINSTANCE().anchor);
+                    Point2D newDirection = ((WyrmEnemy) enemyModel)
+                            .getTangentialDirection(EpsilonModel.getINSTANCE().anchor);
                     enemyModel.setDirection(newDirection);
                     enemyModel.move();
                     enemyModel.setRelativePoints();
@@ -66,7 +68,8 @@ public class EnemyController implements UPSController {
 
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
-                if(enemyModel.HP <= 0) removedEnemies.add(enemyModel);
+                if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
+                    removedEnemies.add(enemyModel);
             }
 
             for (EnemyModel enemyModel : removedEnemies) {
@@ -225,7 +228,7 @@ public class EnemyController implements UPSController {
             }
         }
 
-        if (Utils.getDistance(point2ds[0], point2ds[1], epsilonModel.anchor) < enemyModel.w
+        if (Utils.getDistance(point2ds[0], point2ds[1], epsilonModel.anchor) < epsilonModel.w
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
@@ -301,8 +304,8 @@ public class EnemyController implements UPSController {
                 // enemyModel.anchor.getX() + (newDirection.getX() * -5),
                 // enemyModel.anchor.getY() + (newDirection.getY() * -5));
                 if (enemyModel.type == EnemyType.wyrm) {
-                    System.out.println(enemyModel.clockwise);
-                    enemyModel.clockwise = !enemyModel.clockwise;
+                    WyrmEnemy wyrmEnemy = (WyrmEnemy) enemyModel;
+                    wyrmEnemy.clockwise = !wyrmEnemy.clockwise;
                 } else
                     enemyModel.setImpact(newDirection, true, true);
                 // enemy.setImpact();
@@ -329,6 +332,7 @@ public class EnemyController implements UPSController {
             Utils.playMusic("enemyDeath", false);
             for (Timer timers : enemyModel.timers.values())
                 timers.stop();
+            enemyModel.removeUtils();
             enemyModel.timers.clear();
             enemyModel.setCollectible();
             enemyModel.getRemovedItems().add(enemyModel);
@@ -410,6 +414,8 @@ public class EnemyController implements UPSController {
                 enemyModel.visible = false;
             else
                 enemyModel.visible = true;
+        }else if(enemyModel.type == EnemyType.barricados){
+            if(System.currentTimeMillis() - enemyModel.created_time >= 3000) removedEnemies.add(enemyModel);
         }
     }
 

@@ -27,7 +27,7 @@ public class ShotController implements UPSController {
                     EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
                     if (checkEpsilonShot(enemyModel, shotModel)) {
                         enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
-                        if (enemyModel.HP >= 0)
+                        if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
                             // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                             if (ShotModel.items.contains(shotModel)) {
                                 remove(shotModel.getId());
@@ -37,9 +37,6 @@ public class ShotController implements UPSController {
                             enemyModel.setImpact(new Point2D.Double(1, 1), false);
                         } else if (enemyModel.type != EnemyType.wyrm)
                             enemyModel.setImpact(false);
-                    }
-                    if (enemyModel.HP <= 0) {
-                        EnemyController.remove(enemyModel.getId());
                     }
 
                 }

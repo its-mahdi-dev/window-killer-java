@@ -18,6 +18,7 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.enemies.OmenoctEnemyView;
 import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
 public class OmenoctEnemy extends EnemyModel {
@@ -30,17 +31,17 @@ public class OmenoctEnemy extends EnemyModel {
 
     public static EnemyModel create(Point2D anchor) {
         EnemyModel enemyModel;
-        WyrmEnemyView enemyView;
+        OmenoctEnemyView enemyView;
 
         if (removedItems.size() > 0) {
             enemyModel = (EnemyModel) removedItems.get(0);
             removedItems.remove(0);
-            enemyView = (WyrmEnemyView) EnemyView.findView(enemyModel.getId(),
-                    WyrmEnemyView.removedItems);
-            WyrmEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+            enemyView = (OmenoctEnemyView) EnemyView.findView(enemyModel.getId(),
+                    OmenoctEnemyView.removedItems);
+            OmenoctEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
-            enemyModel = new WyrmEnemy();
-            enemyView = new WyrmEnemyView(enemyModel.getId(), enemyModel.type);
+            enemyModel = new OmenoctEnemy();
+            enemyView = new OmenoctEnemyView(enemyModel.getId(), enemyModel.type);
         }
 
         enemyModel.anchor = anchor;
@@ -100,5 +101,10 @@ public class OmenoctEnemy extends EnemyModel {
         }
         xPoints = xPointsO;
         yPoints = yPointsO;
+    }
+
+    @Override
+    public void removeUtils() {
+        
     }
 }

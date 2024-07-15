@@ -10,6 +10,7 @@ import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.Model;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.enemies.NecropickEnemyView;
 import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
 public class NecropickEnemy extends EnemyModel{
@@ -21,17 +22,17 @@ public class NecropickEnemy extends EnemyModel{
 
     public static EnemyModel create(Point2D anchor) {
         EnemyModel enemyModel;
-        WyrmEnemyView enemyView;
+        NecropickEnemyView enemyView;
 
         if (removedItems.size() > 0) {
             enemyModel = (EnemyModel) removedItems.get(0);
             removedItems.remove(0);
-            enemyView = (WyrmEnemyView) EnemyView.findView(enemyModel.getId(),
-                    WyrmEnemyView.removedItems);
-            WyrmEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+            enemyView = (NecropickEnemyView) EnemyView.findView(enemyModel.getId(),
+                    NecropickEnemyView.removedItems);
+            NecropickEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
-            enemyModel = new WyrmEnemy();
-            enemyView = new WyrmEnemyView(enemyModel.getId(), enemyModel.type);
+            enemyModel = new NecropickEnemy();
+            enemyView = new NecropickEnemyView(enemyModel.getId(), enemyModel.type);
         }
 
         enemyModel.anchor = anchor;
@@ -85,5 +86,10 @@ public class NecropickEnemy extends EnemyModel{
                 (y + w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle)),
                 (y - w / 2 * Math.sin(rotationAngle) + h / 2 * Math.cos(rotationAngle))
         };
+    }
+
+    @Override
+    public void removeUtils() {
+        
     }
 }

@@ -5,9 +5,12 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.geom.Point2D;
+import java.util.UUID;
+
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.model.EpsilonModel;
+import gradle.threads.GamePanelThread;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonVertexView;
@@ -28,6 +31,12 @@ public class GamePanel extends JPanel {
     public boolean rigid;
     public boolean isometric;
     double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
+    public GamePanelThread panelThread;
+    private String Id;
+
+    public String getId() {
+        return Id;
+    }
 
     public GamePanel() {
         setOpaque(true);
@@ -38,6 +47,7 @@ public class GamePanel extends JPanel {
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         setLayout(null);
+        Id = UUID.randomUUID().toString();
     }
 
     public void setLocationToCenter(GameFrame gameFrame) {

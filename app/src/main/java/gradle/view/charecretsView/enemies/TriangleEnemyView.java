@@ -3,6 +3,8 @@ package gradle.view.charecretsView.enemies;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -18,14 +20,14 @@ import gradle.model.Model;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.View;
 
-public class TriangleEnemyView extends EnemyView{
+public class TriangleEnemyView extends EnemyView {
 
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
     public TriangleEnemyView(String Id, EnemyType enemyType) {
         super(Id, enemyType);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -38,9 +40,31 @@ public class TriangleEnemyView extends EnemyView{
         g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE));
         g2d.setColor(Color.YELLOW);
         g2d.drawPolygon(newXpoints, newYpoints, 3);
-        super.drawBase(g2d, newAnchor);
+
+        int centerX = 0;
+        int centerY = 0;
+        for (int i = 0; i < newXpoints.length; i++) {
+            centerX += newXpoints[i];
+            centerY += newYpoints[i];
+        }
+        centerX /= newXpoints.length;
+        centerY /= newYpoints.length;
+
+        // Set the font size to 18
+        g2d.setFont(new Font("Arial", Font.BOLD, 15));
+
+        // Draw the string at the center of the enemy shape
+        g2d.setColor(Color.WHITE);
+        String text = String.valueOf(HP);
+        FontMetrics fm = g2d.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getHeight();
+        int textX = centerX - textWidth / 2;
+        int textY = centerY + textHeight / 2;
+        g2d.drawString(text, textX, textY);
 
     }
+
     @Override
     public void setUtil(Model enemyModel) {
         EnemyModel enemy = (EnemyModel) enemyModel;
@@ -68,5 +92,4 @@ public class TriangleEnemyView extends EnemyView{
         return View.findView(Id, items);
     }
 
-    
 }

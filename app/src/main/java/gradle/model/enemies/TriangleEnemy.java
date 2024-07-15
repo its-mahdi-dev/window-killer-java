@@ -16,6 +16,7 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.enemies.TriangleEnemyView;
 import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
 public class TriangleEnemy extends EnemyModel {
@@ -27,18 +28,18 @@ public class TriangleEnemy extends EnemyModel {
     }
 
     public static EnemyModel create(Point2D anchor) {
-        EnemyModel enemyModel;
-        WyrmEnemyView enemyView;
+        TriangleEnemy enemyModel;
+        TriangleEnemyView enemyView;
 
         if (removedItems.size() > 0) {
-            enemyModel = (EnemyModel) removedItems.get(0);
+            enemyModel = (TriangleEnemy) removedItems.get(0);
             removedItems.remove(0);
-            enemyView = (WyrmEnemyView) EnemyView.findView(enemyModel.getId(),
-                    WyrmEnemyView.removedItems);
-            WyrmEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
+            enemyView = (TriangleEnemyView) EnemyView.findView(enemyModel.getId(),
+                    TriangleEnemyView.removedItems);
+            TriangleEnemy.removedItems.removeIf(enemy -> enemy.getId() == enemyModel.getId());
         } else {
-            enemyModel = new WyrmEnemy();
-            enemyView = new WyrmEnemyView(enemyModel.getId(), enemyModel.type);
+            enemyModel = new TriangleEnemy();
+            enemyView = new TriangleEnemyView(enemyModel.getId(), enemyModel.type);
         }
 
         enemyModel.anchor = anchor;
@@ -75,7 +76,7 @@ public class TriangleEnemy extends EnemyModel {
     public void setRelativePoints() {
         double x = anchor.getX();
         double y = anchor.getY();
-        double rotationAngle = Math.toRadians(0);
+        double rotationAngle = Math.toRadians(30);
         w = Constants.ENEMY_TRIANGLE_DIAMETER;
         h = Constants.ENEMY_TRIANGLE_DIAMETER;
         double d = Math.sqrt(3) / 2 * h;
@@ -89,5 +90,10 @@ public class TriangleEnemy extends EnemyModel {
                 (y + d * Math.sin(rotationAngle - Math.PI * 2 / 3)),
                 (y + d * Math.sin(rotationAngle + Math.PI * 2 / 3))
         };
+    }
+
+    @Override
+    public void removeUtils() {
+       
     }
 }

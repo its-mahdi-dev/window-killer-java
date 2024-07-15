@@ -6,6 +6,7 @@ import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.enemies.ArchmireEnemy;
+import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -90,18 +91,15 @@ public class GameController implements UPSController {
         EpsilonModel.getINSTANCE().init();
         panel1.repaint();
         panel2.repaint();
-        Thread threadPanel1 = new Thread(new GamePanelThread(panel1));
-        Thread threadPanel2 = new Thread(new GamePanelThread(panel2));
-        threadPanel1.start();
-        threadPanel2.start();
+        
         Panels.getINSTANCE();
         Panels.getINSTANCE().addPanel(panel1);
         Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        // createWave();
+        createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        WyrmEnemy.create(new Point2D.Double(600, 700));
+        BarricadosMiniboss.create(new Point2D.Double(600, 700));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 

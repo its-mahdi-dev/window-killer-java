@@ -66,8 +66,10 @@ public class EnemyController implements UPSController {
                 if (enemyModel.type == EnemyType.archmire)
                     ((ArchmireEnemy) enemyModel).updatePathHistory();
 
-                checkEnemyCollision(enemyModel);
-                checkEpsilonColision(enemyModel);
+                if (enemyModel.type != EnemyType.blackorb) {
+                    checkEnemyCollision(enemyModel);
+                    checkEpsilonColision(enemyModel);
+                }
                 if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
                     removedEnemies.add(enemyModel);
             }
@@ -414,8 +416,9 @@ public class EnemyController implements UPSController {
                 enemyModel.visible = false;
             else
                 enemyModel.visible = true;
-        }else if(enemyModel.type == EnemyType.barricados){
-            if(System.currentTimeMillis() - enemyModel.created_time >= 2*60*1000) removedEnemies.add(enemyModel);
+        } else if (enemyModel.type == EnemyType.barricados) {
+            if (System.currentTimeMillis() - enemyModel.created_time >= 2 * 60 * 1000)
+                removedEnemies.add(enemyModel);
         }
     }
 

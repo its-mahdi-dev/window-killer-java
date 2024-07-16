@@ -14,6 +14,7 @@ import gradle.interfaces.PolyganPoints;
 import gradle.interfaces.Rotation;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.BarricadosMiniboss;
+import gradle.model.enemies.BlackorbEnemy;
 import gradle.model.enemies.NecropickEnemy;
 import gradle.model.enemies.OmenoctEnemy;
 import gradle.model.enemies.SquareEnemy;
@@ -121,20 +122,12 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
 
     @Override
     public int[] getXpointsInt() {
-        int[] points = new int[xPoints.length];
-        for (int i = 0; i < xPoints.length; i++) {
-            points[i] = (int) xPoints[i];
-        }
-        return points;
+        return Utils.getIntPoints(xPoints);
     }
 
     @Override
     public int[] getYpointsInt() {
-        int[] points = new int[yPoints.length];
-        for (int i = 0; i < yPoints.length; i++) {
-            points[i] = (int) yPoints[i];
-        }
-        return points;
+        return Utils.getIntPoints(yPoints);
     }
 
     @Override
@@ -160,6 +153,7 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         enemies.addAll(OmenoctEnemy.items);
         enemies.addAll(TriangleEnemy.items);
         enemies.addAll(BarricadosMiniboss.items);
+        enemies.addAll(BlackorbEnemy.items);
         return enemies;
     }
 

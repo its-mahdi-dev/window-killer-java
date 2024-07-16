@@ -24,6 +24,7 @@ import gradle.model.Model;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.view.charecretsView.enemies.ArchmireEnemyView;
 import gradle.view.charecretsView.enemies.BarricadosMinibossView;
+import gradle.view.charecretsView.enemies.BlackorbEnemyView;
 import gradle.view.charecretsView.enemies.NecropickEnemyView;
 import gradle.view.charecretsView.enemies.OmenoctEnemyView;
 import gradle.view.charecretsView.enemies.SquareEnemyView;
@@ -95,6 +96,7 @@ public abstract class EnemyView extends View {
         enemyViews.addAll(TriangleEnemyView.items);
         enemyViews.addAll(OmenoctEnemyView.items);
         enemyViews.addAll(BarricadosMinibossView.items);
+        enemyViews.addAll(BlackorbEnemyView.items);
         return enemyViews;
     }
 
@@ -103,6 +105,5 @@ public abstract class EnemyView extends View {
     public static View findById(String Id) {
         return View.findView(Id, getEnemyViews());
     }
-
 
 }

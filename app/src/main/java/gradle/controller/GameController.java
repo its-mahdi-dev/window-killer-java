@@ -7,6 +7,7 @@ import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.BarricadosMiniboss;
+import gradle.model.enemies.BlackorbEnemy;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -99,7 +100,7 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        BarricadosMiniboss.create(new Point2D.Double(600, 700));
+        BlackorbEnemy.create(new Point2D.Double(600, 700));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 

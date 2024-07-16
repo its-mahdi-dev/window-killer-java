@@ -127,6 +127,14 @@ public class Utils {
         }
     }
 
+    public static int[] getIntPoints(double[] points ){
+        int[] newPoints = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            newPoints[i] = (int) points[i];
+        }
+        return newPoints;
+    }
+
     public static List<Point2D> generateSymmetricPoints(Point2D center, int numPoints, double radius) {
         List<Point2D> points = new ArrayList<>();
         double angleIncrement = 2 * Math.PI / numPoints;

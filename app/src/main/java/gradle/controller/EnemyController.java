@@ -415,7 +415,7 @@ public class EnemyController implements UPSController {
             else
                 enemyModel.visible = true;
         }else if(enemyModel.type == EnemyType.barricados){
-            if(System.currentTimeMillis() - enemyModel.created_time >= 3000) removedEnemies.add(enemyModel);
+            if(System.currentTimeMillis() - enemyModel.created_time >= 2*60*1000) removedEnemies.add(enemyModel);
         }
     }
 

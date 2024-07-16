@@ -3,6 +3,9 @@ package gradle.view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.swing.border.LineBorder;
 import gradle.controller.Constants;
 import gradle.controller.KeyController;
@@ -47,6 +50,7 @@ public class Panels extends JPanel {
         panels.add(gamePanel);
         this.add(gamePanel);
     }
+
     public void removePanel(GamePanel gamePanel) {
         gamePanel.panelThread.stopRunning();
         panels.remove(gamePanel);
@@ -58,5 +62,9 @@ public class Panels extends JPanel {
         super.paintComponent(g);
     }
 
+    public List<GamePanel> getRigidPanels() {
+        List<GamePanel> rigidPanels = getPanels().stream().filter(p -> p.rigid).collect(Collectors.toList());
+        return rigidPanels;
+    }
 
 }

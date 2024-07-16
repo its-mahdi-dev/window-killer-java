@@ -43,7 +43,7 @@ public class GamePanel extends JPanel {
         setBackground(new Color(0, 0, 0, 255));
         setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.cyan),
                 BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        setSize(Constants.GAME_FRAME_DIMENSION);
+        setSize(Constants.PANEL_SIZE);
         setLocationToCenter(GameFrame.getINSTANCE());
         setFocusable(true);
         setLayout(null);
@@ -87,11 +87,19 @@ public class GamePanel extends JPanel {
     }
 
     public void changeSize(Point2D location, Point2D size) {
-        // System.out.println(speed + " -> "+ size);
-        setSize((int) (getWidth() + (size.getX() * speed)),
+        Dimension newSize = new Dimension((int) (getWidth() + (size.getX() * speed)),
                 (int) (getHeight() + size.getY() * speed));
-        setLocation((int) (getX() + location.getX() * speed),
+        Point newLocation = new Point((int) (getX() + location.getX() * speed),
                 (int) (getY() + location.getY() * speed));
+        for (GamePanel gamePanel : Panels.getINSTANCE().getRigidPanels()) {
+            if (isCollision(gamePanel, newSize, newLocation)) {
+                // System.out.println("here");
+                return;
+            }
+        }
+        setSize(newSize);
+        setLocation(newLocation);
+
     }
 
     public void changeSize() {
@@ -139,6 +147,21 @@ public class GamePanel extends JPanel {
         changingTime = System.currentTimeMillis();
         changeCounter++;
         speed = Constants.CHANGE_FRAME_SPEED * 2.5;
+    }
+
+    private boolean isCollision(GamePanel panel1, Dimension newSize, Point newLocation) {
+        boolean containsY = false;
+        boolean containsX = false;
+        if (panel1.getX() < newLocation.getX() + newSize.getWidth() &&
+                panel1.getX() + panel1.getWidth() > newLocation.getX())
+            containsX = true;
+        if (panel1.getY() < newLocation.getY() + newSize.getHeight() &&
+                panel1.getY() + panel1.getHeight() > newLocation.getY())
+            containsY = true;
+        // System.out.println("x: " + containsX + " y: " + containsY);
+        if (containsX && containsY)
+            return true;
+        return false;
     }
 
 }

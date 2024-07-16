@@ -67,6 +67,7 @@ public class BarricadosMiniboss extends EnemyModel {
         enemyModel.setPanelAnchor();
         enemyModel.panel.setSize(enemyModel.w + 20, enemyModel.h + 20);
         enemyModel.panel.isometric = true;
+        enemyModel.panel.rigid = true;
         Panels.getINSTANCE().addPanel(enemyModel.panel);
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;

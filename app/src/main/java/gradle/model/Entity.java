@@ -11,6 +11,7 @@ import javax.swing.Timer;
 import gradle.controller.Constants;
 import gradle.controller.Utils;
 import gradle.interfaces.Rotation;
+import gradle.model.enemies.WyrmEnemy;
 
 public abstract class Entity extends Model {
 
@@ -86,9 +87,11 @@ public abstract class Entity extends Model {
     }
 
     public void setImpact(Point2D point2d, boolean isCollision, boolean correctDirection) {
+
         setImpact(point2d, max_speed * impact_speed, correctDirection);
         if (isCollision)
             setEnemyImpacts();
+
     }
 
     public void setImpact(Point2D point2d) {
@@ -103,10 +106,20 @@ public abstract class Entity extends Model {
     public void setImpact(Point2D point2d, double speed, boolean correctDirection) {
         if (hovering)
             return;
-        if (isMoving && !correctDirection) {
-            direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
+        if (this instanceof EnemyModel && ((EnemyModel) this).type == EnemyType.wyrm) {
+            // if () {
+            if (System.currentTimeMillis() - impact_time > 1000) {
+                ((WyrmEnemy) this).angleMove = 0;
+                ((WyrmEnemy) this).clockwise = !((WyrmEnemy) this).clockwise;
+                System.out.println(((WyrmEnemy) this).clockwise);
+            }
+            // }
         } else {
-            direction = point2d;
+            if (isMoving && !correctDirection) {
+                direction = new Point2D.Double(point2d.getX() * direction.getX(), point2d.getY() * direction.getY());
+            } else {
+                direction = point2d;
+            }
         }
         // anchor = new Point2D.Double(anchor.getX() + (direction.getX() * 5),
         // anchor.getY() + (direction.getY() * 5));

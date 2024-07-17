@@ -25,6 +25,7 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.model.enemies.ArchmireEnemy;
+import gradle.model.enemies.BlackorbEnemy;
 import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.TriangleEnemy;
 import gradle.model.enemies.WyrmEnemy;
@@ -69,6 +70,8 @@ public class EnemyController implements UPSController {
                 if (enemyModel.type != EnemyType.blackorb) {
                     checkEnemyCollision(enemyModel);
                     checkEpsilonColision(enemyModel);
+                } else {
+                    checkBlackOrbCollision((BlackorbEnemy) enemyModel);
                 }
                 if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
                     removedEnemies.add(enemyModel);
@@ -234,17 +237,8 @@ public class EnemyController implements UPSController {
                 / 2) {
 
             if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonModel.anchor)) {
-                // if (epsilonModel.isMoving) {
-                // epsilonModel.setImpact();
-                // } else {
-                // epsilonModel.setImpact(enemyModel.direction);
-                // }
                 if (enemyModel.type != EnemyType.wyrm) {
                     for (Model vertex : EpsilonVertexModel.items) {
-                        // System.out.println(Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor)
-                        // + " -> " + point2ds[0]
-                        // + " -- " + point2ds[1]
-                        // + " ->" + vertex.anchor);
                         if (Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) < vertex.w * 2) {
                             enemyModel.HP -= Constants.EPSILON_POWER;
                             if (enemyModel.HP <= 0) {
@@ -265,30 +259,32 @@ public class EnemyController implements UPSController {
         if (enemyModel.type == EnemyType.archmire) {
             for (int i = 0; i < EnemyModel.getAllEnemies().size(); i++) {
                 EnemyModel enemy = (EnemyModel) EnemyModel.getAllEnemies().get(i);
-                if (enemy.equals(enemyModel))
-                    continue;
-                Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
-                        enemyModel.xPoints.length);
-                if (polygon.contains(enemy.anchor)) {
-                    if (enemy.times.get("archmire") == null) {
-                        enemy.times.put("archmire", System.currentTimeMillis());
-                        enemy.HP -= enemyModel.attacks.get("drown");
-                    } else {
-                        if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                if (enemy.type != EnemyType.blackorb) {
+                    if (enemy.equals(enemyModel))
+                        continue;
+                    Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                            enemyModel.xPoints.length);
+                    if (polygon.contains(enemy.anchor)) {
+                        if (enemy.times.get("archmire") == null) {
                             enemy.times.put("archmire", System.currentTimeMillis());
                             enemy.HP -= enemyModel.attacks.get("drown");
+                        } else {
+                            if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                                enemy.times.put("archmire", System.currentTimeMillis());
+                                enemy.HP -= enemyModel.attacks.get("drown");
+                            }
                         }
                     }
-                }
-                if (isPointInPastArea(enemyModel, enemy.anchor.getX(),
-                        enemy.anchor.getY())) {
-                    if (enemy.times.get("archmire") == null) {
-                        enemy.times.put("archmire", System.currentTimeMillis());
-                        enemy.HP -= enemyModel.attacks.get("aoe");
-                    } else {
-                        if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                    if (isPointInPastArea(enemyModel, enemy.anchor.getX(),
+                            enemy.anchor.getY())) {
+                        if (enemy.times.get("archmire") == null) {
                             enemy.times.put("archmire", System.currentTimeMillis());
                             enemy.HP -= enemyModel.attacks.get("aoe");
+                        } else {
+                            if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
+                                enemy.times.put("archmire", System.currentTimeMillis());
+                                enemy.HP -= enemyModel.attacks.get("aoe");
+                            }
                         }
                     }
                 }
@@ -302,15 +298,7 @@ public class EnemyController implements UPSController {
                 continue;
             if (!enemy.equals(enemyModel) && isEnemyCollision(enemyModel, enemy)) {
                 Point2D newDirection = Utils.getDirection(enemy.anchor, enemyModel.anchor);
-                // enemyModel.anchor = new Point2D.Double(
-                // enemyModel.anchor.getX() + (newDirection.getX() * -5),
-                // enemyModel.anchor.getY() + (newDirection.getY() * -5));
-                if (enemyModel.type == EnemyType.wyrm) {
-                    WyrmEnemy wyrmEnemy = (WyrmEnemy) enemyModel;
-                    wyrmEnemy.clockwise = !wyrmEnemy.clockwise;
-                } else
-                    enemyModel.setImpact(newDirection, true, true);
-                // enemy.setImpact();
+                enemyModel.setImpact(newDirection, true, true);
             }
         }
     }
@@ -324,6 +312,85 @@ public class EnemyController implements UPSController {
         }
 
         return false;
+    }
+
+    private static void checkBlackOrbCollision(BlackorbEnemy enemyModel) {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+
+        // ENEMIES
+        for (Model model : EnemyModel.getAllEnemies()) {
+            EnemyModel enemy = (EnemyModel) model;
+
+            if (enemy.type != EnemyType.blackorb) {
+                for (Point2D orb : enemyModel.orbs) {
+                    Point2D newDirection = Utils.getDirection(orb, enemy.anchor);
+                    Point2D[] point2ds = Utils.getNearestPoints(enemy.xPoints, enemy.yPoints, orb);
+                    // System.out.println(point2ds + " -> " +enemy.type);
+                    if (Utils.getDistance(point2ds[0], point2ds[1], orb) < enemyModel.w
+                            / 2) {
+
+                        if (Utils.isPerpendicular(point2ds[0], point2ds[1], orb)) {
+
+                            enemy.setImpact(newDirection, true, true);
+                            // System.out.println("hereee");
+                        }
+
+                    }
+
+                    // POINTS
+                    for (int i = 0; i < enemy.xPoints.length; i++) {
+                        if (Math.abs(orb.getX() - enemy.xPoints[i]) <= enemyModel.w / 2
+                                && Math.abs(orb.getY() - enemy.yPoints[i]) <= enemyModel.w / 2) {
+                            enemy.setImpact(newDirection, true, true);
+
+                        }
+                    }
+                }
+
+                // LASER
+                for (Polygon polygon : enemyModel.getOrbsPolygon()) {
+                    for (int i = 0; i < enemy.xPoints.length; i++) {
+                        if (polygon.contains(new Point2D.Double(enemy.xPoints[i], enemy.yPoints[i]))) {
+                            if (enemy.times.get("blackorb") == null) {
+                                enemy.times.put("blackorb", System.currentTimeMillis());
+                                enemy.HP -= enemyModel.attacks.get("laser");
+                            } else {
+                                if (System.currentTimeMillis() - enemy.times.get("blackorb") > 1000) {
+                                    enemy.times.put("blackorb", System.currentTimeMillis());
+                                    enemy.HP -= enemyModel.attacks.get("laser");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // EPSILON
+        for (Point2D orb : enemyModel.orbs) {
+            if (Utils.getDistance(orb, epsilonModel.anchor) <= epsilonModel.w / 2 + enemyModel.w / 2) {
+                for (Model vertex : EpsilonVertexModel.items) {
+                    if (Utils.getDistance(orb, vertex.anchor) <= vertex.w + enemyModel.w / 2) {
+                        enemyModel.HP -= Constants.EPSILON_POWER;
+                    }
+                }
+                Point2D newDirection = Utils.getDirection(orb, epsilonModel.anchor);
+                epsilonModel.setImpact(newDirection, true, true);
+            }
+        }
+        for (Polygon polygon : enemyModel.getOrbsPolygon()) {
+            if (polygon.contains(epsilonModel.anchor)) {
+                if (epsilonModel.times.get("blackorb") == null) {
+                    epsilonModel.times.put("blackorb", System.currentTimeMillis());
+                    epsilonModel.HP -= enemyModel.attacks.get("laser");
+                } else {
+                    if (System.currentTimeMillis() - epsilonModel.times.get("blackorb") > 1000) {
+                        epsilonModel.times.put("blackorb", System.currentTimeMillis());
+                        epsilonModel.HP -= enemyModel.attacks.get("laser");
+                    }
+                }
+            }
+        }
     }
 
     public static void remove(String Id) {

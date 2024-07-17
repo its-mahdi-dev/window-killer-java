@@ -28,11 +28,11 @@ public class WyrmEnemy extends EnemyModel {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
-    
     public boolean clockwise;
     public double minRadius;
     public double angleMove;
     public GamePanel panel;
+    private double angleChange;
 
     public WyrmEnemy() {
 
@@ -71,12 +71,14 @@ public class WyrmEnemy extends EnemyModel {
         Timer shoTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
-                        enemyModel.attacks.get("ranged"));
-                shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
-                shotModel.rigid = false;
+                // ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
+                // enemyModel.attacks.get("ranged"));
+                // shotModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                // EpsilonModel.getINSTANCE().anchor));
+                // shotModel.rigid = false;
             }
         });
+        enemyModel.angleChange = enemyModel.max_speed / enemyModel.minRadius;
         enemyModel.timers.put("shotTimer", shoTimer);
         enemyModel.timers.get("shotTimer").start();
 
@@ -154,8 +156,9 @@ public class WyrmEnemy extends EnemyModel {
         if (panel != null)
             panel.setLocation((int) anchor.getX() - w / 2 - 5, (int) anchor.getY() - h / 2 - 5);
     }
+
     public Point2D getTangentialDirection(Point2D center) {
-        double angleChange = max_speed / minRadius; // Angle change per update
+        // Angle change per update
         if (clockwise) {
             angleMove -= angleChange;
         } else {
@@ -179,7 +182,5 @@ public class WyrmEnemy extends EnemyModel {
     public void removeUtils() {
         Panels.getINSTANCE().removePanel(panel);
     }
-
-
 
 }

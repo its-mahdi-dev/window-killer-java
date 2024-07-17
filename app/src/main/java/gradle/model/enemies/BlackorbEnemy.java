@@ -102,8 +102,7 @@ public class BlackorbEnemy extends EnemyModel {
                     enemyModel.orbs = points;
                     enemyModel.setRelativePoints();
                     enemyModel.setPanelAnchor();
-                }
-                else{
+                } else {
                     enemyModel.isCreating = false;
                 }
 

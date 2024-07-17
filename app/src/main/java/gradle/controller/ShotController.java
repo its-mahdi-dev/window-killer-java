@@ -10,6 +10,7 @@ import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.enemies.BlackorbEnemy;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.ShotView;
@@ -129,10 +130,17 @@ public class ShotController implements UPSController {
     }
 
     private static boolean checkEpsilonShot(EnemyModel enemyModel, ShotModel shotModel) {
-        Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
-                enemyModel.xPoints.length);
-        if (polygon.contains(shotModel.anchor))
-            return true;
+        if (enemyModel.type == EnemyType.blackorb) {
+            for (Point2D orb : ((BlackorbEnemy) enemyModel).orbs) {
+                if (Utils.getDistance(orb, shotModel.anchor) <= enemyModel.w / 2)
+                    return true;
+            }
+        } else {
+            Polygon polygon = new Polygon(enemyModel.getXpointsInt(), enemyModel.getYpointsInt(),
+                    enemyModel.xPoints.length);
+            if (polygon.contains(shotModel.anchor))
+                return true;
+        }
         return false;
     }
 

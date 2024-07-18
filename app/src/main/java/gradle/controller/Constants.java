@@ -47,6 +47,10 @@ public class Constants {
         public static final int MINIBOSS_BARRICADOS_HEIGHT = 110;
         public static final int MINIBOSS_BLACKORB_DIAMETER = 26;
         public static final int MINIBOSS_BLACKORB_SIDE = 70;
+        public static final int BOSS_HEAD_DIAMETER = 200;
+        public static final int BOSS_HAND_DIAMETER = 120;
+
+        public static final double BOSS_HAND_SPEED = 1 * 60D / UPS;
         public static final double ENEMY_SPEED = 2 * 60D / UPS;
 
         public static final int NECROPICK_EPSILON_RADIUS = 100;

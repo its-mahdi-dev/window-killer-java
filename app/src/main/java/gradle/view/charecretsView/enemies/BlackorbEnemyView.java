@@ -71,9 +71,8 @@ public class BlackorbEnemyView extends EnemyView {
 
         }
 
-        
-        g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE /4));
-        g2d.setColor(new Color(116,15,109));
+        g2d.setStroke(new BasicStroke((float) Constants.ENEMY_STROKE / 4));
+        g2d.setColor(new Color(116, 15, 109));
         for (int i = 0; i < orbs.size(); i++) {
             Point2D orb = orbs.get(i);
 
@@ -83,8 +82,8 @@ public class BlackorbEnemyView extends EnemyView {
             int y = (int) newAnchor.getY() - radius1;
             g2d.fillOval(x, y, w, h);
 
-            // Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/blackorb.png").getImage();
-            // g2d.drawImage(necro, x, y, w, h, null);
+            Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/blackorb.png").getImage();
+            g2d.drawImage(necro, x, y, w, h, null);
         }
 
         super.drawBase(g2d, newBaseAnchor);
@@ -95,9 +94,10 @@ public class BlackorbEnemyView extends EnemyView {
         int red = 128 + rand.nextInt(128); // Red between 128 and 255
         int blue = 128 + rand.nextInt(128); // Blue between 128 and 255
         int green = rand.nextInt(64); // Green between 0 and 63 to maintain purple hue
-        
-        return new Color(red, green, blue , 90);
+
+        return new Color(red, green, blue, 90);
     }
+
     @Override
     public List<View> getItems() {
         return items;

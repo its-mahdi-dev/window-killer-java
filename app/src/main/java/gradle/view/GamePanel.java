@@ -11,6 +11,8 @@ import gradle.controller.Constants;
 import gradle.controller.KeyController;
 import gradle.model.EpsilonModel;
 import gradle.threads.GamePanelThread;
+import gradle.view.charecretsView.BossHandsView;
+import gradle.view.charecretsView.BossView;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonVertexView;
@@ -84,6 +86,12 @@ public class GamePanel extends JPanel {
 
         if (EpsilonModel.getINSTANCE().currentPanels.get(0).equals(this))
             NavbarView.getINSTANCE().draw(g);
+
+        if (BossView.items.size() > 0)
+            BossView.items.get(0).draw(g, this);
+        for(View bossHandsView : BossHandsView.items) {
+            bossHandsView.draw(g, this);
+        }
     }
 
     public void changeSize(Point2D location, Point2D size) {

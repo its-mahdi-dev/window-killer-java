@@ -5,6 +5,7 @@ import java.util.*;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
+import gradle.view.GameFrame;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.View;
 
@@ -33,7 +34,7 @@ public class EpsilonModel extends Entity {
     }
 
     public void init() {
-        anchor = new Point2D.Double(300, 300);
+        anchor = new Point2D.Double(GameFrame.getINSTANCE().getWidth() / 2,GameFrame.getINSTANCE().getHeight() / 2);
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity * 2 / 10.0;

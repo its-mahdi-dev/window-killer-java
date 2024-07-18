@@ -1,6 +1,8 @@
 package gradle.controller;
 
 import gradle.interfaces.UPSController;
+import gradle.model.BossHandsModel;
+import gradle.model.BossModel;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
@@ -36,8 +38,8 @@ public class GameController implements UPSController {
 
     @Override
     public void check() {
-        if (!EnemyController.isCreating && EnemyModel.getAllEnemies().size() == 0)
-            GameController.createWave();
+        // if (!EnemyController.isCreating && EnemyModel.getAllEnemies().size() == 0)
+        // GameController.createWave();
 
         if (EpsilonModel.getINSTANCE().HP <= 0 && GameSettings.isGameRun)
             GameController.GameOver();
@@ -83,25 +85,28 @@ public class GameController implements UPSController {
         GamePanel panel1 = new GamePanel();
         GamePanel panel2 = new GamePanel();
         // panel1.setSize(new Dimension(500,500));
-        panel1.setLocation(100, 100);
+        panel1.setLocation(400, 400);
         // panel2.setSize(new Dimension(500, 500));
-        panel2.setLocation(700, 100);
+        // panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
         panel1.repaint();
         panel2.repaint();
-        
+
         Panels.getINSTANCE();
         Panels.getINSTANCE().addPanel(panel1);
-        Panels.getINSTANCE().addPanel(panel2);
+        // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
+        BossModel.getINSTANCE();
+        new BossHandsModel();
+        new BossHandsModel();
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        BlackorbEnemy.create(new Point2D.Double(600, 700));
-        WyrmEnemy.create(new Point2D.Double(500,400));
+        // BlackorbEnemy.create(new Point2D.Double(600, 700));
+        // WyrmEnemy.create(new Point2D.Double(500,400));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
 
@@ -111,6 +116,7 @@ public class GameController implements UPSController {
         startUPS();
 
         GameFrame.getINSTANCE().repaint();
+        
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -233,5 +239,6 @@ public class GameController implements UPSController {
         new Thread(new UPSThread(new SkillTreeController())).start();
         new Thread(new UPSThread(new StoreController())).start();
         new Thread(new UPSThread(new CollectibleController())).start();
+        new Thread(new UPSThread(new BossController())).start();
     }
 }

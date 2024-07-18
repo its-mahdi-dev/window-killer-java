@@ -18,7 +18,6 @@ import gradle.view.charecretsView.BossView;
 
 public abstract class BossModel extends Entity {
 
-    public Map<String,Timer> timers = new HashMap<>();
     public GamePanel panel;
     public double minRadius;
     public double angleMove;

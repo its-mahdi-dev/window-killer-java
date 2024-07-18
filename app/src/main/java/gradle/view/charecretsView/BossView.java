@@ -1,5 +1,6 @@
 package gradle.view.charecretsView;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,10 +14,14 @@ import gradle.controller.Utils;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.SmileyModel;
 
 public class BossView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
+
+    public List<Point2D> vomitAnchors = new ArrayList<>();
+    public int vomitRadius;
 
     public BossView(String Id) {
         super(Id);
@@ -31,6 +36,15 @@ public class BossView extends View {
         int y = (int) newAnchor.getY() - radius1;
         Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/smiley.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
+
+        g2d.setColor(new Color(255, 245, 0 , 70));
+        for (Point2D vomit : vomitAnchors) {
+            Point2D vomitAnchor = Utils.getRelatedPoint(vomit, component);
+            int vomitX = (int) vomitAnchor.getX() - vomitRadius;
+            int vomitY = (int) vomitAnchor.getY() - vomitRadius;
+            g2d.fillOval(vomitX, vomitY, vomitRadius * 2, vomitRadius * 2);
+        }
+
     }
 
     @Override
@@ -38,6 +52,8 @@ public class BossView extends View {
         anchor = bossModel.anchor;
         w = bossModel.w;
         h = bossModel.h;
+        vomitAnchors = ((SmileyModel) bossModel).vomitAnchors;
+        vomitRadius = ((SmileyModel) bossModel).vomitRadius;
     }
 
     @Override

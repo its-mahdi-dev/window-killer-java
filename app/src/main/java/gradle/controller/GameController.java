@@ -86,7 +86,7 @@ public class GameController implements UPSController {
         GamePanel panel1 = new GamePanel();
         GamePanel panel2 = new GamePanel();
         // panel1.setSize(new Dimension(500,500));
-        panel1.setLocation(400, 400);
+        panel1.setLocation(400, 250);
         // panel2.setSize(new Dimension(500, 500));
         // panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
@@ -116,6 +116,7 @@ public class GameController implements UPSController {
         GameSettings.gameRunnig = true;
         startUPS();
 
+        BossController.vomitAttack();
         GameFrame.getINSTANCE().repaint();
 
         MainPanel.getINSTANCE().setVisible(false);

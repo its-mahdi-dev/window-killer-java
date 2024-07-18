@@ -3,8 +3,14 @@ package gradle.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Timer;
 
@@ -29,7 +35,8 @@ public class BossController implements UPSController {
     public Map<String, Boolean> attacks = new HashMap<>();
     {
         attacks.put("squeez", false);
-        attacks.put("projectile", true);
+        attacks.put("projectile", false);
+        attacks.put("vomit", true);
     }
 
     @Override
@@ -51,6 +58,8 @@ public class BossController implements UPSController {
                 squeezeAttack();
         if (attacks.get("projectile"))
             projectileAttack();
+        if (attacks.get("vomit"))
+            checkVomit();
 
     }
 
@@ -143,4 +152,44 @@ public class BossController implements UPSController {
 
     }
 
+    public static void vomitAttack() {
+        Random random = new Random();
+        GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
+        int partWidth = epsilonPanel.getWidth() / 3;
+        int[] yRange = new int[] {
+                epsilonPanel.getY(),
+                epsilonPanel.getY() + epsilonPanel.getHeight()
+        };
+        List<int[]> randomAvailabel = List.of(
+                new int[] { epsilonPanel.getX(), epsilonPanel.getX() + partWidth },
+                new int[] { epsilonPanel.getX() + partWidth, epsilonPanel.getX() + 2 * partWidth },
+                new int[] { epsilonPanel.getX() + 2 * partWidth, epsilonPanel.getX() + 3 * partWidth });
+
+        List<Point2D> randomAnchors = new ArrayList<>();
+        for (int i = 0; i < randomAvailabel.size(); i++) {
+            int randomX = random.nextInt((randomAvailabel.get(i)[1] - randomAvailabel.get(i)[0]) + 1)
+                    + randomAvailabel.get(i)[0];
+            int randomY = random.nextInt((yRange[1] - yRange[0]) + 1) + yRange[0];
+            randomAnchors.add(new Point2D.Double(randomX, randomY));
+        }
+
+        SmileyModel.getINSTANCE().vomitAnchors = randomAnchors;
+
+    }
+
+    private void checkVomit() {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        for (Point2D vomit : SmileyModel.getINSTANCE().vomitAnchors) {
+            if (Utils.getDistance(epsilonModel.anchor, vomit) <= SmileyModel.getINSTANCE().vomitRadius
+                    - epsilonModel.w / 2) {
+                if (epsilonModel.times.get("boss_vomit") == null) {
+                    epsilonModel.times.put("boss_vomit", System.currentTimeMillis());
+                    epsilonModel.HP -= 8;
+                } else if (System.currentTimeMillis() - epsilonModel.times.get("boss_vomit") >= 1000) {
+                    epsilonModel.times.put("boss_vomit", System.currentTimeMillis());
+                    epsilonModel.HP -= 8;
+                }
+            }
+        }
+    }
 }

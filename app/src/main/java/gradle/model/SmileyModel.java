@@ -17,6 +17,8 @@ public class SmileyModel extends BossModel {
     public static final List<Model> removedItems = new ArrayList<>();
 
     private static SmileyModel INSTANCE;
+    public List<Point2D> vomitAnchors = new ArrayList<>();
+    public int vomitRadius;
 
     private SmileyModel() {
         BossView bossView = new BossView(getId());
@@ -26,12 +28,13 @@ public class SmileyModel extends BossModel {
         max_speed = Constants.BOSS_HAND_SPEED;
         
         angleChange = max_speed / minRadius;
+        vomitRadius = Constants.BOSS_VOMIT_RADIUS;
         panel = new GamePanel();
         panel.setSize(w + 60, h + 40);
         int locX = EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
                 + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2;
         int locY = EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
-                - panel.getHeight();
+                - panel.getHeight() /2;
 
         angleMove = Math.toRadians(50);
         anchor = new Point2D.Double(locX, locY);

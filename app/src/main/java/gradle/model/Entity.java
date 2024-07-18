@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Timer;
 
@@ -28,6 +30,7 @@ public abstract class Entity extends Model {
     public boolean hovering;
     Timer timer;
     public Point2D direction = new Point2D.Double(0, 0);
+    public Map<String, Timer> timers = new HashMap<>();
 
     @Override
     public void addItem(Model item) {

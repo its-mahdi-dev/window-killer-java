@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.min;
+
 import gradle.controller.Constants;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
@@ -11,17 +13,17 @@ import gradle.view.Panels;
 import gradle.view.charecretsView.BossHandsView;
 import gradle.view.charecretsView.BossView;
 
-public class BossHandsModel extends Entity {
+public class SmileyHandsModel extends BossModel {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
-    public GamePanel panel;
 
-    public BossHandsModel() {
+    public SmileyHandsModel() {
         BossHandsView bossView = new BossHandsView(getId());
         w = Constants.BOSS_HAND_DIAMETER;
         h = Constants.BOSS_HAND_DIAMETER;
         max_speed = Constants.BOSS_HAND_SPEED;
+        minRadius = Constants.BOSS_MINRADIUS;
         impact_speed = 1.5;
         ableMove = true;
 
@@ -30,13 +32,16 @@ public class BossHandsModel extends Entity {
         int locX;
         int locY;
         if (items.size() == 0) {
-            locX = BossModel.getINSTANCE().panel.getX() - w / 2 - 20;
-            locY = BossModel.getINSTANCE().panel.getY() + BossModel.getINSTANCE().panel.getHeight() / 2;
+            locX = SmileyModel.getINSTANCE().panel.getX() - w / 2 - 20;
+            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
+            angleMove = Math.toRadians(0);
         } else {
-            locX = BossModel.getINSTANCE().panel.getX() + BossModel.getINSTANCE().panel.getWidth() + w / 2 + 20;
-            locY = BossModel.getINSTANCE().panel.getY() + BossModel.getINSTANCE().panel.getHeight() / 2;
+            locX = SmileyModel.getINSTANCE().panel.getX() + SmileyModel.getINSTANCE().panel.getWidth() + w / 2 + 20;
+            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
+            angleMove = Math.toRadians(100);
         }
 
+        angleChange = max_speed / minRadius;
         anchor = new Point2D.Double(locX, locY);
         panel.isometric = true;
         setPanelAnchor();
@@ -65,11 +70,11 @@ public class BossHandsModel extends Entity {
         return removedItems;
     }
 
-    public static BossHandsModel getLeft() {
-        return (BossHandsModel) items.get(0);
+    public static SmileyHandsModel getLeft() {
+        return (SmileyHandsModel) items.get(0);
     }
 
-    public static BossHandsModel getRight() {
-        return (BossHandsModel) items.get(1);
+    public static SmileyHandsModel getRight() {
+        return (SmileyHandsModel) items.get(1);
     }
 }

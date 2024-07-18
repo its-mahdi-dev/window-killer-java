@@ -71,11 +71,11 @@ public class WyrmEnemy extends EnemyModel {
         Timer shoTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
-                // enemyModel.attacks.get("ranged"));
-                // shotModel.setDirection(Utils.getDirection(enemyModel.anchor,
-                // EpsilonModel.getINSTANCE().anchor));
-                // shotModel.rigid = false;
+                ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
+                        enemyModel.attacks.get("ranged"));
+                shotModel.setDirection(Utils.getDirection(enemyModel.anchor,
+                        EpsilonModel.getINSTANCE().anchor));
+                shotModel.rigid = false;
             }
         });
         enemyModel.angleChange = enemyModel.max_speed / enemyModel.minRadius;

@@ -11,7 +11,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import gradle.controller.Utils;
-import gradle.model.BossHandsModel;
+import gradle.model.SmileyHandsModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;

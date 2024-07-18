@@ -64,4 +64,5 @@ public class Constants {
         public static final int EPSILON_POWER = 10;
         static final int EPSILON_SHOT_POWER = 5;
         public static final int WYRM_MIN_RADIUS = 300;
+        public static final int BOSS_MINRADIUS = 300;
 }

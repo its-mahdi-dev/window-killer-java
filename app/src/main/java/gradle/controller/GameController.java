@@ -1,7 +1,8 @@
 package gradle.controller;
 
 import gradle.interfaces.UPSController;
-import gradle.model.BossHandsModel;
+import gradle.model.SmileyHandsModel;
+import gradle.model.SmileyModel;
 import gradle.model.BossModel;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -100,12 +101,12 @@ public class GameController implements UPSController {
         // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        BossModel.getINSTANCE();
-        new BossHandsModel();
-        new BossHandsModel();
+        SmileyModel.getINSTANCE();
+        new SmileyHandsModel();
+        new SmileyHandsModel();
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
-        // BlackorbEnemy.create(new Point2D.Double(600, 700));
+        // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
         EnemyController.isCreating = false;
@@ -116,7 +117,6 @@ public class GameController implements UPSController {
         startUPS();
 
         GameFrame.getINSTANCE().repaint();
-        
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

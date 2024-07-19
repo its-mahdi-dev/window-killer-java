@@ -10,5 +10,6 @@ public class GameSettings {
     public static double level = 1; 
     public static boolean gameRunnig;
     public static boolean massedUp = false;
+    public static boolean bossRun = false;
     // private GameSettings()
 }

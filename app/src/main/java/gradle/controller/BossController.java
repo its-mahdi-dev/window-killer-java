@@ -66,6 +66,8 @@ public class BossController implements UPSController {
 
     @Override
     public void check() {
+        if (!GameSettings.bossRun)
+            return;
         SmileyHandsView.getLeft().setUtil(SmileyHandsModel.getLeft());
         SmileyHandsView.getRight().setUtil(SmileyHandsModel.getRight());
         SmileyView.items.get(0).setUtil(SmileyModel.getINSTANCE());

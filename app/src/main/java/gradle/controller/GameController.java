@@ -76,9 +76,6 @@ public class GameController implements UPSController {
         GameSettings.isGameRun = true;
         setSettings();
         setSkillTree();
-        SkillTreeController.skillsTime.put("ares", System.currentTimeMillis() - 6 * 60000);
-        SkillTreeController.skillsTime.put("aceso", System.currentTimeMillis() - 6 * 60000);
-        SkillTreeController.skillsTime.put("proteus", System.currentTimeMillis() - 6 * 60000);
         MainPanel.getINSTANCE().remove(SettingsPanel.getINSTANCE());
         // GameFrame.getINSTANCE().remove(MainPanel.getINSTANCE());
         // GamePanel.getINSTANCE();
@@ -102,11 +99,11 @@ public class GameController implements UPSController {
         // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        SmileyModel.getINSTANCE();
-        new SmileyHandsModel();
-        new SmileyHandsModel();
-        SmileyFistModel.getINSTANCE();
-        // createWave();
+        // SmileyModel.getINSTANCE();
+        // new SmileyHandsModel();
+        // new SmileyHandsModel();
+        // SmileyFistModel.getINSTANCE();
+        createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));
@@ -191,7 +188,8 @@ public class GameController implements UPSController {
         JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/data/skillTree.json");
         JSONArray skills = (JSONArray) data.get("skills");
         for (int i = 0; i < skills.size(); i++) {
-            SkillTreeController.skills.put(((JSONObject) skills.get(i)).get("slog").toString(),
+            SkillTreeController.skills.put(
+                    SkillTreeController.stringToSkillTypes(((JSONObject) skills.get(i)).get("slog").toString()),
                     Boolean.parseBoolean(((JSONObject) skills.get(i)).get("enabled").toString()));
         }
     }

@@ -11,58 +11,129 @@ import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 
 public class SkillTreeController implements UPSController {
-    public static final Map<String, Long> skillsTime = new HashMap<>();
-    public static final Map<String, Boolean> skills = new HashMap<>();
+
+    public static final long MIN_SKILL_TIME = 5 * 60000;
+    public static final Map<SkillTypes, Long> skillsTime = new HashMap<>();
+    public static final Map<SkillTypes, Boolean> skills = new HashMap<>();
+    public static final Map<Integer, SkillTypes> skillKeys = new HashMap<>();
+    public static final Map<SkillTypes, Skill> skillInterfaces = new HashMap<>();
+    public static final Map<SkillTypes, Timer> skillTimers = new HashMap<>();
+
+    public static final List<SkillTypes> skillNames = List.of(
+            SkillTypes.ares,
+            SkillTypes.aceso,
+            SkillTypes.proteus,
+            SkillTypes.astrape,
+            SkillTypes.cerberus,
+            SkillTypes.melampus,
+            SkillTypes.chiron,
+            SkillTypes.empusa,
+            SkillTypes.dolus);
+
+    static {
+        for (SkillTypes skillType : skillNames) {
+            skills.put(skillType, false);
+            skillsTime.put(skillType, System.currentTimeMillis() - MIN_SKILL_TIME * 2);
+        }
+
+        skillKeys.put(KeyEvent.VK_1, SkillTypes.ares);
+        skillKeys.put(KeyEvent.VK_2, SkillTypes.aceso);
+        skillKeys.put(KeyEvent.VK_3, SkillTypes.proteus);
+        skillKeys.put(KeyEvent.VK_4, SkillTypes.astrape);
+        skillKeys.put(KeyEvent.VK_5, SkillTypes.cerberus);
+        skillKeys.put(KeyEvent.VK_6, SkillTypes.melampus);
+        skillKeys.put(KeyEvent.VK_7, SkillTypes.chiron);
+        skillKeys.put(KeyEvent.VK_8, SkillTypes.empusa);
+        skillKeys.put(KeyEvent.VK_9, SkillTypes.dolus);
+
+        skillInterfaces.put(SkillTypes.ares, new Skill() {
+            @Override
+            public void skill() {
+                enemy_hp_decrease += 2;
+            }
+        });
+        skillInterfaces.put(SkillTypes.aceso, new Skill() {
+            @Override
+            public void skill() {
+                epsilon_hp_increase += 1;
+                Timer timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (System.currentTimeMillis() - skillsTime.get(SkillTypes.aceso) < MIN_SKILL_TIME)
+                            EpsilonModel.getINSTANCE().HP = Math.min(100,
+                                    EpsilonModel.getINSTANCE().HP + epsilon_hp_increase);
+                    }
+                });
+                timer.start();
+                skillTimers.put(SkillTypes.aceso, timer);
+            }
+        });
+        skillInterfaces.put(SkillTypes.proteus, new Skill() {
+            @Override
+            public void skill() {
+                EpsilonVertexModel.create();
+            }
+        });
+        skillInterfaces.put(SkillTypes.astrape, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+        skillInterfaces.put(SkillTypes.cerberus, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+        skillInterfaces.put(SkillTypes.melampus, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+        skillInterfaces.put(SkillTypes.chiron, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+        skillInterfaces.put(SkillTypes.empusa, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+        skillInterfaces.put(SkillTypes.dolus, new Skill() {
+            @Override
+            public void skill() {
+
+            }
+        });
+    }
+
     public static int enemy_hp_decrease;
     public static int epsilon_hp_increase;
 
-    public static final long MIN_SKILL_TIME = 5 * 60000;
+    interface Skill {
+        void skill();
+    }
 
-    static Timer timer;
+    enum SkillTypes {
+        ares, aceso, proteus, astrape, cerberus, melampus, chiron, empusa, dolus
+    }
 
     public static void keyControl(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_F:
-                setAres();
-                break;
-            case KeyEvent.VK_H:
-                setAceso();
-                break;
-            case KeyEvent.VK_J:
-                setProteus();
-                break;
-            default:
-                break;
-        }
-    }
+        int keyCode = e.getKeyCode();
+        SkillTypes skillType = skillKeys.get(keyCode);
 
-    private static void setAres() {
-        if (System.currentTimeMillis() - skillsTime.get("ares") > MIN_SKILL_TIME && skills.get("ares")) {
-            skillsTime.put("ares", System.currentTimeMillis());
-            enemy_hp_decrease += 2;
-        }
-    }
-
-    private static void setAceso() {
-        if (System.currentTimeMillis() - skillsTime.get("aceso") > MIN_SKILL_TIME && skills.get("aceso")) {
-            skillsTime.replace("aceso", System.currentTimeMillis());
-            epsilon_hp_increase += 1;
-            timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (System.currentTimeMillis() - skillsTime.get("aceso") < MIN_SKILL_TIME)
-                        EpsilonModel.getINSTANCE().HP = Math.min(100,
-                                EpsilonModel.getINSTANCE().HP + epsilon_hp_increase);
+        if (skillType != null) {
+            if (skills.get(skillType)) {
+                if (skillsTime.get(skillType) < System.currentTimeMillis() - MIN_SKILL_TIME) {
+                    skillInterfaces.get(skillType).skill();
+                    skillsTime.put(skillType, System.currentTimeMillis());
                 }
-            });
-            timer.start();
-        }
-    }
-
-    private static void setProteus() {
-        if (System.currentTimeMillis() - skillsTime.get("proteus") > MIN_SKILL_TIME && skills.get("proteus")) {
-            skillsTime.put("proteus", System.currentTimeMillis());
-            EpsilonVertexModel.create();
+            }
         }
     }
 
@@ -78,6 +149,32 @@ public class SkillTreeController implements UPSController {
         }
 
         return false;
+
+    }
+
+    public static SkillTypes stringToSkillTypes(String slog) {
+        switch (slog) {
+            case "ares":
+                return SkillTypes.ares;
+            case "aceso":
+                return SkillTypes.aceso;
+            case "proteus":
+                return SkillTypes.proteus;
+            case "astrape":
+                return SkillTypes.astrape;
+            case "cerberus":
+                return SkillTypes.cerberus;
+            case "melampus":
+                return SkillTypes.melampus;
+            case "chiron":
+                return SkillTypes.chiron;
+            case "empusa":
+                return SkillTypes.empusa;
+            case "dolus":
+                return SkillTypes.dolus;
+            default:
+                return null;
+        }
 
     }
 

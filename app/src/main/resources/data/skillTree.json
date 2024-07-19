@@ -1,1 +1,85 @@
-{"skills":[{"image":"ares.png","slog":"ares","name":"Writ of Ares","XP":750,"description":"Epsilon's attacks deal two more damage to the enemy.","id":1,"enabled":true},{"image":"aceso.png","slog":"aceso","name":"Writ of Aceso","XP":500,"description":"Epsilon recovers 1 HP every second","id":2,"enabled":true},{"image":"proteus.png","slog":"proteus","name":"Writ of Proteus","XP":1000,"description":"A vertex is added to Epsilon","id":3,"enabled":true},{"image":"astrape.png","slog":"astrape","name":"Writ of Astrape","XP":1000,"description":"","id":4,"enabled":true},{"image":"cerberus.png","slog":"cerberus","name":"Writ of Cerberus","XP":1500,"description":"","id":5,"enabled":false},{"image":"melampus.png","slog":"melampus","name":"Writ of Melampus","XP":1000,"description":"","id":6,"enabled":true},{"image":"chiron.png","slog":"chiron","name":"Writ of Chiron","XP":900,"description":"","id":7,"enabled":true},{"image":"empusa.png","slog":"empusa","name":"Writ of Empusa","XP":750,"description":"","id":8,"enabled":true},{"image":"dolus.png","slog":"dolus","name":"Writ of Dolus","XP":1500,"description":"","id":9,"enabled":false}]}
+{
+    "skills": [
+        {
+            "image": "ares.png",
+            "slog": "ares",
+            "name": "Writ of Ares",
+            "XP": 750,
+            "description": "Epsilon's attacks deal two more damage to the enemy.",
+            "id": 1,
+            "enabled": true
+        },
+        {
+            "image": "aceso.png",
+            "slog": "aceso",
+            "name": "Writ of Aceso",
+            "XP": 500,
+            "description": "Epsilon recovers 1 HP every second",
+            "id": 2,
+            "enabled": true
+        },
+        {
+            "image": "proteus.png",
+            "slog": "proteus",
+            "name": "Writ of Proteus",
+            "XP": 1000,
+            "description": "A vertex is added to Epsilon",
+            "id": 3,
+            "enabled": true
+        },
+        {
+            "image": "astrape.png",
+            "slog": "astrape",
+            "name": "Writ of Astrape",
+            "XP": 1000,
+            "description": "",
+            "id": 4,
+            "enabled": true
+        },
+        {
+            "image": "cerberus.png",
+            "slog": "cerberus",
+            "name": "Writ of Cerberus",
+            "XP": 1500,
+            "description": "",
+            "id": 5,
+            "enabled": false
+        },
+        {
+            "image": "melampus.png",
+            "slog": "melampus",
+            "name": "Writ of Melampus",
+            "XP": 1000,
+            "description": "",
+            "id": 6,
+            "enabled": true
+        },
+        {
+            "image": "chiron.png",
+            "slog": "chiron",
+            "name": "Writ of Chiron",
+            "XP": 900,
+            "description": "",
+            "id": 7,
+            "enabled": true
+        },
+        {
+            "image": "empusa.png",
+            "slog": "empusa",
+            "name": "Writ of Empusa",
+            "XP": 750,
+            "description": "",
+            "id": 8,
+            "enabled": true
+        },
+        {
+            "image": "dolus.png",
+            "slog": "dolus",
+            "name": "Writ of Dolus",
+            "XP": 1500,
+            "description": "",
+            "id": 9,
+            "enabled": false
+        }
+    ]
+}

@@ -108,7 +108,9 @@ public class SkillTreeController implements UPSController {
         skillInterfaces.put(SkillTypes.empusa, new Skill() {
             @Override
             public void skill() {
-
+                EpsilonModel epsilon = EpsilonModel.getINSTANCE();
+                epsilon.w = epsilon.w * 9 / 10;
+                epsilon.h = epsilon.h * 9 / 10;
             }
         });
         skillInterfaces.put(SkillTypes.dolus, new Skill() {

@@ -14,7 +14,7 @@ import gradle.controller.Utils;
 import gradle.view.GameFrame;
 import gradle.view.MainPanel;
 public class App {
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");

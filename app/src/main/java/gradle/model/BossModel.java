@@ -48,14 +48,16 @@ public abstract class BossModel extends Entity {
     }
 
     public void goToFirstAnchor() {
-        Point2D newDirection = Utils.getDirection(anchor, firstAnchor);
-        setDirection(newDirection);
-        if (Utils.getDistance(anchor, firstAnchor) <= 2) {
-            setDirection(new Point2D.Double(0, 0));
+        Point2D newDirection = new Point2D.Double(0, 0);
+        if (Utils.getDistance(anchor, firstAnchor) <= 2)
             isInFirstAnchor = true;
-        } else {
+        else
             isInFirstAnchor = false;
+        if (!isInFirstAnchor) {
+            newDirection = Utils.getDirection(anchor, firstAnchor);
         }
+        
+        setDirection(newDirection);
     }
 
 }

@@ -1,6 +1,8 @@
 package gradle.controller;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.awt.event.*;
 import javax.swing.Timer;
 
@@ -17,6 +19,7 @@ public class SkillTreeController implements UPSController {
     public static int enemy_hp_decrease;
     public static int enemy_hp_collision_decrease;
     public static int epsilon_hp_increase;
+    public static List<SkillTypes> dolusSkills = new ArrayList<>();
 
     public static final Map<SkillTypes, Long> skillsTime = new HashMap<>();
     public static final Map<SkillTypes, Boolean> skills = new HashMap<>();
@@ -116,7 +119,26 @@ public class SkillTreeController implements UPSController {
         skillInterfaces.put(SkillTypes.dolus, new Skill() {
             @Override
             public void skill() {
-
+                if (dolusSkills.size() > 1) {
+                    for (SkillTypes skillType : dolusSkills) {
+                        skillInterfaces.get(skillType).skill();
+                    }
+                } else {
+                    List<SkillTypes> Allactives = new ArrayList<>(activeSkills.keySet());
+                    List<SkillTypes> actives = Allactives.stream().filter(s -> activeSkills.get(s))
+                            .collect(Collectors.toList());
+                    int randomIndex = new Random().nextInt(actives.size());
+                    if (actives.size() > 1) {
+                        int randomIndex2 = new Random().nextInt(actives.size());
+                        while (randomIndex == randomIndex2) {
+                            randomIndex2 = new Random().nextInt(actives.size());
+                        }
+                        dolusSkills.add(actives.get(randomIndex2));
+                        skillInterfaces.get(dolusSkills.get(1)).skill();
+                    }
+                    dolusSkills.add(actives.get(randomIndex));
+                    skillInterfaces.get(dolusSkills.get(0)).skill();
+                }
             }
         });
     }

@@ -13,7 +13,7 @@ import gradle.model.EpsilonVertexModel;
 public class SkillTreeController implements UPSController {
 
     public static final long MIN_SKILL_TIME = 5 * 60000;
-    
+
     public static int enemy_hp_decrease;
     public static int enemy_hp_collision_decrease;
     public static int epsilon_hp_increase;
@@ -23,6 +23,7 @@ public class SkillTreeController implements UPSController {
     public static final Map<Integer, SkillTypes> skillKeys = new HashMap<>();
     public static final Map<SkillTypes, Skill> skillInterfaces = new HashMap<>();
     public static final Map<SkillTypes, Timer> skillTimers = new HashMap<>();
+    public static final Map<SkillTypes, Boolean> activeSkills = new HashMap<>();
 
     public static final List<SkillTypes> skillNames = List.of(
             SkillTypes.ares,
@@ -38,6 +39,7 @@ public class SkillTreeController implements UPSController {
     static {
         for (SkillTypes skillType : skillNames) {
             skills.put(skillType, false);
+            activeSkills.put(skillType, false);
             skillsTime.put(skillType, System.currentTimeMillis() - MIN_SKILL_TIME * 2);
         }
 
@@ -117,7 +119,6 @@ public class SkillTreeController implements UPSController {
         });
     }
 
-
     interface Skill {
         void skill();
     }
@@ -135,6 +136,7 @@ public class SkillTreeController implements UPSController {
                 if (skillsTime.get(skillType) < System.currentTimeMillis() - MIN_SKILL_TIME) {
                     skillInterfaces.get(skillType).skill();
                     skillsTime.put(skillType, System.currentTimeMillis());
+                    activeSkills.put(skillType, true);
                 }
             }
         }

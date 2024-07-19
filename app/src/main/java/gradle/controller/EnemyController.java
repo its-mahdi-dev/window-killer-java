@@ -16,6 +16,7 @@ import javax.swing.Timer;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 
+import gradle.controller.SkillTreeController.SkillTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -36,6 +37,8 @@ public class EnemyController implements UPSController {
 
     static List<EnemyModel> removedEnemies = new ArrayList<>();
     public static boolean isCreating = true;
+
+    private static final Random random = new Random();
 
     @Override
     public void check() {
@@ -221,7 +224,11 @@ public class EnemyController implements UPSController {
                     && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonModel.w / 2) {
                 enemyModel.decreasHp(SkillTreeController.enemy_hp_collision_decrease);
                 enemyModel.setImpact(newDirection, true, true);
-                epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
+                if (SkillTreeController.activeSkills.get(SkillTypes.melampus)) {
+                    if (random.nextInt(100) > 5)
+                        epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
+                } else
+                    epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
             }
         }
 
@@ -406,11 +413,10 @@ public class EnemyController implements UPSController {
     public static void createEnemyWaves(int number) {
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;
-        Random rand = new Random();
 
         for (int i = 0; i < squareEnemies; i++) {
 
-            int x1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getX())
+            int x1 = random.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getX())
                     + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth();
             int y1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
                     + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight()
@@ -422,7 +428,7 @@ public class EnemyController implements UPSController {
         }
 
         for (int i = 0; i < triangleEnemies; i++) {
-            int y1 = rand.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getY())
+            int y1 = random.nextInt(EpsilonModel.getINSTANCE().currentPanels.get(0).getY())
                     + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight();
             int x1 = EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
                     + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth()
@@ -487,7 +493,6 @@ public class EnemyController implements UPSController {
             // enemyModel.ableMove = false;
             enemyModel.hovering = false;
             int[] possibleValues = { -1, 1 };
-            Random random = new Random();
             int randomX = random.nextInt(possibleValues.length);
             int randomY = random.nextInt(possibleValues.length);
             enemyModel.anchor = new Point2D.Double(

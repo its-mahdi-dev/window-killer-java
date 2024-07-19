@@ -41,6 +41,7 @@ public class BossController implements UPSController {
         attacks.put("projectile", false);
         attacks.put("vomit", false);
         attacks.put("quake", false);
+        attacks.put("rapid", false);
     }
 
     @Override
@@ -69,6 +70,8 @@ public class BossController implements UPSController {
             checkVomit();
         if (attacks.get("quake"))
             checkQuake();
+        if (attacks.get("rapid"))
+            checkRapid();
 
     }
 
@@ -246,6 +249,38 @@ public class BossController implements UPSController {
                 EpsilonController.pressed.replace(key, false);
             }
 
+        }
+    }
+
+    public static void rapidAttack() {
+        SmileyModel smileyModel = SmileyModel.getINSTANCE();
+        Random random = new Random();
+        GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
+        Timer timer = new Timer(300, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int randomX = random.nextInt(600) + (int) EpsilonModel.getINSTANCE().anchor.getX() - 300;
+                Point2D newDirection = Utils.getDirection(smileyModel.anchor,
+                        new Point2D.Double(randomX, EpsilonModel.getINSTANCE().anchor.getY()));
+                ShotModel shotModel = ShotModel.create(smileyModel.anchor, ShotType.enemy, 8);
+                shotModel.setDirection(newDirection);
+                shotModel.rigid = false;
+            }
+
+        });
+        timer.start();
+        smileyModel.timers.put("rapid", timer);
+        smileyModel.times.put("rapid", System.currentTimeMillis());
+        attacks.replace("rapid", true);
+    }
+
+    private void checkRapid() {
+        if (attacks.get("rapid")
+                && System.currentTimeMillis() - SmileyModel.getINSTANCE().times.get("rapid") >= 30000) {
+            attacks.put("rapid", false);
+            SmileyModel.getINSTANCE().timers.get("rapid").stop();
+            SmileyModel.getINSTANCE().times.remove("rapid");
         }
     }
 }

@@ -42,7 +42,8 @@ public class ShotController implements UPSController {
                     for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
                         EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
                         if (checkEpsilonShot(enemyModel, shotModel)) {
-                            enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
+                            enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease)
+                                    + (SkillTreeController.enemy_hp_decrease);
                             if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
                                 // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                                 if (ShotModel.items.contains(shotModel)) {

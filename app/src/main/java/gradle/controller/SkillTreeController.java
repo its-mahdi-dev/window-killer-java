@@ -13,6 +13,11 @@ import gradle.model.EpsilonVertexModel;
 public class SkillTreeController implements UPSController {
 
     public static final long MIN_SKILL_TIME = 5 * 60000;
+    
+    public static int enemy_hp_decrease;
+    public static int enemy_hp_collision_decrease;
+    public static int epsilon_hp_increase;
+
     public static final Map<SkillTypes, Long> skillsTime = new HashMap<>();
     public static final Map<SkillTypes, Boolean> skills = new HashMap<>();
     public static final Map<Integer, SkillTypes> skillKeys = new HashMap<>();
@@ -77,7 +82,7 @@ public class SkillTreeController implements UPSController {
         skillInterfaces.put(SkillTypes.astrape, new Skill() {
             @Override
             public void skill() {
-
+                enemy_hp_collision_decrease += 2;
             }
         });
         skillInterfaces.put(SkillTypes.cerberus, new Skill() {
@@ -112,8 +117,6 @@ public class SkillTreeController implements UPSController {
         });
     }
 
-    public static int enemy_hp_decrease;
-    public static int epsilon_hp_increase;
 
     interface Skill {
         void skill();

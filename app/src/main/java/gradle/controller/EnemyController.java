@@ -219,17 +219,9 @@ public class EnemyController implements UPSController {
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
             if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonModel.w / 2
                     && Math.abs(epsilonModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonModel.w / 2) {
-                // if (epsilonModel.isMoving) {
-                // epsilonModel.setImpact();
-                // } else {
-                // epsilonModel.setImpact(enemyModel.direction);
-                // }
+                enemyModel.decreasHp(SkillTreeController.enemy_hp_collision_decrease);
                 enemyModel.setImpact(newDirection, true, true);
-
-                if (System.currentTimeMillis() - epsilonModel.HP_time > 200) {
-                    epsilonModel.HP_time = System.currentTimeMillis();
-                    epsilonModel.HP -= enemyModel.attacks.get("melee");
-                }
+                epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
             }
         }
 
@@ -240,14 +232,13 @@ public class EnemyController implements UPSController {
                 if (enemyModel.type != EnemyType.wyrm) {
                     for (Model vertex : EpsilonVertexModel.items) {
                         if (Utils.getDistance(point2ds[0], point2ds[1], vertex.anchor) < vertex.w * 2) {
-                            enemyModel.HP -= Constants.EPSILON_POWER;
-                            if (enemyModel.HP <= 0) {
-                                removedEnemies.add(enemyModel);
-                            }
+                            enemyModel.decreasHp(Constants.EPSILON_POWER);
                         }
 
                     }
                 }
+
+                enemyModel.decreasHp(SkillTreeController.enemy_hp_collision_decrease);
                 enemyModel.setImpact(newDirection, true, true);
             }
 

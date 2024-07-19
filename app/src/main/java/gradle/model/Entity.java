@@ -26,11 +26,12 @@ public abstract class Entity extends Model {
     public boolean rigid;
     public double speed = 0;
     public int HP;
+    public double HP_time;
     public double max_speed;
     public double velocity;
     public boolean hovering;
     Timer timer;
-    
+
     public Map<String, Long> times = new HashMap<>();
     public Point2D direction = new Point2D.Double(0, 0);
     public Map<String, Timer> timers = new HashMap<>();
@@ -175,5 +176,10 @@ public abstract class Entity extends Model {
         all.add(EpsilonModel.getINSTANCE());
 
         return all;
+    }
+
+    public void decreasHp(int hp) {
+        if (System.currentTimeMillis() - HP_time > 200)
+            HP -= hp;
     }
 }

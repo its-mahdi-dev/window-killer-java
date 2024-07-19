@@ -7,7 +7,6 @@ package gradle;
 import javax.swing.*;
 
 import org.json.simple.JSONObject;
-
 import gradle.controller.GameSettings;
 import gradle.controller.JsonHelper;
 import gradle.controller.Utils;

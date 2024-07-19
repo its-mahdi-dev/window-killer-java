@@ -29,6 +29,8 @@ public abstract class Entity extends Model {
     public double velocity;
     public boolean hovering;
     Timer timer;
+    
+    public Map<String, Long> times = new HashMap<>();
     public Point2D direction = new Point2D.Double(0, 0);
     public Map<String, Timer> timers = new HashMap<>();
 

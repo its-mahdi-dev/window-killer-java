@@ -9,5 +9,6 @@ public class GameSettings {
     public static int sensitivity = 0;
     public static double level = 1; 
     public static boolean gameRunnig;
+    public static boolean massedUp = false;
     // private GameSettings()
 }

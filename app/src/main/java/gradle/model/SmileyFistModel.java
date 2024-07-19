@@ -10,38 +10,31 @@ import gradle.controller.Constants;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
+import gradle.view.charecretsView.SmileyFistView;
 import gradle.view.charecretsView.SmileyHandsView;
 import gradle.view.charecretsView.SmileyView;
 
-public class SmileyHandsModel extends BossModel {
+public class SmileyFistModel extends BossModel {
     public static final List<Model> items = new ArrayList<>();
     public static final List<Model> removedItems = new ArrayList<>();
 
-    public SmileyHandsModel() {
-        SmileyHandsView bossView = new SmileyHandsView(getId());
-        w = Constants.BOSS_HAND_DIAMETER;
-        h = Constants.BOSS_HAND_DIAMETER;
-        max_speed = Constants.BOSS_HAND_SPEED;
+    public static SmileyFistModel INSTANCE;
+
+    private SmileyFistModel() {
+        SmileyFistView bossView = new SmileyFistView(getId());
+        w = Constants.BOSS_FIST_DIAMETER;
+        h = Constants.BOSS_FIST_DIAMETER;
+        max_speed = Constants.BOSS_HAND_SPEED * 5;
         minRadius = Constants.BOSS_MINRADIUS;
         impact_speed = 1.5;
         ableMove = true;
 
         panel = new GamePanel();
         panel.setSize(w + 40, h + 40);
-        int locX;
-        int locY;
-        if (items.size() == 0) {
-            locX = SmileyModel.getINSTANCE().panel.getX() - w / 2 - 20;
-            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
-            angleMove = Math.toRadians(0);
-        } else {
-            locX = SmileyModel.getINSTANCE().panel.getX() + SmileyModel.getINSTANCE().panel.getWidth() + w / 2 + 20;
-            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
-            angleMove = Math.toRadians(100);
-        }
+        setFirstAnchor();
+        angleMove = Math.toRadians(100);
 
         angleChange = max_speed / minRadius;
-        anchor = new Point2D.Double(locX, locY);
         panel.isometric = true;
         setPanelAnchor();
         Panels.getINSTANCE().addPanel(panel);
@@ -52,6 +45,22 @@ public class SmileyHandsModel extends BossModel {
         addItem(this);
         bossView.addItem(bossView);
         bossView.setUtil(this);
+    }
+
+    public static SmileyFistModel getINSTANCE() {
+        if (INSTANCE == null)
+            INSTANCE = new SmileyFistModel();
+        return INSTANCE;
+    }
+
+    public void setFirstAnchor() {
+
+        int locX = EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
+                + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2;
+        int locY = EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
+                + EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() + h / 2 + 40;
+
+        anchor = new Point2D.Double(locX, locY);
     }
 
     public void setPanelAnchor() {
@@ -69,11 +78,11 @@ public class SmileyHandsModel extends BossModel {
         return removedItems;
     }
 
-    public static SmileyHandsModel getLeft() {
-        return (SmileyHandsModel) items.get(0);
+    public static SmileyFistModel getLeft() {
+        return (SmileyFistModel) items.get(0);
     }
 
-    public static SmileyHandsModel getRight() {
-        return (SmileyHandsModel) items.get(1);
+    public static SmileyFistModel getRight() {
+        return (SmileyFistModel) items.get(1);
     }
 }

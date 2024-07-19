@@ -16,14 +16,14 @@ import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.model.SmileyModel;
 
-public class BossView extends View {
+public class SmileyView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
     public List<Point2D> vomitAnchors = new ArrayList<>();
     public int vomitRadius;
 
-    public BossView(String Id) {
+    public SmileyView(String Id) {
         super(Id);
     }
 

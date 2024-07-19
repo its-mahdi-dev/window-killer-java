@@ -17,7 +17,6 @@ public class EpsilonModel extends Entity {
     public int HP;
     public double HP_time;
 
-    public Map<String, Long> times = new HashMap<>();
 
     private EpsilonModel() {
         init();

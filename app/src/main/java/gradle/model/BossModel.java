@@ -14,7 +14,7 @@ import gradle.controller.Constants;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
-import gradle.view.charecretsView.BossView;
+import gradle.view.charecretsView.SmileyView;
 
 public abstract class BossModel extends Entity {
 

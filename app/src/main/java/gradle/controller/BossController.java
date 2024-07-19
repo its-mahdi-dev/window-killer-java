@@ -23,27 +23,32 @@ import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.SmileyFistModel;
 import gradle.view.GamePanel;
-import gradle.view.charecretsView.BossHandsView;
-import gradle.view.charecretsView.BossView;
+import gradle.view.charecretsView.SmileyHandsView;
+import gradle.view.charecretsView.SmileyView;
 import gradle.view.charecretsView.ShotView;
+import gradle.view.charecretsView.SmileyFistView;
 
 public class BossController implements UPSController {
 
     public static boolean isAttcking = false;
     // public static boolean isSqueezing = false;
-    public Map<String, Boolean> attacks = new HashMap<>();
-    {
+    public static boolean isQuaking = false;
+    public static Map<String, Boolean> attacks = new HashMap<>();
+    static {
         attacks.put("squeez", false);
         attacks.put("projectile", false);
-        attacks.put("vomit", true);
+        attacks.put("vomit", false);
+        attacks.put("quake", false);
     }
 
     @Override
     public void check() {
-        BossHandsView.getLeft().setUtil(SmileyHandsModel.getLeft());
-        BossHandsView.getRight().setUtil(SmileyHandsModel.getRight());
-        BossView.items.get(0).setUtil(SmileyModel.getINSTANCE());
+        SmileyHandsView.getLeft().setUtil(SmileyHandsModel.getLeft());
+        SmileyHandsView.getRight().setUtil(SmileyHandsModel.getRight());
+        SmileyView.items.get(0).setUtil(SmileyModel.getINSTANCE());
+        SmileyFistView.items.get(0).setUtil(SmileyFistModel.getINSTANCE());
 
         SmileyHandsModel.getRight().move();
         SmileyHandsModel.getLeft().move();
@@ -51,6 +56,8 @@ public class BossController implements UPSController {
         SmileyHandsModel.getRight().setPanelAnchor();
         SmileyModel.getINSTANCE().move();
         SmileyModel.getINSTANCE().setPanelAnchor();
+        SmileyFistModel.getINSTANCE().move();
+        SmileyFistModel.getINSTANCE().setPanelAnchor();
         ;
 
         if (attacks.get("squeez"))
@@ -60,6 +67,8 @@ public class BossController implements UPSController {
             projectileAttack();
         if (attacks.get("vomit"))
             checkVomit();
+        if (attacks.get("quake"))
+            checkQuake();
 
     }
 
@@ -190,6 +199,53 @@ public class BossController implements UPSController {
                     epsilonModel.HP -= 8;
                 }
             }
+        }
+    }
+
+    public static void quackeAttack() {
+        SmileyFistModel fist = SmileyFistModel.getINSTANCE();
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        GamePanel epsilonPanel = epsilonModel.currentPanels.get(0);
+        Point2D newDirection = Utils.getDirection(fist.anchor, new Point2D.Double(
+                epsilonPanel.getX() + epsilonPanel.getWidth() / 2, epsilonPanel.getY() + epsilonPanel.getHeight()));
+        fist.setDirection(newDirection);
+        fist.ableMove = true;
+        fist.times.put("quake", System.currentTimeMillis());
+        GameSettings.massedUp = true;
+        attacks.replace("quake", true);
+    }
+
+    private void checkQuake() {
+        SmileyFistModel fist = SmileyFistModel.getINSTANCE();
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        GamePanel epsilonPanel = epsilonModel.currentPanels.get(0);
+        if (Utils.getDistance(fist.anchor, new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() / 2,
+                epsilonPanel.getY() + epsilonPanel.getHeight())) <= fist.w / 2 && !isQuaking) {
+            fist.setImpact(new Point2D.Double(-1, -1), fist.max_speed * fist.impact_speed, false);
+            fist.setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 4, 1);
+            isQuaking = true;
+        }
+        if (isQuaking) {
+            Point2D newGoal = new Point2D.Double(
+                    epsilonPanel.getX() + epsilonPanel.getWidth() / 2,
+                    epsilonPanel.getY() + epsilonPanel.getHeight() + 20);
+            Point2D newDirection = Utils.getDirection(fist.anchor, newGoal);
+            if (Utils.getDistance(fist.anchor, newGoal) <= fist.w / 2 &&
+                    !fist.isImpacting) {
+                fist.setDirection(new Point2D.Double(0, 0));
+                fist.setFirstAnchor();
+                isQuaking = false;
+                fist.ableMove = false;
+            } else
+                fist.setDirection(newDirection);
+        }
+        if (attacks.get("quake") && System.currentTimeMillis() - fist.times.get("quake") >= 8000) {
+            attacks.put("quake", false);
+            GameSettings.massedUp = false;
+            for (String key : EpsilonController.pressed.keySet()) {
+                EpsilonController.pressed.replace(key, false);
+            }
+
         }
     }
 }

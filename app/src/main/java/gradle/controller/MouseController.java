@@ -1,8 +1,12 @@
 package gradle.controller;
 
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
+import java.util.Random;
+
+import gradle.view.GameFrame;
 
 public class MouseController implements MouseListener, MouseMotionListener {
 
@@ -13,37 +17,53 @@ public class MouseController implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseClicked(java.awt.event.MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
     @Override
-    public void mousePressed(java.awt.event.MouseEvent e) {
-        if (!GameSettings.isPause && GameSettings.isGameRun)
+    public void mousePressed(MouseEvent e) {
+        if (GameSettings.massedUp) {
+            Random random = new Random();
+            int randomX = random.nextInt(GameFrame.getINSTANCE().getWidth());
+            int randomY = random.nextInt(GameFrame.getINSTANCE().getHeight());
+
+            MouseEvent randomMouseEvent = new MouseEvent(
+                    GameFrame.getINSTANCE(), // source component
+                    MouseEvent.MOUSE_CLICKED, // event type
+                    System.currentTimeMillis(), // when event occurred
+                    MouseEvent.BUTTON1_DOWN_MASK, // mouse button mask
+                    randomX, // x-coordinate
+                    randomY, // y-coordinate
+                    1, // number of clicks
+                    false // whether the event is a popup trigger
+            );
+            EpsilonController.mousePressed(randomMouseEvent);
+        } else if (!GameSettings.isPause && GameSettings.isGameRun)
             EpsilonController.mousePressed(e);
     }
 
     @Override
-    public void mouseReleased(java.awt.event.MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
     }
 
     @Override
-    public void mouseEntered(java.awt.event.MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(java.awt.event.MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
     }
 
     @Override
-    public void mouseDragged(java.awt.event.MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
     }
 
     @Override
-    public void mouseMoved(java.awt.event.MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
         if (!GameSettings.isPause && GameSettings.isGameRun) {
             mousePos.setLocation(e.getX(), e.getY());
-            
+
         }
     }
 

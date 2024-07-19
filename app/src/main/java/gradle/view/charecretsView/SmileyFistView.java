@@ -16,11 +16,11 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 
-public class BossHandsView extends View {
+public class SmileyFistView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
-    public BossHandsView(String Id) {
+    public SmileyFistView(String Id) {
         super(Id);
     }
 
@@ -31,7 +31,7 @@ public class BossHandsView extends View {
         int radius1 = w / 2;
         int x = (int) newAnchor.getX() - radius1;
         int y = (int) newAnchor.getY() - radius1;
-        Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/bosshand.png").getImage();
+        Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/fist.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
     }
 
@@ -52,11 +52,11 @@ public class BossHandsView extends View {
         return removedItems;
     }
 
-    public static BossHandsView getLeft(){
-        return (BossHandsView) items.get(0);
+    public static SmileyFistView getLeft(){
+        return (SmileyFistView) items.get(0);
     }
-    public static BossHandsView getRight(){
-        return (BossHandsView) items.get(1);
+    public static SmileyFistView getRight(){
+        return (SmileyFistView) items.get(1);
     }
 
 }

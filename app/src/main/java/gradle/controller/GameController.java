@@ -8,6 +8,7 @@ import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
 import gradle.model.Model;
+import gradle.model.SmileyFistModel;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.BlackorbEnemy;
@@ -86,7 +87,7 @@ public class GameController implements UPSController {
         GamePanel panel1 = new GamePanel();
         GamePanel panel2 = new GamePanel();
         // panel1.setSize(new Dimension(500,500));
-        panel1.setLocation(400, 250);
+        panel1.setLocation(400, 220);
         // panel2.setSize(new Dimension(500, 500));
         // panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
@@ -104,6 +105,7 @@ public class GameController implements UPSController {
         SmileyModel.getINSTANCE();
         new SmileyHandsModel();
         new SmileyHandsModel();
+        SmileyFistModel.getINSTANCE();
         // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
@@ -116,8 +118,9 @@ public class GameController implements UPSController {
         GameSettings.gameRunnig = true;
         startUPS();
 
-        BossController.vomitAttack();
         GameFrame.getINSTANCE().repaint();
+
+        BossController.quackeAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

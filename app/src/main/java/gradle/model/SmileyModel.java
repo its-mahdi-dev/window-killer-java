@@ -10,7 +10,7 @@ import gradle.controller.Constants;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
-import gradle.view.charecretsView.BossView;
+import gradle.view.charecretsView.SmileyView;
 
 public class SmileyModel extends BossModel {
     public static final List<Model> items = new ArrayList<>();
@@ -21,7 +21,7 @@ public class SmileyModel extends BossModel {
     public int vomitRadius;
 
     private SmileyModel() {
-        BossView bossView = new BossView(getId());
+        SmileyView bossView = new SmileyView(getId());
         w = Constants.BOSS_HEAD_DIAMETER;
         h = Constants.BOSS_HEAD_DIAMETER;
         minRadius = Constants.BOSS_MINRADIUS;

@@ -25,6 +25,7 @@ public abstract class Entity extends Model {
     public boolean visible = true;
     public boolean rigid;
     public double speed = 0;
+    public int HP;
     public double max_speed;
     public double velocity;
     public boolean hovering;

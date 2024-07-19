@@ -14,7 +14,6 @@ public class EpsilonModel extends Entity {
     public static final List<Model> removedItems = new ArrayList<>();
     public boolean shotStore;
     public int XP;
-    public int HP;
     public double HP_time;
 
 

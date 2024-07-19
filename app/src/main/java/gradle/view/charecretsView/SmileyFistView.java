@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import gradle.controller.Utils;
 import gradle.model.SmileyHandsModel;
+import gradle.model.Entity;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
@@ -19,6 +20,8 @@ import gradle.model.ShotType;
 public class SmileyFistView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
+
+    public int HP;
 
     public SmileyFistView(String Id) {
         super(Id);
@@ -40,6 +43,8 @@ public class SmileyFistView extends View {
         anchor = bossModel.anchor;
         w = bossModel.w;
         h = bossModel.h;
+
+        HP = ((Entity) bossModel).HP;
     }
 
     @Override
@@ -52,10 +57,11 @@ public class SmileyFistView extends View {
         return removedItems;
     }
 
-    public static SmileyFistView getLeft(){
+    public static SmileyFistView getLeft() {
         return (SmileyFistView) items.get(0);
     }
-    public static SmileyFistView getRight(){
+
+    public static SmileyFistView getRight() {
         return (SmileyFistView) items.get(1);
     }
 

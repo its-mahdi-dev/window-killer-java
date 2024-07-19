@@ -120,7 +120,7 @@ public class GameController implements UPSController {
 
         GameFrame.getINSTANCE().repaint();
 
-        BossController.rapidAttack();
+        BossController.slapAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

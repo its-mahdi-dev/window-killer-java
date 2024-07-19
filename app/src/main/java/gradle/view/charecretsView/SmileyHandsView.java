@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 
 import gradle.controller.Utils;
 import gradle.model.SmileyHandsModel;
+import gradle.model.BossModel;
+import gradle.model.Entity;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
@@ -20,6 +22,7 @@ public class SmileyHandsView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
+    public int HP;
     public SmileyHandsView(String Id) {
         super(Id);
     }
@@ -33,6 +36,7 @@ public class SmileyHandsView extends View {
         int y = (int) newAnchor.getY() - radius1;
         Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/bosshand.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
+        drawHP(g2d, newAnchor, HP);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class SmileyHandsView extends View {
         anchor = bossModel.anchor;
         w = bossModel.w;
         h = bossModel.h;
+        HP = ((Entity) bossModel).HP;
     }
 
     @Override

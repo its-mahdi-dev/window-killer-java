@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.awt.Polygon;
 
 import gradle.interfaces.UPSController;
+import gradle.model.BossModel;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.SmileyModel;
 import gradle.model.enemies.BlackorbEnemy;
 import gradle.view.GameFrame;
 import gradle.view.GamePanel;
@@ -24,22 +27,35 @@ public class ShotController implements UPSController {
             shotModel.move();
 
             if (shotModel.shotType == ShotType.epsilon) {
-                for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
-                    EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
-                    if (checkEpsilonShot(enemyModel, shotModel)) {
-                        enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
-                        if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
-                            // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
+                if (SmileyModel.items.size() > 0) {
+                    for (Model model : BossModel.getAllBossEntities()) {
+                        BossModel bossModel = (BossModel) model;
+                        if (Utils.getDistance(shotModel.anchor, model.anchor) <= model.w / 2 + shotModel.w / 2) {
+                            if (bossModel.ableDecrease)
+                                bossModel.HP -= shotModel.power;
                             if (ShotModel.items.contains(shotModel)) {
                                 remove(shotModel.getId());
                             }
-                        if (enemyModel.isImpacting) {
-                            enemyModel.impact_speed *= 1.05;
-                            enemyModel.setImpact(new Point2D.Double(1, 1), false);
-                        } else if (enemyModel.type != EnemyType.wyrm)
-                            enemyModel.setImpact(false);
+                        }
                     }
+                } else {
+                    for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
+                        EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
+                        if (checkEpsilonShot(enemyModel, shotModel)) {
+                            enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease);
+                            if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
+                                // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
+                                if (ShotModel.items.contains(shotModel)) {
+                                    remove(shotModel.getId());
+                                }
+                            if (enemyModel.isImpacting) {
+                                enemyModel.impact_speed *= 1.05;
+                                enemyModel.setImpact(new Point2D.Double(1, 1), false);
+                            } else if (enemyModel.type != EnemyType.wyrm)
+                                enemyModel.setImpact(false);
+                        }
 
+                    }
                 }
             } else if (shotModel.shotType == ShotType.enemy) {
                 if (Utils.getDistance(shotModel.anchor,

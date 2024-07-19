@@ -28,7 +28,6 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
     public EnemyType type;
     public int collectibleXP;
     public int collectibleCount;
-    public int HP;
     public double HP_time;
 
     public Map<String, Long> times = new HashMap<>();

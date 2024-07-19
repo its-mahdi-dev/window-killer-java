@@ -35,6 +35,7 @@ public class BossController implements UPSController {
     public static boolean isAttcking = false;
     // public static boolean isSqueezing = false;
     public static boolean isQuaking = false;
+    public static int epsilonHPdecrease;
     public static Map<String, Boolean> attacks = new HashMap<>();
     static {
         attacks.put("squeez", false);
@@ -42,6 +43,7 @@ public class BossController implements UPSController {
         attacks.put("vomit", false);
         attacks.put("quake", false);
         attacks.put("rapid", false);
+        attacks.put("slap", false);
     }
 
     @Override
@@ -59,8 +61,8 @@ public class BossController implements UPSController {
         SmileyModel.getINSTANCE().setPanelAnchor();
         SmileyFistModel.getINSTANCE().move();
         SmileyFistModel.getINSTANCE().setPanelAnchor();
-        ;
 
+        checkEpsilonColision();
         if (attacks.get("squeez"))
             if (!checkSqueeze())
                 squeezeAttack();
@@ -72,7 +74,22 @@ public class BossController implements UPSController {
             checkQuake();
         if (attacks.get("rapid"))
             checkRapid();
+        if (attacks.get("slap"))
+            checkSlap();
 
+    }
+
+    private void checkEpsilonColision() {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        for (Model model : BossModel.getAllBossEntities()) {
+            if (Utils.getDistance(epsilonModel.anchor, model.anchor) <= epsilonModel.w / 2 + model.w / 2) {
+                epsilonModel.setImpact(Utils.getDirection(model.anchor, epsilonModel.anchor),
+                        epsilonModel.max_speed * epsilonModel.impact_speed * 1.5, true);
+                if (attacks.get("slap") && model.getId().equals(SmileyHandsModel.getRight().getId())) {
+                    epsilonModel.HP -= 4;
+                }
+            }
+        }
     }
 
     private void squeezeAttack() {
@@ -224,7 +241,8 @@ public class BossController implements UPSController {
         GamePanel epsilonPanel = epsilonModel.currentPanels.get(0);
         if (Utils.getDistance(fist.anchor, new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() / 2,
                 epsilonPanel.getY() + epsilonPanel.getHeight())) <= fist.w / 2 && !isQuaking) {
-            fist.setImpact(new Point2D.Double(-1, -1), fist.max_speed * fist.impact_speed, false);
+            fist.setImpact(Utils.getDirection(fist.anchor, epsilonModel.anchor), fist.max_speed * fist.impact_speed,
+                    true);
             fist.setEnemyImpacts(Constants.MAX_DISTANCE_IMPACT * 4, 1);
             isQuaking = true;
         }
@@ -281,6 +299,28 @@ public class BossController implements UPSController {
             attacks.put("rapid", false);
             SmileyModel.getINSTANCE().timers.get("rapid").stop();
             SmileyModel.getINSTANCE().times.remove("rapid");
+        }
+    }
+
+    public static void slapAttack() {
+        SmileyHandsModel.getRight().ableMove = true;
+        SmileyHandsModel.getRight().times.put("slap", System.currentTimeMillis());
+        attacks.replace("slap", true);
+        SmileyHandsModel.getRight().ableDecrease = true;
+    }
+
+    private void checkSlap() {
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        SmileyHandsModel right = SmileyHandsModel.getRight();
+        Point2D newDirection;
+        newDirection = Utils.getDirection(right.anchor, epsilonModel.anchor);
+        right.setDirection(newDirection);
+        if (attacks.get("slap") && System.currentTimeMillis() - right.times.get("slap") >= 10000) {
+            right.goToFirstAnchor();
+            if (right.isInFirstAnchor) {
+                attacks.put("slap", false);
+                right.ableMove = false;
+            }
         }
     }
 }

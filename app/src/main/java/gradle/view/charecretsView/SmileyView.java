@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import gradle.controller.Utils;
+import gradle.model.Entity;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
@@ -22,6 +23,7 @@ public class SmileyView extends View {
 
     public List<Point2D> vomitAnchors = new ArrayList<>();
     public int vomitRadius;
+    public int HP;
 
     public SmileyView(String Id) {
         super(Id);
@@ -43,6 +45,7 @@ public class SmileyView extends View {
             int vomitX = (int) vomitAnchor.getX() - vomitRadius;
             int vomitY = (int) vomitAnchor.getY() - vomitRadius;
             g2d.fillOval(vomitX, vomitY, vomitRadius * 2, vomitRadius * 2);
+            drawHP(g2d, newAnchor, HP);
         }
 
     }
@@ -54,6 +57,8 @@ public class SmileyView extends View {
         h = bossModel.h;
         vomitAnchors = ((SmileyModel) bossModel).vomitAnchors;
         vomitRadius = ((SmileyModel) bossModel).vomitRadius;
+        
+        HP = ((Entity) bossModel).HP;
     }
 
     @Override

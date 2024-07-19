@@ -1,7 +1,11 @@
 package gradle.view.charecretsView;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.*;
 
@@ -46,6 +50,30 @@ public abstract class View {
             }
         }
         return null;
+    }
+
+    protected void drawHP(Graphics2D g2d , Point2D position, int HP) {
+        int centerX = (int) position.getX();
+        int centerY = (int) position.getY();
+        // for (int i = 0; i < newXpoints.length; i++) {
+        // centerX += newXpoints[i];
+        // centerY += newYpoints[i];
+        // }
+        // centerX /= newXpoints.length;
+        // centerY /= newYpoints.length;
+
+        // Set the font size to 18
+        g2d.setFont(new Font("Arial", Font.BOLD, 15));
+
+        // Draw the string at the center of the enemy shape
+        g2d.setColor(Color.RED);
+        String text = String.valueOf(HP);
+        FontMetrics fm = g2d.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getHeight();
+        int textX = centerX - textWidth / 2;
+        int textY = centerY + textHeight / 2;
+        g2d.drawString(text, textX, textY);
     }
 
     public abstract void draw(Graphics g, Component component);

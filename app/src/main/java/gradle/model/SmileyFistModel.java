@@ -38,10 +38,7 @@ public class SmileyFistModel extends BossModel {
         panel.isometric = true;
         setPanelAnchor();
         Panels.getINSTANCE().addPanel(panel);
-
-        double x = panel.getX() + panel.getWidth() / 2;
-        double y = panel.getY() + panel.getHeight() / 2;
-        anchor = new Point2D.Double(x, y);
+        firstAnchor = anchor;
         addItem(this);
         bossView.addItem(bossView);
         bossView.setUtil(this);

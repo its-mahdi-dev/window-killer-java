@@ -51,7 +51,7 @@ public class Constants {
         public static final int BOSS_HAND_DIAMETER = 120;
         public static final int BOSS_FIST_DIAMETER = 70;
 
-        public static final double BOSS_HAND_SPEED = 1 * 60D / UPS;
+        public static final double BOSS_HAND_SPEED = 1.5 * 60D / UPS;
         public static final double ENEMY_SPEED = 2 * 60D / UPS;
 
         public static final int NECROPICK_EPSILON_RADIUS = 100;

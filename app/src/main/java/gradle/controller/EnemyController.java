@@ -217,7 +217,7 @@ public class EnemyController implements UPSController {
             return;
         EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
         Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints, epsilonModel.anchor);
-
+        int archiveHP = enemyModel.HP;
         Point2D newDirection = Utils.getDirection(epsilonModel.anchor, enemyModel.anchor);
         for (int i = 0; i < enemyModel.xPoints.length; i++) {
             if (Math.abs(epsilonModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonModel.w / 2
@@ -249,6 +249,10 @@ public class EnemyController implements UPSController {
                 enemyModel.setImpact(newDirection, true, true);
             }
 
+        }
+
+        if (enemyModel.HP < archiveHP && SkillTreeController.activeSkills.get(SkillTypes.chiron)) {
+            epsilonModel.HP += 3;
         }
 
     }

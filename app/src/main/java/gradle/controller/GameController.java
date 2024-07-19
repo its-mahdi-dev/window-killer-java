@@ -103,7 +103,7 @@ public class GameController implements UPSController {
         // new SmileyHandsModel();
         // new SmileyHandsModel();
         // SmileyFistModel.getINSTANCE();
-        // createWave();
+        createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));

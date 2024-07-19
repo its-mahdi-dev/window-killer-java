@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.awt.Polygon;
 
+import gradle.controller.SkillTreeController.SkillTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.BossModel;
 import gradle.model.EnemyModel;
@@ -41,9 +42,10 @@ public class ShotController implements UPSController {
                 } else {
                     for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
                         EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
+                        int archiveHP = enemyModel.HP;
                         if (checkEpsilonShot(enemyModel, shotModel)) {
-                            enemyModel.HP -= shotModel.power + (SkillTreeController.enemy_hp_decrease)
-                                    + (SkillTreeController.enemy_hp_decrease);
+                            enemyModel.decreasHp(shotModel.power + (SkillTreeController.enemy_hp_decrease)
+                                    + (SkillTreeController.enemy_hp_decrease));
                             if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
                                 // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                                 if (ShotModel.items.contains(shotModel)) {
@@ -54,6 +56,9 @@ public class ShotController implements UPSController {
                                 enemyModel.setImpact(new Point2D.Double(1, 1), false);
                             } else if (enemyModel.type != EnemyType.wyrm)
                                 enemyModel.setImpact(false);
+                        }
+                        if (enemyModel.HP < archiveHP && SkillTreeController.activeSkills.get(SkillTypes.chiron)) {
+                            EpsilonModel.getINSTANCE().HP += 3;
                         }
 
                     }

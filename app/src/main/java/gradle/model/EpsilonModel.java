@@ -38,7 +38,7 @@ public class EpsilonModel extends Entity {
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity * 2 / 10.0;
         isMoving = false;
         HP = 100;
-        XP = 150;
+        XP = 250;
         impact_speed = 1 + GameSettings.sensitivity / 100.0;
     }
 

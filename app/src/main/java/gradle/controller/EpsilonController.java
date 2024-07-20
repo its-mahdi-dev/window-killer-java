@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import gradle.controller.StoreController.StoreTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyType;
@@ -119,8 +120,15 @@ public class EpsilonController implements UPSController {
 
     public static void mousePressed(MouseEvent e) {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
+            int power = Constants.EPSILON_SHOT_POWER;
+
+            if (StoreController.itemsActive.get(StoreTypes.phonoi)) {
+                power = 50;
+                System.out.println("hhh");
+                StoreController.itemsActive.replace(StoreTypes.phonoi, false);
+            }
             ShotModel shot = ShotModel.create(EpsilonModel.getINSTANCE().anchor, ShotType.epsilon,
-                    Constants.EPSILON_SHOT_POWER);
+                    power);
             Utils.playMusic("shot", false);
             shot.anchor = EpsilonModel.getINSTANCE().anchor;
             Point2D shotGoal = new Point2D.Double(e.getX() + (i - 1) * 50,

@@ -20,6 +20,7 @@ public class StoreController implements UPSController {
     public static final Map<StoreTypes, Long> itemsTimes = new HashMap<>();
     public static final Map<StoreTypes, Integer> itemsActiveTimes = new HashMap<>();
     public static final Map<Integer, StoreTypes> itemsID = new HashMap<>();
+    public static boolean ableBuy = true;
 
     static {
         itemsID.put(0, StoreTypes.hephaestus);
@@ -45,7 +46,7 @@ public class StoreController implements UPSController {
         itemsActiveTimes.put(StoreTypes.apollo, 10000);
         itemsActiveTimes.put(StoreTypes.deimos, 10000);
         itemsActiveTimes.put(StoreTypes.hypnos, 10000);
-        itemsActiveTimes.put(StoreTypes.phonoi, 10000);
+        itemsActiveTimes.put(StoreTypes.phonoi, 1000000);
 
         itemsXP.put(StoreTypes.hephaestus, 100);
         itemsXP.put(StoreTypes.athena, 75);
@@ -104,6 +105,7 @@ public class StoreController implements UPSController {
         itemsInterface.put(StoreTypes.hypnos, new Store() {
             @Override
             public void store() {
+                ableBuy = false;
                 for(Model model : EnemyModel.getAllEnemies()){
                     EnemyModel enemyModel = (EnemyModel) model;
                     if(enemyModel.timers.get("shotTimer") != null) enemyModel.timers.get("shotTimer").stop();
@@ -112,6 +114,7 @@ public class StoreController implements UPSController {
 
             @Override
             public void remove() {
+                ableBuy = true;
                 for(Model model : EnemyModel.getAllEnemies()){
                     EnemyModel enemyModel = (EnemyModel) model;
                     if(enemyModel.timers.get("shotTimer") != null) enemyModel.timers.get("shotTimer").start();
@@ -147,7 +150,9 @@ public class StoreController implements UPSController {
         if (type == null)
             return "item not found";
 
+        if(!ableBuy) return "store is not available";
         if (EpsilonModel.getINSTANCE().XP >= itemsXP.get(type)) {
+            System.out.println("store: " + type);
             itemsInterface.get(type).store();
             itemsTimes.put(type, System.currentTimeMillis());
             itemsActive.replace(type, true);

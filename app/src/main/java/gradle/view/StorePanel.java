@@ -16,9 +16,9 @@ import gradle.model.EpsilonModel;
 public class StorePanel extends JPanel {
     private static StorePanel INSTANCE;
     private static final int BOX_WIDTH = (int) Constants.STORE_PANEL_DIMENSION.getWidth() / 4;
-    private static final int IMAGE_SIZE = (int) (BOX_WIDTH - BOX_WIDTH / 4);
+    private static final int IMAGE_SIZE = (int) (BOX_WIDTH - BOX_WIDTH / 3);
     private static final int BOX_HEIGHT = (int) (Constants.STORE_PANEL_DIMENSION.getHeight() / 2
-            - Constants.STORE_PANEL_DIMENSION.getHeight() / 8);
+            - Constants.STORE_PANEL_DIMENSION.getHeight() / 6);
     private static final Color BORDER_COLOR = Color.RED;
 
     double speed;
@@ -27,9 +27,9 @@ public class StorePanel extends JPanel {
             "app/src/main/java/gradle/assets/icons/wave.png",
             "app/src/main/java/gradle/assets/icons/3-bullets.png",
             "app/src/main/java/gradle/assets/icons/add-health.png",
-            "app/src/main/java/gradle/assets/icons/wave.png",
-            "app/src/main/java/gradle/assets/icons/wave.png",
-            "app/src/main/java/gradle/assets/icons/wave.png"
+            "app/src/main/java/gradle/assets/icons/deimos.png",
+            "app/src/main/java/gradle/assets/icons/stop.png",
+            "app/src/main/java/gradle/assets/icons/superbullet.png"
     };
     String[] labels = {
             "Hephaestus",
@@ -81,7 +81,7 @@ public class StorePanel extends JPanel {
                 String result = StoreController.handleStore(boxIndex);
                 if (!result.equals("success")) {
                     JOptionPane.showMessageDialog(null, result);
-                    
+
                 }
             }
         });
@@ -134,15 +134,16 @@ public class StorePanel extends JPanel {
             FontMetrics fm = g.getFontMetrics();
             String textLabel = labels[boxIndex];
             g.setFont(new Font("Raleway ExtraBold", Font.BOLD, 14));
-            g.drawString(textLabel, BOX_WIDTH / 2 - fm.stringWidth(textLabel) / 2, 20);
+            g.drawString(textLabel, BOX_WIDTH / 2 - fm.stringWidth(textLabel) / 2 - 5, 20);
             Image healthIcon = new ImageIcon(images[boxIndex]).getImage();
             g.drawImage(healthIcon, BOX_WIDTH / 2 - IMAGE_SIZE / 2, 30, IMAGE_SIZE, IMAGE_SIZE,
                     null);
 
             g.setFont(new Font("Consolas", Font.PLAIN, 17));
-            String XP_Label = String.valueOf(xp[boxIndex]) + " XP   ";
+            String XP_Label = String.valueOf(StoreController.itemsXP.get(StoreController.itemsID.get(boxIndex)))
+                    + " XP   ";
             g.setColor(Color.GREEN);
-            g.drawString(XP_Label, BOX_WIDTH / 2 - fm.stringWidth(XP_Label) / 2, IMAGE_SIZE + 50);
+            g.drawString(XP_Label, BOX_WIDTH / 2 - fm.stringWidth(XP_Label) / 2, IMAGE_SIZE + 60);
             g2d.dispose();
         }
 

@@ -9,7 +9,7 @@ public class Constants {
                         (int) (GAME_FRAME_DIMENSION.getHeight() / 2));
         public static final Dimension STORE_PANEL_DIMENSION = new Dimension(
                         (int) (PANEL_SIZE.getWidth() - (PANEL_SIZE.getWidth() / 4)),
-                        (int) (PANEL_SIZE.getHeight() + (PANEL_SIZE.getHeight() / 4)));
+                        (int) (PANEL_SIZE.getHeight() + (PANEL_SIZE.getHeight() / 6)));
 
         public static final Dimension MAIN_PANEL_DIMENSION = new Dimension(
                         (int) (GAME_FRAME_DIMENSION.getWidth() / 2 - GAME_FRAME_DIMENSION.getWidth() / 8),

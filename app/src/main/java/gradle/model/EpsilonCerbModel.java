@@ -1,5 +1,6 @@
 package gradle.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +26,15 @@ public class EpsilonCerbModel extends Model {
         epsilonCerbModel.h = Constants.EPSILON_CERB_DIAMETER;
         epsilonCerbModel.w = Constants.EPSILON_CERB_DIAMETER;
 
-        epsilonCerbModel.anchor = EpsilonModel.getINSTANCE().anchor;
-        double angle = 0;
-        if (items.size() == 0) {
-            double dy = EpsilonModel.getINSTANCE().anchor.getY() - MouseController.mousePos
-                    .getY();
-            double dx = EpsilonModel.getINSTANCE().anchor.getX() - MouseController.mousePos
-                    .getX();
-            angle = Math.atan2(dy, dx);
-        } else {
-            angle = max_angle + 120;
-        }
-        max_angle = angle;
-        epsilonCerbModel.angle = angle;
+       max_angle = 0;
+        epsilonCerbModel.angle = max_angle + 120;
+        EpsilonModel epsilonModel =  EpsilonModel.getINSTANCE();
+        double x = epsilonModel.anchor.getX()
+                + (epsilonModel.w / 2 + epsilonCerbModel.w / 2) * Math.cos(epsilonCerbModel.angle);
+        double y = epsilonModel.anchor.getY()
+                + (epsilonModel.w / 2 + epsilonCerbModel.w / 2) * Math.sin(epsilonCerbModel.angle);
+
+        epsilonCerbModel.anchor =new Point2D.Double(x,y);
         epsilonCerbView.addItem(epsilonCerbView);
         epsilonCerbModel.addItem(epsilonCerbModel);
         epsilonCerbView.setUtil(epsilonCerbModel);

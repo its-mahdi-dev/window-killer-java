@@ -10,6 +10,8 @@ import gradle.view.Panels;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.ShotView;
+import gradle.view.charecretsView.enemies.SquareEnemyView;
+import gradle.view.charecretsView.enemies.TriangleEnemyView;
 
 public class ShotModel extends Entity {
     public static final List<Model> items = new ArrayList<>();

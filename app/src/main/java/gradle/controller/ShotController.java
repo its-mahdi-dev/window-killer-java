@@ -29,7 +29,7 @@ public class ShotController implements UPSController {
 
             if (shotModel.shotType == ShotType.epsilon) {
                 if (SmileyModel.items.size() > 0) {
-                    
+
                     for (Model model : BossModel.getAllBossEntities()) {
                         BossModel bossModel = (BossModel) model;
                         if (Utils.getDistance(shotModel.anchor, model.anchor) <= model.w / 2 + shotModel.w / 2) {
@@ -43,9 +43,10 @@ public class ShotController implements UPSController {
                 } else {
                     for (int j = 0; j < EnemyModel.getAllEnemies().size(); j++) {
                         EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
+                        if (enemyModel.type == EnemyType.necropick && enemyModel.hovering)
+                            continue;
                         int archiveHP = enemyModel.HP;
                         if (checkEpsilonShot(enemyModel, shotModel)) {
-                            System.out.println("cikk");
                             enemyModel.decreasHp(shotModel.power + (SkillTreeController.enemy_hp_decrease)
                                     + (SkillTreeController.enemy_hp_decrease));
                             if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
@@ -124,11 +125,12 @@ public class ShotController implements UPSController {
             dy = -1;
             dh = 1;
         }
-        if (dx != 0 || dy != 0)
-            EpsilonModel.getINSTANCE().currentPanels.get(0).location = new Point2D.Double(dx, dy);
-        if (dh != 0 || dw != 0)
-            EpsilonModel.getINSTANCE().currentPanels.get(0).size = new Point2D.Double(dw, dh);
-
+        if (shotModel.shotType == ShotType.epsilon) {
+            if (dx != 0 || dy != 0)
+                EpsilonModel.getINSTANCE().currentPanels.get(0).location = new Point2D.Double(dx, dy);
+            if (dh != 0 || dw != 0)
+                EpsilonModel.getINSTANCE().currentPanels.get(0).size = new Point2D.Double(dw, dh);
+        }
         if (dy != 0 || dx != 0 || dh != 0 || dw != 0) {
             remove(shotModel.getId());
             EpsilonModel.getINSTANCE().currentPanels.get(0).setChanging();

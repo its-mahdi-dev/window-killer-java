@@ -6,12 +6,15 @@ import gradle.model.SmileyModel;
 import gradle.model.BossModel;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
+import gradle.model.EpsilonCerbModel;
 import gradle.model.EpsilonModel;
 import gradle.model.Model;
 import gradle.model.SmileyFistModel;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.BlackorbEnemy;
+import gradle.model.enemies.NecropickEnemy;
+import gradle.model.enemies.OmenoctEnemy;
 import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
@@ -28,6 +31,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +43,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class GameController implements UPSController {
+
+    public static final Map<Integer, Integer> waveNumbers = new HashMap<>();
+    static {
+        waveNumbers.put(1, 2);
+        waveNumbers.put(2, 3);
+        waveNumbers.put(3, 4);
+        waveNumbers.put(4, 5);
+        waveNumbers.put(5, 6);
+    }
 
     @Override
     public void check() {
@@ -88,7 +102,7 @@ public class GameController implements UPSController {
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(400, 220);
         // panel2.setSize(new Dimension(500, 500));
-        // panel2.setLocation(700, 100);
+        panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
@@ -98,7 +112,7 @@ public class GameController implements UPSController {
 
         Panels.getINSTANCE();
         Panels.getINSTANCE().addPanel(panel1);
-        // Panels.getINSTANCE().addPanel(panel2);
+        Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
         // SmileyModel.getINSTANCE();
@@ -106,14 +120,16 @@ public class GameController implements UPSController {
         // new SmileyHandsModel();
         // SmileyFistModel.getINSTANCE();
         // GameSettings.bossRun = true;
-        // createWave();
-        SquareEnemy.create(new Point2D.Double(700,500));
+
+        EnemyController.setWaveMethods();
+        createWave();
+        // NecropickEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // BlackorbEnemy.create(new Point2D.Double(500, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));
         // EnemyModel.create(new Point2D.Double(800, 800), EnemyType.omenoct);
-        EnemyController.isCreating = false;
+        // EnemyController.isCreating = false;
 
         // Update.timer1.start();
         // Update.timer2.start();
@@ -165,15 +181,16 @@ public class GameController implements UPSController {
 
     public static void createWave() {
         Utils.playMusic("nextLevel", false);
-        if (waveNumber == 3) {
+        if (waveNumber == 6) {
             win();
         } else {
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
             waveNumber++;
             EnemyController.isCreating = true;
             executor.schedule(() -> {
-                EnemyController.createEnemyWaves((2 + (int) GameSettings.level) * waveNumber);
-            }, 3, TimeUnit.SECONDS);
+                EnemyController.waves.get(waveNumber).create();
+                System.out.println("wavenum: " + waveNumber);
+            }, 2, TimeUnit.SECONDS);
 
             executor.shutdown();
         }

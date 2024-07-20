@@ -44,9 +44,9 @@ public class EpsilonCerbView extends View {
     }
 
     @Override
-    public void draw(Graphics g , Component component) {
+    public void draw(Graphics g, Component component) {
         Point2D newAnchor = Utils.getRelatedPoint(anchor, component);
-        g.setColor(Color.RED);
+        g.setColor(new Color(250, 250, 10, 70));
         int x = (int) newAnchor.getX() - w / 2;
         int y = (int) newAnchor.getY() - w / 2;
         g.fillOval(x, y, w,

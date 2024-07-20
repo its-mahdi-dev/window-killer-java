@@ -1,8 +1,11 @@
 package gradle.controller;
 
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -27,7 +30,10 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.model.enemies.ArchmireEnemy;
+import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.BlackorbEnemy;
+import gradle.model.enemies.NecropickEnemy;
+import gradle.model.enemies.OmenoctEnemy;
 import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.TriangleEnemy;
 import gradle.model.enemies.WyrmEnemy;
@@ -38,73 +44,84 @@ public class EnemyController implements UPSController {
 
     static List<EnemyModel> removedEnemies = new ArrayList<>();
     public static boolean isCreating = true;
+    public static final Map<Integer, CreateWave> waves = new HashMap<>();
+    public static int deadEnemies;
+    public static Timer creatTimer;
+    public static int waveStopNumber;
+
+    interface CreateWave {
+        void create();
+    }
 
     private static final Random random = new Random();
 
     @Override
     public void check() {
-        if (!isCreating) {
-            removedEnemies = new ArrayList<>();
-            for (Model model : EnemyModel.getAllEnemies()) {
-                EnemyModel enemyModel = (EnemyModel) model;
 
-                if (StoreController.itemsActive.get(StoreTypes.hypnos))
-                    enemyModel.ableMove = false;
-                else
-                    enemyModel.ableMove = true;
+        // if (!isCreating) {
+        removedEnemies = new ArrayList<>();
+        for (Model model : EnemyModel.getAllEnemies()) {
+            EnemyModel enemyModel = (EnemyModel) model;
 
-                Point2D direction = Utils.getDirection(enemyModel.anchor,
-                        EpsilonModel.getINSTANCE().anchor);
-                double distance = Utils.getDistance(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor);
-                if (StoreController.itemsActive.get(StoreTypes.deimos) && distance <= Constants.DEIMOS_RADUIS
-                        && !enemyModel.hovering) {
-                    if (Math.abs(distance - Constants.DEIMOS_RADUIS) < 3) {
-                        enemyModel.setDirection(new Point2D.Double(0, 0));
-                        enemyModel.moveWithAngle();
-                    } else {
-                        enemyModel.setDirection(new Point2D.Double(-direction.getX(), -direction.getY()));
-                        enemyModel.move();
-                    }
+            if (StoreController.itemsActive.get(StoreTypes.hypnos))
+                enemyModel.ableMove = false;
+            else if (enemyModel.type != EnemyType.barricados && enemyModel.type != EnemyType.blackorb
+                    && enemyModel.type != EnemyType.necropick)
+                enemyModel.ableMove = true;
 
+            Point2D direction = Utils.getDirection(enemyModel.anchor,
+                    EpsilonModel.getINSTANCE().anchor);
+            double distance = Utils.getDistance(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor);
+            if (StoreController.itemsActive.get(StoreTypes.deimos) && distance <= Constants.DEIMOS_RADUIS
+                    && !enemyModel.hovering) {
+                if (Math.abs(distance - Constants.DEIMOS_RADUIS) < 3) {
+                    enemyModel.setDirection(new Point2D.Double(0, 0));
+                    enemyModel.moveWithAngle();
                 } else {
-                    if (enemyModel.type == EnemyType.wyrm) {
-                        // enemyModel.updatePosition();
-                        Point2D newDirection = ((WyrmEnemy) enemyModel)
-                                .getTangentialDirection(EpsilonModel.getINSTANCE().anchor);
-                        enemyModel.setDirection(newDirection);
-                        enemyModel.move();
-                        enemyModel.setRelativePoints();
-                    } else {
-                        if (enemyModel.type == EnemyType.omenoct)
-                            checkOmenoctMove(enemyModel, direction);
-                        else
-                            enemyModel.setDirection(direction);
-
-                        enemyModel.move();
-                    }
+                    enemyModel.setDirection(new Point2D.Double(-direction.getX(), -direction.getY()));
+                    enemyModel.move();
                 }
-                if (!StoreController.itemsActive.get(StoreTypes.hypnos))
-                    checkEnemyAbilities(enemyModel);
-                if (enemyModel.ableMove)
-                    setPoints(enemyModel);
-                if (enemyModel.type == EnemyType.archmire)
-                    ((ArchmireEnemy) enemyModel).updatePathHistory();
 
-                if (enemyModel.type != EnemyType.blackorb) {
-                    checkEnemyCollision(enemyModel);
-                    checkEpsilonColision(enemyModel);
+            } else {
+                if (enemyModel.type == EnemyType.wyrm) {
+                    // enemyModel.updatePosition();
+                    Point2D newDirection = ((WyrmEnemy) enemyModel)
+                            .getTangentialDirection(EpsilonModel.getINSTANCE().anchor);
+                    enemyModel.setDirection(newDirection);
+                    enemyModel.move();
+                    enemyModel.setRelativePoints();
                 } else {
-                    checkBlackOrbCollision((BlackorbEnemy) enemyModel);
-                }
-                if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
-                    removedEnemies.add(enemyModel);
-            }
+                    if (enemyModel.type == EnemyType.omenoct)
+                        checkOmenoctMove(enemyModel, direction);
+                    else
+                        enemyModel.setDirection(direction);
 
-            for (EnemyModel enemyModel : removedEnemies) {
-                remove(enemyModel.getId());
+                    enemyModel.move();
+                }
             }
+            if (!StoreController.itemsActive.get(StoreTypes.hypnos))
+                checkEnemyAbilities(enemyModel);
+            if (enemyModel.ableMove)
+                setPoints(enemyModel);
+            if (enemyModel.type == EnemyType.archmire)
+                ((ArchmireEnemy) enemyModel).updatePathHistory();
+
+            if (enemyModel.type != EnemyType.blackorb) {
+                checkEnemyCollision(enemyModel);
+                checkEpsilonColision(enemyModel);
+            } else {
+                checkBlackOrbCollision((BlackorbEnemy) enemyModel);
+            }
+            if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
+                removedEnemies.add(enemyModel);
         }
-        if (!isCreating && EnemyModel.getAllEnemies().size() > 0) {
+
+        for (EnemyModel enemyModel : removedEnemies) {
+            remove(enemyModel.getId());
+            deadEnemies++;
+        }
+        // }
+        if (EnemyModel.getAllEnemies().size() > 0) {
             for (int i = 0; i < EnemyView.getEnemyViews().size(); i++) {
                 EnemyView enemyView = (EnemyView) EnemyView.getEnemyViews().get(i);
                 EnemyModel enemyModel = (EnemyModel) EnemyModel.findById(enemyView.getId());
@@ -112,6 +129,16 @@ public class EnemyController implements UPSController {
                     enemyView.setUtil(enemyModel);
             }
         }
+        if (deadEnemies == waveStopNumber && creatTimer != null) {
+            creatTimer.stop();
+            isCreating = false;
+        }
+
+        if (!isCreating && EnemyModel.getAllEnemies().size() == 0) {
+            // System.out.println("here");
+            GameController.createWave();
+        }
+
     }
 
     public static void checkOmenoctMove(EnemyModel enemyModel, Point2D direction) {
@@ -438,7 +465,182 @@ public class EnemyController implements UPSController {
         }
     }
 
-    public static void createEnemyWaves(int number) {
+    public static void setWaveMethods() {
+        waves.put(1, new CreateWave() {
+
+            @Override
+            public void create() {
+                waveStopNumber = GameController.waveNumbers.get(1) + ((int) GameSettings.level * 2);
+                System.out.println("stop" + waveStopNumber);
+                creatTimer = new Timer(1500, new ActionListener() {
+
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (GameSettings.isGameRun && !GameSettings.isPause) {
+                            count++;
+                            Point2D randomPosition = randomEnemyPosition();
+                            if (count % 2 == 0)
+                                SquareEnemy.create(randomPosition);
+                            else
+                                TriangleEnemy.create(randomPosition);
+                        }
+                    }
+
+                });
+
+                creatTimer.start();
+            }
+
+        });
+        waves.put(2, new CreateWave() {
+
+            @Override
+            public void create() {
+                waveStopNumber = GameController.waveNumbers.get(2) + ((int) GameSettings.level * 2);
+                deadEnemies = 0;
+                System.out.println("stoppp" + waveStopNumber);
+                creatTimer = new Timer(1500, new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (GameSettings.isGameRun && !GameSettings.isPause) {
+                            count++;
+                            System.out.println(deadEnemies);
+                            Point2D randomPosition = randomEnemyPosition();
+                            if (count % 3 == 0)
+                                OmenoctEnemy.create(randomPosition);
+                            if (count % 3 == 1)
+                                SquareEnemy.create(randomPosition);
+                            else if (count % 3 == 2)
+                                TriangleEnemy.create(randomPosition);
+                        }
+                    }
+
+                });
+
+                creatTimer.start();
+            }
+
+        });
+        waves.put(3, new CreateWave() {
+
+            @Override
+            public void create() {
+                waveStopNumber = GameController.waveNumbers.get(3) + ((int) GameSettings.level * 2);
+                deadEnemies = 0;
+                System.out.println("stoppp" + waveStopNumber);
+                BarricadosMiniboss.create(randomEnemyPosition());
+                NecropickEnemy.create(randomEnemyPosition());
+                creatTimer = new Timer(1700, new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (GameSettings.isGameRun && !GameSettings.isPause) {
+                            count++;
+                            System.out.println(deadEnemies);
+                            Point2D randomPosition = randomEnemyPosition();
+                            if (count == 6)
+                                NecropickEnemy.create(randomPosition);
+                            else if (count % 3 == 0)
+                                SquareEnemy.create(randomPosition);
+                            else if (count % 3 == 1)
+                                ArchmireEnemy.create(randomPosition);
+                            else if (count % 3 == 2)
+                                OmenoctEnemy.create(randomPosition);
+                        }
+                    }
+
+                });
+
+                creatTimer.start();
+            }
+
+        });
+        waves.put(4, new CreateWave() {
+
+            @Override
+            public void create() {
+                waveStopNumber = GameController.waveNumbers.get(4) + ((int) GameSettings.level * 2);
+                deadEnemies = 0;
+                System.out.println("stoppp" + waveStopNumber);
+                BarricadosMiniboss.create(randomEnemyPosition());
+                BlackorbEnemy.create(randomEnemyPosition());
+                NecropickEnemy.create(randomEnemyPosition());
+                OmenoctEnemy.create(randomEnemyPosition());
+                creatTimer = new Timer(1700, new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (GameSettings.isGameRun && !GameSettings.isPause) {
+                            count++;
+                            System.out.println(deadEnemies);
+                            Point2D randomPosition = randomEnemyPosition();
+                            if (count % 3 == 0)
+                                TriangleEnemy.create(randomPosition);
+                            else if (count % 3 == 1)
+                                WyrmEnemy.create(randomPosition);
+                            else if (count % 3 == 2)
+                                ArchmireEnemy.create(randomPosition);
+                        }
+                    }
+
+                });
+
+                creatTimer.start();
+            }
+
+        });
+        waves.put(5, new CreateWave() {
+
+            @Override
+            public void create() {
+                waveStopNumber = GameController.waveNumbers.get(5) + ((int) GameSettings.level * 2);
+                deadEnemies = 0;
+                System.out.println("stoppp" + waveStopNumber);
+                BarricadosMiniboss.create(randomEnemyPosition());
+                BlackorbEnemy.create(randomEnemyPosition());
+                BlackorbEnemy.create(randomEnemyPosition());
+                NecropickEnemy.create(randomEnemyPosition());
+                OmenoctEnemy.create(randomEnemyPosition());
+                creatTimer = new Timer(1700, new ActionListener() {
+                    int count = 0;
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (GameSettings.isGameRun && !GameSettings.isPause) {
+                            count++;
+                            System.out.println(deadEnemies);
+                            Point2D randomPosition = randomEnemyPosition();
+                            if (count % 3 == 0)
+                                SquareEnemy.create(randomPosition);
+                            else if (count % 3 == 1)
+                                ArchmireEnemy.create(randomPosition);
+                            else if (count % 3 == 2)
+                                WyrmEnemy.create(randomPosition);
+                        }
+                    }
+
+                });
+
+                creatTimer.start();
+            }
+
+        });
+    }
+
+    public static Point2D randomEnemyPosition() {
+        GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
+        int x1 = random.nextInt(epsilonPanel.getWidth() + 400) + epsilonPanel.getX() - 200;
+        int y1 = random.nextInt(epsilonPanel.getHeight() + 200) + epsilonPanel.getY() - 100;
+        return new Point2D.Double(x1, y1);
+    }
+
+    public static void createEnemyWave1(int number) {
         int squareEnemies = number / 2;
         int triangleEnemies = number - squareEnemies;
 
@@ -466,8 +668,6 @@ public class EnemyController implements UPSController {
 
             TriangleEnemy.create(new Point2D.Double(x1, y1));
         }
-
-        isCreating = false;
     }
 
     public static boolean isPointInPastArea(EnemyModel enemyModel, double x, double y) {

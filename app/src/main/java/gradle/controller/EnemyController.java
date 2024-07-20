@@ -540,6 +540,7 @@ public class EnemyController implements UPSController {
             @Override
             public void create() {
                 waveStopNumber = GameController.waveNumbers.get(2) + ((int) GameSettings.level * 2);
+                EpsilonController.enemyDeadEnemies += deadEnemies;
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 creatTimer = new Timer(1500, new ActionListener() {
@@ -571,6 +572,7 @@ public class EnemyController implements UPSController {
             @Override
             public void create() {
                 waveStopNumber = GameController.waveNumbers.get(3) + ((int) GameSettings.level * 2);
+                EpsilonController.enemyDeadEnemies += deadEnemies;
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 BarricadosMiniboss.create(randomEnemyPosition());
@@ -606,6 +608,7 @@ public class EnemyController implements UPSController {
             @Override
             public void create() {
                 waveStopNumber = GameController.waveNumbers.get(4) + ((int) GameSettings.level * 2);
+                EpsilonController.enemyDeadEnemies += deadEnemies;
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 // BarricadosMiniboss.create(randomEnemyPosition());
@@ -641,6 +644,7 @@ public class EnemyController implements UPSController {
             @Override
             public void create() {
                 waveStopNumber = GameController.waveNumbers.get(5) + ((int) GameSettings.level * 2);
+                EpsilonController.enemyDeadEnemies += deadEnemies;
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 BarricadosMiniboss.create(randomEnemyPosition());

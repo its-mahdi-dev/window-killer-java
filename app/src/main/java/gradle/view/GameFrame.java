@@ -21,11 +21,12 @@ public class GameFrame extends JFrame {
         setLayout(null);
     }
 
+    
+
     public static GameFrame getINSTANCE() {
         if (INSTANCE == null)
             INSTANCE = new GameFrame();
         return INSTANCE;
     }
-    
 
 }

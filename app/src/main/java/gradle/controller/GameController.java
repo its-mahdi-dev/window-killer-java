@@ -49,6 +49,7 @@ import org.locationtech.jts.awt.PointShapeFactory.Triangle;
 public class GameController implements UPSController {
 
     public static final List<Thread> threads = new ArrayList<>();
+    public static boolean isWin;
     public static final Map<Integer, Integer> waveNumbers = new HashMap<>();
     static {
         waveNumbers.put(1, 2);
@@ -57,6 +58,15 @@ public class GameController implements UPSController {
         waveNumbers.put(4, 5);
         waveNumbers.put(5, 6);
     }
+
+    public static long passTime = 0;
+    public static javax.swing.Timer timeTimer = new javax.swing.Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!GameSettings.isPause)
+                passTime++;
+        }
+    });
 
     @Override
     public void check() {
@@ -144,6 +154,7 @@ public class GameController implements UPSController {
         // BossController.rapidAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
+        timeTimer.start();
         // new Timer().scheduleAtFixedRate(new TimerTask() {
         // @Override
         // public void run() {
@@ -201,6 +212,12 @@ public class GameController implements UPSController {
 
     public static void win() {
         Utils.playMusic("win", false);
+
+        String msg = String.format(" shot number: %d \n shot success numbers: %d \n  killes: %d \n" + //
+                        " XP: %d \n time: %s",
+                EpsilonController.shotsNumber, EpsilonController.shotsSuccessNumber,EpsilonController.enemyDeadEnemies,EpsilonModel.getINSTANCE().XP,
+                Utils.convertSecondsToTime(GameController.passTime));
+        EpsilonModel.getINSTANCE().currentPanels.get(0).showMsg(msg);
         EpsilonModel.getINSTANCE().anchor = new Point2D.Double(
                 EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
                         + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2,

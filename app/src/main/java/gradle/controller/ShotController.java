@@ -33,8 +33,10 @@ public class ShotController implements UPSController {
                     for (Model model : BossModel.getAllBossEntities()) {
                         BossModel bossModel = (BossModel) model;
                         if (Utils.getDistance(shotModel.anchor, model.anchor) <= model.w / 2 + shotModel.w / 2) {
-                            if (bossModel.ableDecrease)
+                            if (bossModel.ableDecrease) {
                                 bossModel.HP -= shotModel.power;
+                                EpsilonController.shotsSuccessNumber++;
+                            }
                             if (ShotModel.items.contains(shotModel)) {
                                 remove(shotModel.getId());
                             }
@@ -49,6 +51,8 @@ public class ShotController implements UPSController {
                         if (checkEpsilonShot(enemyModel, shotModel)) {
                             enemyModel.decreasHp(shotModel.power + (SkillTreeController.enemy_hp_decrease)
                                     + (SkillTreeController.enemy_hp_decrease));
+
+                            EpsilonController.shotsSuccessNumber++;
                             if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)
                                 // Utils.playMusic("app/src/main/java/gradle/assets/musics/ah.wav");
                                 if (ShotModel.items.contains(shotModel)) {

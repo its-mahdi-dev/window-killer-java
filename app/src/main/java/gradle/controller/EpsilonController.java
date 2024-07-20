@@ -28,6 +28,9 @@ import gradle.view.charecretsView.EpsilonView;
 public class EpsilonController implements UPSController {
 
     public static boolean isCreating = true;
+    public static int shotsNumber;
+    public static int shotsSuccessNumber;
+    public static int enemyDeadEnemies;
     public static final Map<String, Boolean> pressed = new HashMap<>();
     static {
         pressed.put("up", false);
@@ -128,6 +131,7 @@ public class EpsilonController implements UPSController {
 
     public static void mousePressed(MouseEvent e) {
         for (int i = 0; i < StoreController.shotsNumber; i++) {
+            shotsNumber++;
             int power = Constants.EPSILON_SHOT_POWER;
 
             if (StoreController.itemsActive.get(StoreTypes.phonoi)) {

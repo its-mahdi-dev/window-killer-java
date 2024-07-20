@@ -129,26 +129,28 @@ public class BossController implements UPSController {
             isFist = true;
             SmileyFistModel.getINSTANCE();
         }
-        checkEpsilonColision();
-        checkTimes();
-        if (!isFist)
-            checkAttck();
-        else
-            checkFistAttack();
-        if (attacks.get("squeeze") && SmileyHandsModel.items.size() > 0)
-            checkSqueeze();
-        if (attacks.get("projectile") && SmileyHandsModel.items.size() > 0)
-            checkProjectile();
-        if (attacks.get("vomit"))
-            checkVomit();
-        if (attacks.get("punch"))
-            checkPunch();
-        if (attacks.get("quake"))
-            checkQuake();
-        if (attacks.get("rapid"))
-            checkRapid();
-        if (attacks.get("slap") && SmileyHandsModel.items.size() > 0)
-            checkSlap();
+        if (!SmileyModel.getINSTANCE().isDead) {
+            checkEpsilonColision();
+            checkTimes();
+            if (!isFist)
+                checkAttck();
+            else
+                checkFistAttack();
+            if (attacks.get("squeeze") && SmileyHandsModel.items.size() > 0)
+                checkSqueeze();
+            if (attacks.get("projectile") && SmileyHandsModel.items.size() > 0)
+                checkProjectile();
+            if (attacks.get("vomit"))
+                checkVomit();
+            if (attacks.get("punch"))
+                checkPunch();
+            if (attacks.get("quake"))
+                checkQuake();
+            if (attacks.get("rapid"))
+                checkRapid();
+            if (attacks.get("slap") && SmileyHandsModel.items.size() > 0)
+                checkSlap();
+        }
 
     }
 
@@ -187,7 +189,8 @@ public class BossController implements UPSController {
                     if (model.w <= 0 && model.h <= 0)
                         c++;
                 }
-                if (c == BossModel.getAllBossEntities().size()) {
+                if (c == BossModel.getAllBossEntities().size() && !GameController.isWin) {
+                    GameController.isWin = true;
                     GameController.win();
                 }
             }

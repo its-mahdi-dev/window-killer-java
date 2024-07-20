@@ -102,6 +102,10 @@ public class GamePanel extends JPanel {
             SmileyFistView.items.get(0).draw(g, this);
     }
 
+
+    public void showMsg(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+    }
     public void changeSize(Point2D location, Point2D size) {
         Dimension newSize = new Dimension((int) (getWidth() + (size.getX() * speed)),
                 (int) (getHeight() + size.getY() * speed));

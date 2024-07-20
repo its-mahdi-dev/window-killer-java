@@ -152,5 +152,14 @@ public class Utils {
     public static List<Point2D> generateSymmetricPoints(Point2D center, int numPoints) {
         return generateSymmetricPoints(center, 10, numPoints);
     }
+        
+        
+    public static String convertSecondsToTime(long totalSeconds) {
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
 
 }

@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import javax.swing.ImageIcon;
 
 import gradle.controller.Constants;
+import gradle.controller.GameController;
 import gradle.controller.MouseController;
 import gradle.controller.Utils;
 import gradle.model.EpsilonModel;
@@ -37,7 +38,8 @@ public class NavbarView {
 
         g.setFont(new Font("Consolas", Font.PLAIN, 20));
         g.setColor(new Color(0, 255, 255, 70));
-        g.fillRect(0, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT, EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth(),
+        g.fillRect(0, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth(),
                 Constants.NAVBAR_HEIGHT);
 
         g.setColor(Color.white);
@@ -46,15 +48,20 @@ public class NavbarView {
         FontMetrics fm = g.getFontMetrics();
         int textWidth = 10;
         String HP_text = "HP: ";
-        g.drawString(HP_text, textWidth, EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(HP_text, textWidth,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
 
         textWidth += fm.stringWidth(HP_text) + 10;
         g.setColor(Color.red);
         g.drawRect(textWidth,
-                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, 100,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT
+                        + Constants.NAVBAR_HEIGHT / 4,
+                100,
                 Constants.NAVBAR_HEIGHT / 4);
         g.fillRect(textWidth,
-                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT + Constants.NAVBAR_HEIGHT / 4, HP,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT
+                        + Constants.NAVBAR_HEIGHT / 4,
+                HP,
                 Constants.NAVBAR_HEIGHT / 4);
         g.setColor(Color.white);
         g.setFont(new Font("Consolas", Font.PLAIN, 14));
@@ -77,24 +84,22 @@ public class NavbarView {
 
         g.setFont(new Font("Consolas", Font.PLAIN, 12));
         String k = "store: K";
-        g.drawString(k, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(k, textWidth,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(k);
         String p = "pause: P";
-        g.drawString(p, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
+        g.drawString(p, textWidth,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
         textWidth += fm.stringWidth(p);
-        String f = "ares: F";
-        g.drawString(f, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
-        textWidth += fm.stringWidth(f);
-        String h = "aceso: H";
-        g.drawString(h, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
-        textWidth += fm.stringWidth(h);
-        String j = "proteus: j";
-        g.drawString(j, textWidth,  EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
-        textWidth += fm.stringWidth(j);
+        String f = Utils.convertSecondsToTime(GameController.passTime);
+        g.drawString(f, textWidth,
+                EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - Constants.NAVBAR_HEIGHT / 2);
+
     }
 
     public void draw(Graphics g) {
-        Point2D mousePoint = Utils.getRelatedPoint(MouseController.mousePos, EpsilonModel.getINSTANCE().currentPanels.get(0));
+        Point2D mousePoint = Utils.getRelatedPoint(MouseController.mousePos,
+                EpsilonModel.getINSTANCE().currentPanels.get(0));
         if (EpsilonModel.getINSTANCE().currentPanels.get(0).getHeight() - mousePoint.getY() < Constants.NAVBAR_HEIGHT) {
             drawNavbar(g);
             mouseMovedTime = System.currentTimeMillis();

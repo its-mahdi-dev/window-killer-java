@@ -27,6 +27,7 @@ public abstract class BossModel extends Entity {
     public Point2D firstAnchor;
     public boolean isInFirstAnchor;
     public boolean ableDecrease;
+    public boolean isDead;
 
     public void setAngleMove() {
         Point2D center = EpsilonModel.getINSTANCE().anchor;

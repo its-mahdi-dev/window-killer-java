@@ -39,7 +39,7 @@ public class SmileyHandsModel extends BossModel {
             locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() + h / 2 + 20;
             angleMove = Math.toRadians(100);
         }
-        HP = 100;
+        HP = 10;
         angleChange = max_speed / minRadius;
         anchor = new Point2D.Double(locX, locY);
         firstAnchor = anchor;
@@ -75,6 +75,9 @@ public class SmileyHandsModel extends BossModel {
     }
 
     public static SmileyHandsModel getRight() {
-        return (SmileyHandsModel) items.get(1);
+        if (items.size() > 1)
+            return (SmileyHandsModel) items.get(1);
+        else
+            return getLeft();
     }
 }

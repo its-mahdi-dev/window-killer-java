@@ -32,7 +32,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +48,7 @@ import org.locationtech.jts.awt.PointShapeFactory.Triangle;
 
 public class GameController implements UPSController {
 
+    public static final List<Thread> threads = new ArrayList<>();
     public static final Map<Integer, Integer> waveNumbers = new HashMap<>();
     static {
         waveNumbers.put(1, 2);
@@ -120,7 +123,8 @@ public class GameController implements UPSController {
 
         EnemyController.setWaveMethods();
         waveNumber = 4;
-        createWave();
+        // createWave();
+        BossController.start();
         // TriangleEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
@@ -195,7 +199,7 @@ public class GameController implements UPSController {
         }
     }
 
-    private static void win() {
+    public static void win() {
         Utils.playMusic("win", false);
         EpsilonModel.getINSTANCE().anchor = new Point2D.Double(
                 EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
@@ -255,13 +259,15 @@ public class GameController implements UPSController {
     }
 
     public static void startUPS() {
-        new Thread(new UPSThread(new GameController())).start();
-        new Thread(new UPSThread(new EnemyController())).start();
-        new Thread(new UPSThread(new EpsilonController())).start();
-        new Thread(new UPSThread(new ShotController())).start();
-        new Thread(new UPSThread(new SkillTreeController())).start();
-        new Thread(new UPSThread(new StoreController())).start();
-        new Thread(new UPSThread(new CollectibleController())).start();
-        new Thread(new UPSThread(new BossController())).start();
+        threads.add(new Thread(new UPSThread(new GameController())));
+        threads.add(new Thread(new UPSThread(new EnemyController())));
+        threads.add(new Thread(new UPSThread(new EpsilonController())));
+        threads.add(new Thread(new UPSThread(new ShotController())));
+        threads.add(new Thread(new UPSThread(new SkillTreeController())));
+        threads.add(new Thread(new UPSThread(new StoreController())));
+        threads.add(new Thread(new UPSThread(new CollectibleController())));
+        threads.add(new Thread(new UPSThread(new BossController())));
+        for (Thread thread : threads)
+            thread.start();
     }
 }

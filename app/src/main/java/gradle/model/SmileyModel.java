@@ -40,7 +40,7 @@ public class SmileyModel extends BossModel {
         angleMove = Math.toRadians(50);
         anchor = new Point2D.Double(locX, locY);
         firstAnchor = anchor;
-        HP = 200;
+        HP = 3;
         setPanelAnchor();
         Panels.getINSTANCE().addPanel(panel);
 

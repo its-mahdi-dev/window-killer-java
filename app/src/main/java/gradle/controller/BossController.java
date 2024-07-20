@@ -29,6 +29,7 @@ import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.SmileyHandsView;
 import gradle.view.charecretsView.SmileyView;
+import gradle.view.charecretsView.View;
 import gradle.view.charecretsView.ShotView;
 import gradle.view.charecretsView.SmileyFistView;
 
@@ -103,8 +104,10 @@ public class BossController implements UPSController {
     public void check() {
         if (!GameSettings.bossRun)
             return;
-        SmileyHandsView.getLeft().setUtil(SmileyHandsModel.getLeft());
-        SmileyHandsView.getRight().setUtil(SmileyHandsModel.getRight());
+        if (SmileyHandsModel.items.size() > 0) {
+            SmileyHandsView.getLeft().setUtil(SmileyHandsModel.getLeft());
+            SmileyHandsView.getRight().setUtil(SmileyHandsModel.getRight());
+        }
         SmileyView.items.get(0).setUtil(SmileyModel.getINSTANCE());
 
         if (isFist) {
@@ -112,10 +115,14 @@ public class BossController implements UPSController {
             SmileyFistModel.getINSTANCE().move();
             SmileyFistModel.getINSTANCE().setPanelAnchor();
         }
-        SmileyHandsModel.getRight().move();
-        SmileyHandsModel.getLeft().move();
-        SmileyHandsModel.getLeft().setPanelAnchor();
-        SmileyHandsModel.getRight().setPanelAnchor();
+
+        checkHP();
+        if (SmileyHandsModel.items.size() > 0) {
+            SmileyHandsModel.getRight().move();
+            SmileyHandsModel.getLeft().move();
+            SmileyHandsModel.getLeft().setPanelAnchor();
+            SmileyHandsModel.getRight().setPanelAnchor();
+        }
         SmileyModel.getINSTANCE().move();
         SmileyModel.getINSTANCE().setPanelAnchor();
         if (SmileyModel.getINSTANCE().HP <= 200 && !isFist) {
@@ -128,9 +135,9 @@ public class BossController implements UPSController {
             checkAttck();
         else
             checkFistAttack();
-        if (attacks.get("squeeze"))
+        if (attacks.get("squeeze") && SmileyHandsModel.items.size() > 0)
             checkSqueeze();
-        if (attacks.get("projectile"))
+        if (attacks.get("projectile") && SmileyHandsModel.items.size() > 0)
             checkProjectile();
         if (attacks.get("vomit"))
             checkVomit();
@@ -140,14 +147,57 @@ public class BossController implements UPSController {
             checkQuake();
         if (attacks.get("rapid"))
             checkRapid();
-        if (attacks.get("slap"))
+        if (attacks.get("slap") && SmileyHandsModel.items.size() > 0)
             checkSlap();
 
     }
 
+    private void checkHP() {
+        for (int i = 0; i < SmileyHandsModel.items.size(); i++) {
+            SmileyHandsModel hands = (SmileyHandsModel) SmileyHandsModel.items.get(i);
+            if (hands.HP <= 0) {
+                SmileyHandsModel.items.remove(i);
+                View view = SmileyHandsView.findView(hands.getId(), SmileyHandsView.items);
+                System.out.println(view);
+                SmileyHandsView.items.remove(view);
+            }
+        }
+        if (SmileyModel.getINSTANCE().HP <= 0) {
+            if (!SmileyModel.getINSTANCE().isDead) {
+                for (Model model : BossModel.getAllBossEntities()) {
+                    BossModel bossModel = (BossModel) model;
+                    bossModel.HP = 0;
+                    bossModel.isDead = true;
+                    Timer newTimer = new Timer(40, new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (bossModel.w > 0)
+                                bossModel.w -= 2;
+                            if (bossModel.h > 0)
+                                bossModel.h -= 2;
+                        }
+
+                    });
+                    newTimer.start();
+                }
+            } else {
+                int c = 0;
+                for (Model model : BossModel.getAllBossEntities()) {
+                    if (model.w <= 0 && model.h <= 0)
+                        c++;
+                }
+                if (c == BossModel.getAllBossEntities().size()) {
+                    GameController.win();
+                }
+            }
+
+        }
+    }
+
     private void checkAttck() {
 
-        if (!attacks.get("squeeze")
+        if (!attacks.get("squeeze") && SmileyHandsModel.items.size() > 0
                 && System.currentTimeMillis() - bossAttackFinishTimes.get("squeeze") > attackTimes.get("squeeze")
                 && !attacks.get("projectile") && isInFirstAnchor()) {
             Point2D epsilonAnchor = EpsilonModel.getINSTANCE().anchor;
@@ -163,6 +213,7 @@ public class BossController implements UPSController {
             }
         }
         if (!attacks.get("projectile") && !attacks.get("squeeze") && isInFirstAnchor()
+                && SmileyHandsModel.items.size() > 0
                 && System.currentTimeMillis() - bossAttackFinishTimes.get("projectile") > attackTimes
                         .get("projectile") * 2) {
             projectileAttack();
@@ -172,7 +223,7 @@ public class BossController implements UPSController {
 
     private void checkFistAttack() {
         if (!fistAttacks[0]) {
-            if ("rapid".equals(fistAttacksNames[0])
+            if ("rapid".equals(fistAttacksNames[0]) && SmileyHandsModel.items.size() > 0
                     && System.currentTimeMillis() - bossAttackFinishTimes.get("slap") > attackTimes.get("slap")
                     && !attacks.get("slap") && !attacks.get("rapid") && !attacks.get("vomit")) {
                 slapAttack();
@@ -262,8 +313,10 @@ public class BossController implements UPSController {
             if (Utils.getDistance(epsilonModel.anchor, model.anchor) <= epsilonModel.w / 2 + model.w / 2) {
                 epsilonModel.setImpact(Utils.getDirection(model.anchor, epsilonModel.anchor),
                         epsilonModel.max_speed * epsilonModel.impact_speed * 1.5, true);
-                if (attacks.get("slap") && model.getId().equals(SmileyHandsModel.getRight().getId())) {
-                    epsilonModel.HP -= 4;
+                if (SmileyHandsModel.items.size() > 0) {
+                    if (attacks.get("slap") && model.getId().equals(SmileyHandsModel.getRight().getId())) {
+                        epsilonModel.HP -= 4;
+                    }
                 }
             }
         }
@@ -551,7 +604,7 @@ public class BossController implements UPSController {
         SmileyModel smileyModel = SmileyModel.getINSTANCE();
         Random random = new Random();
         smileyModel.ableDecrease = true;
-        Timer timer = new Timer(300, new ActionListener() {
+        Timer timer = new Timer(500, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -572,7 +625,7 @@ public class BossController implements UPSController {
             @Override
             public void remove() {
                 SmileyModel.getINSTANCE().timers.get("rapid").stop();
-                SmileyModel.getINSTANCE().times.remove("rapid");
+                SmileyModel.getINSTANCE().timers.remove("rapid");
                 fistAttacks[0] = false;
                 System.out.println("rapid remove");
             }

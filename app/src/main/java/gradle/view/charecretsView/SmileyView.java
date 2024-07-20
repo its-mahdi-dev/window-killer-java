@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import gradle.controller.Utils;
+import gradle.model.BossModel;
 import gradle.model.Entity;
 import gradle.model.Model;
 import gradle.model.ShotModel;
@@ -24,6 +25,7 @@ public class SmileyView extends View {
     public List<Point2D> vomitAnchors = new ArrayList<>();
     public int vomitRadius;
     public int HP;
+    public boolean isDead;
 
     public SmileyView(String Id) {
         super(Id);
@@ -37,6 +39,8 @@ public class SmileyView extends View {
         int x = (int) newAnchor.getX() - radius1;
         int y = (int) newAnchor.getY() - radius1;
         Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/smiley.png").getImage();
+        if (isDead)
+            necro = new ImageIcon("app/src/main/java/gradle/assets/images/dead.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
 
         drawHP(g2d, newAnchor, HP);
@@ -60,6 +64,7 @@ public class SmileyView extends View {
         vomitRadius = ((SmileyModel) bossModel).vomitRadius;
 
         HP = ((Entity) bossModel).HP;
+        isDead = ((BossModel) bossModel).isDead;
     }
 
     @Override

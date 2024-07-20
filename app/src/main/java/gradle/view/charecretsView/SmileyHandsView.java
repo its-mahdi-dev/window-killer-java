@@ -22,7 +22,9 @@ public class SmileyHandsView extends View {
     public static final List<View> items = new ArrayList<>();
     public static final List<View> removedItems = new ArrayList<>();
 
+    public boolean isDead;
     public int HP;
+
     public SmileyHandsView(String Id) {
         super(Id);
     }
@@ -35,6 +37,8 @@ public class SmileyHandsView extends View {
         int x = (int) newAnchor.getX() - radius1;
         int y = (int) newAnchor.getY() - radius1;
         Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/bosshand.png").getImage();
+        if (isDead)
+            necro = new ImageIcon("app/src/main/java/gradle/assets/images/dead.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
         drawHP(g2d, newAnchor, HP);
     }
@@ -45,6 +49,7 @@ public class SmileyHandsView extends View {
         w = bossModel.w;
         h = bossModel.h;
         HP = ((Entity) bossModel).HP;
+        isDead = ((BossModel) bossModel).isDead;
     }
 
     @Override
@@ -57,11 +62,15 @@ public class SmileyHandsView extends View {
         return removedItems;
     }
 
-    public static SmileyHandsView getLeft(){
+    public static SmileyHandsView getLeft() {
         return (SmileyHandsView) items.get(0);
     }
-    public static SmileyHandsView getRight(){
-        return (SmileyHandsView) items.get(1);
+
+    public static SmileyHandsView getRight() {
+        if (items.size() > 1)
+            return (SmileyHandsView) items.get(1);
+        else
+            return getLeft();
     }
 
 }

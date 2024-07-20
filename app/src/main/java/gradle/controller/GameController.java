@@ -100,32 +100,33 @@ public class GameController implements UPSController {
 
         StorePanel.getINSTANCE();
         GamePanel panel1 = new GamePanel();
-        GamePanel panel2 = new GamePanel();
+        // GamePanel panel2 = new GamePanel();
         // panel1.setSize(new Dimension(500,500));
         panel1.setLocation(400, 220);
         // panel2.setSize(new Dimension(500, 500));
-        panel2.setLocation(700, 100);
+        // panel2.setLocation(700, 100);
         // panel1.setLocationToCenter(GameFrame.getINSTANCE());
         EpsilonModel.getINSTANCE();
         EpsilonModel.getINSTANCE().currentPanels.add(panel1);
         EpsilonModel.getINSTANCE().init();
         panel1.repaint();
-        panel2.repaint();
+        // panel2.repaint();
 
         Panels.getINSTANCE();
         Panels.getINSTANCE().addPanel(panel1);
-        Panels.getINSTANCE().addPanel(panel2);
+        // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        // SmileyModel.getINSTANCE();
-        // new SmileyHandsModel();
-        // new SmileyHandsModel();
+
+        SmileyModel.getINSTANCE();
+        new SmileyHandsModel();
+        new SmileyHandsModel();
         // SmileyFistModel.getINSTANCE();
-        // GameSettings.bossRun = true;
+        GameSettings.bossRun = true;
 
         EnemyController.setWaveMethods();
         // createWave();
-        TriangleEnemy.create(new Point2D.Double(700,500));
+        // TriangleEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // BlackorbEnemy.create(new Point2D.Double(500, 400));
@@ -140,7 +141,8 @@ public class GameController implements UPSController {
 
         GameFrame.getINSTANCE().repaint();
 
-        // BossController.punchAttack();
+        BossController.squeezeAttack();
+        // BossController.rapidAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

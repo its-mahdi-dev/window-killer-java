@@ -39,6 +39,7 @@ public class SmileyView extends View {
         Image necro = new ImageIcon("app/src/main/java/gradle/assets/images/smiley.png").getImage();
         g2d.drawImage(necro, x, y, w, h, null);
 
+        drawHP(g2d, newAnchor, HP);
         // g2d.setColor(new Color(255, 245, 0, 70));
         for (Point2D vomit : vomitAnchors) {
             Point2D vomitAnchor = Utils.getRelatedPoint(vomit, component);
@@ -46,7 +47,6 @@ public class SmileyView extends View {
             int vomitY = (int) vomitAnchor.getY() - vomitRadius;
             g2d.setColor(new Color(255, 245, 0, 70));
             g2d.fillOval(vomitX, vomitY, vomitRadius * 2, vomitRadius * 2);
-            drawHP(g2d, newAnchor, HP);
         }
 
     }

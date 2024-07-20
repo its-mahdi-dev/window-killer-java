@@ -179,7 +179,6 @@ public class GamePanel extends JPanel {
         if (panel1.getY() < newLocation.getY() + newSize.getHeight() &&
                 panel1.getY() + panel1.getHeight() > newLocation.getY())
             containsY = true;
-        // System.out.println("x: " + containsX + " y: " + containsY);
         if (containsX && containsY)
             return true;
         return false;

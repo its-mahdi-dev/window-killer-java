@@ -10,6 +10,7 @@ import javax.swing.Timer;
 
 import org.locationtech.jts.geom.Dimension;
 
+import gradle.controller.BossController;
 import gradle.controller.Constants;
 import gradle.controller.Utils;
 import gradle.view.GameFrame;
@@ -27,6 +28,15 @@ public abstract class BossModel extends Entity {
     public boolean isInFirstAnchor;
     public boolean ableDecrease;
 
+    public void setAngleMove() {
+        Point2D center = EpsilonModel.getINSTANCE().anchor;
+        double deltaX = anchor.getX() - center.getX();
+        double deltaY = anchor.getY() - center.getY();
+
+        // Calculate the angle between the original and new anchor points
+        angleMove = Math.atan2(deltaY, deltaX);
+    }
+
     public void moveRotation() {
         angleMove += angleChange; // Clockwise rotation
 
@@ -42,7 +52,8 @@ public abstract class BossModel extends Entity {
         List<Model> entities = new ArrayList<>();
         entities.addAll(SmileyHandsModel.items);
         entities.add(SmileyModel.getINSTANCE());
-        entities.add(SmileyFistModel.getINSTANCE());
+        if (BossController.isFist)
+            entities.add(SmileyFistModel.getINSTANCE());
 
         return entities;
     }
@@ -56,7 +67,7 @@ public abstract class BossModel extends Entity {
         if (!isInFirstAnchor) {
             newDirection = Utils.getDirection(anchor, firstAnchor);
         }
-        
+
         setDirection(newDirection);
     }
 

@@ -32,11 +32,11 @@ public class SmileyHandsModel extends BossModel {
         int locY;
         if (items.size() == 0) {
             locX = SmileyModel.getINSTANCE().panel.getX() - w / 2 - 20;
-            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
+            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() + h / 2 + 20;
             angleMove = Math.toRadians(0);
         } else {
             locX = SmileyModel.getINSTANCE().panel.getX() + SmileyModel.getINSTANCE().panel.getWidth() + w / 2 + 20;
-            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() / 2;
+            locY = SmileyModel.getINSTANCE().panel.getY() + SmileyModel.getINSTANCE().panel.getHeight() + h / 2 + 20;
             angleMove = Math.toRadians(100);
         }
         HP = 100;

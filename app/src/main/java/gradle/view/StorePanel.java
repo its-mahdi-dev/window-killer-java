@@ -24,8 +24,8 @@ public class StorePanel extends JPanel {
     double speed;
 
     String[] images = {
-        "app/src/main/java/gradle/assets/icons/wave.png",
-        "app/src/main/java/gradle/assets/icons/3-bullets.png",
+            "app/src/main/java/gradle/assets/icons/wave.png",
+            "app/src/main/java/gradle/assets/icons/3-bullets.png",
             "app/src/main/java/gradle/assets/icons/add-health.png",
             "app/src/main/java/gradle/assets/icons/wave.png",
             "app/src/main/java/gradle/assets/icons/wave.png",
@@ -79,13 +79,10 @@ public class StorePanel extends JPanel {
                 GameSettings.isStore = false;
                 GameSettings.isPause = false;
                 String result = StoreController.handleStore(boxIndex);
-                System.out.println(result);
-                // } else {
-                // String error_text = "you can't buy this item you wanna " +
-                // String.valueOf(xp[boxIndex] - epsilonXp)
-                // + " XP more";
-                // JOptionPane.showMessageDialog(null, error_text);
-                // }
+                if (!result.equals("success")) {
+                    JOptionPane.showMessageDialog(null, result);
+                    
+                }
             }
         });
         boxContainer.add(boxPanel);

@@ -150,9 +150,6 @@ public class StoreController implements UPSController {
         }
     }
 
-    private static void increaseShots() {
-
-    }
 
     @Override
     public void check() {

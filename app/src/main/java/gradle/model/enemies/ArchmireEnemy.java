@@ -86,7 +86,7 @@ public class ArchmireEnemy extends EnemyModel {
     public void setRelativePoints() {
         double x = anchor.getX();
         double y = anchor.getY();
-        double rotationAngle = Math.toRadians(0);
+        double rotationAngle = angle;
         w = Constants.ENEMY_ARCHMIRE_WIDTH;
         h = Constants.ENEMY_ARCHMIRE_HEIGHT;
         xPoints = new double[] {
@@ -129,6 +129,6 @@ public class ArchmireEnemy extends EnemyModel {
 
     @Override
     public void removeUtils() {
-       
+
     }
 }

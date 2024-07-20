@@ -164,4 +164,22 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
     // }
 
     public abstract void removeUtils();
+
+    public void moveWithAngle() {
+        // angleMove += angleChange; // Clockwise rotation
+
+        Point2D center = EpsilonModel.getINSTANCE().anchor;
+        double deltaX = anchor.getX() - center.getX();
+        double deltaY = anchor.getY() - center.getY();
+
+        // Calculate the angle between the original and new anchor points
+        double angleMove = Math.atan2(deltaY, deltaX);
+        // Calculate the new position using the angleMove and radius
+        double x = center.getX() + Constants.DEIMOS_RADUIS * Math.cos(angleMove);
+        double y = center.getY() + Constants.DEIMOS_RADUIS * Math.sin(angleMove);
+
+        // Update the anchor position
+        anchor = new Point2D.Double(x, y);
+        setRelativePoints();
+    }
 }

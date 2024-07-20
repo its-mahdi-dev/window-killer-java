@@ -75,7 +75,7 @@ public class SquareEnemy extends EnemyModel {
     public void setRelativePoints() {
         double x = anchor.getX();
         double y = anchor.getY();
-        double rotationAngle = Math.toRadians(20);
+        double rotationAngle = angle;
         w = Constants.ENEMY_SQUARE_DIAMETER;
         h = Constants.ENEMY_SQUARE_DIAMETER;
         xPoints = new double[] {

@@ -106,8 +106,9 @@ public class GameController implements UPSController {
         // new SmileyHandsModel();
         // SmileyFistModel.getINSTANCE();
         // GameSettings.bossRun = true;
-        // createWave();
-        SquareEnemy.create(new Point2D.Double(700,500));
+        createWave();
+        // SquareEnemy.create(new Point2D.Double(700,500));
+        // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));

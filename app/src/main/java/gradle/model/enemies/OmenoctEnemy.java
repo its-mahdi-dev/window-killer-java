@@ -89,7 +89,7 @@ public class OmenoctEnemy extends EnemyModel {
     public void setRelativePoints() {
         double x = anchor.getX();
         double y = anchor.getY();
-        double rotationAngle = Math.toRadians(0);
+        double rotationAngle = angle;
         w = Constants.ENEMY_OMENOCT_DIAMETER;
         h = Constants.ENEMY_OMENOCT_DIAMETER;
         double[] xPointsO = new double[8];

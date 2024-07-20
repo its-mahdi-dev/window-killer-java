@@ -17,6 +17,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 
 import gradle.controller.SkillTreeController.SkillTypes;
+import gradle.controller.StoreController.StoreTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
@@ -49,20 +50,33 @@ public class EnemyController implements UPSController {
 
                 Point2D direction = Utils.getDirection(enemyModel.anchor,
                         EpsilonModel.getINSTANCE().anchor);
-                if (enemyModel.type == EnemyType.wyrm) {
-                    // enemyModel.updatePosition();
-                    Point2D newDirection = ((WyrmEnemy) enemyModel)
-                            .getTangentialDirection(EpsilonModel.getINSTANCE().anchor);
-                    enemyModel.setDirection(newDirection);
-                    enemyModel.move();
-                    enemyModel.setRelativePoints();
-                } else {
-                    if (enemyModel.type == EnemyType.omenoct)
-                        checkOmenoctMove(enemyModel, direction);
-                    else
-                        enemyModel.setDirection(direction);
+                double distance = Utils.getDistance(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor);
+                if (StoreController.itemsActive.get(StoreTypes.deimos) && distance <= Constants.DEIMOS_RADUIS
+                        && !enemyModel.hovering) {
+                    if (Math.abs(distance - Constants.DEIMOS_RADUIS) < 3) {
+                        enemyModel.setDirection(new Point2D.Double(0, 0));
+                        enemyModel.moveWithAngle();
+                    } else {
+                        enemyModel.setDirection(new Point2D.Double(-direction.getX(), -direction.getY()));
+                        enemyModel.move();
+                    }
 
-                    enemyModel.move();
+                } else {
+                    if (enemyModel.type == EnemyType.wyrm) {
+                        // enemyModel.updatePosition();
+                        Point2D newDirection = ((WyrmEnemy) enemyModel)
+                                .getTangentialDirection(EpsilonModel.getINSTANCE().anchor);
+                        enemyModel.setDirection(newDirection);
+                        enemyModel.move();
+                        enemyModel.setRelativePoints();
+                    } else {
+                        if (enemyModel.type == EnemyType.omenoct)
+                            checkOmenoctMove(enemyModel, direction);
+                        else
+                            enemyModel.setDirection(direction);
+
+                        enemyModel.move();
+                    }
                 }
                 checkEnemyAbilities(enemyModel);
                 if (enemyModel.ableMove)

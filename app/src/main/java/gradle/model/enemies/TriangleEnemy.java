@@ -76,7 +76,7 @@ public class TriangleEnemy extends EnemyModel {
     public void setRelativePoints() {
         double x = anchor.getX();
         double y = anchor.getY();
-        double rotationAngle = Math.toRadians(30);
+        double rotationAngle = angle;
         w = Constants.ENEMY_TRIANGLE_DIAMETER;
         h = Constants.ENEMY_TRIANGLE_DIAMETER;
         double d = Math.sqrt(3) / 2 * h;

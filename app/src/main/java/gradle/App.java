@@ -14,6 +14,8 @@ import gradle.view.MainPanel;
 
 public class App {
 
+    // github repo: https://github.com/its-mahdi-dev/window-killer-java.git
+    //Mahdi Rasoulzade
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");

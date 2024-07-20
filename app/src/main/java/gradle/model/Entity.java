@@ -36,6 +36,11 @@ public abstract class Entity extends Model {
     public Point2D direction = new Point2D.Double(0, 0);
     public Map<String, Timer> timers = new HashMap<>();
 
+    public Entity() {
+        saveIgnore.add("timer");
+        saveIgnore.add("timers");
+    }
+
     @Override
     public void addItem(Model item) {
         velocity = max_speed / Constants.ACCELERATION;
@@ -178,7 +183,7 @@ public abstract class Entity extends Model {
         return all;
     }
 
-    public void decreasHp(int hp) {
+    public void decreasHp(Integer hp) {
         if (System.currentTimeMillis() - HP_time > 200)
             HP -= hp;
     }

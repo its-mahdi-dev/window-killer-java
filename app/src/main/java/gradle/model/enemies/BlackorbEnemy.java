@@ -45,6 +45,7 @@ public class BlackorbEnemy extends EnemyModel {
     public List<Map<String, double[]>> lasers = new LinkedList<>();
 
     public BlackorbEnemy() {
+        saveIgnore.add("lasers");
 
     }
 
@@ -74,7 +75,7 @@ public class BlackorbEnemy extends EnemyModel {
         enemyModel.HP = 30;
         enemyModel.hovering = false;
         enemyModel.ableMove = false;
-        enemyModel.attacks.put("laser", 12);
+        enemyModel.attacks.put("laser", Long.valueOf(2));
         enemyModel.xPoints = new double[0];
         enemyModel.yPoints = new double[0];
         List<Point2D> points = Utils.generateSymmetricPoints(enemyModel.anchor, 5, 1);
@@ -134,6 +135,8 @@ public class BlackorbEnemy extends EnemyModel {
 
     @Override
     public void setRelativePoints() {
+        xPoints = new double[orbs.size()];
+        yPoints = new double[orbs.size()];
         // double x = anchor.getX();
         // double y = anchor.getY();
         // double rotationAngle = Math.toRadians(0);

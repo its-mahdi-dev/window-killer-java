@@ -37,10 +37,15 @@ public class GamePanel extends JPanel {
     double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
     public GamePanelThread panelThread;
     private String Id;
+
     public Dimension availableDimension = Constants.PANEL_SIZE;
 
     public String getId() {
         return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public GamePanel() {
@@ -102,10 +107,10 @@ public class GamePanel extends JPanel {
             SmileyFistView.items.get(0).draw(g, this);
     }
 
-
     public void showMsg(String msg) {
         JOptionPane.showMessageDialog(null, msg);
     }
+
     public void changeSize(Point2D location, Point2D size) {
         Dimension newSize = new Dimension((int) (getWidth() + (size.getX() * speed)),
                 (int) (getHeight() + size.getY() * speed));

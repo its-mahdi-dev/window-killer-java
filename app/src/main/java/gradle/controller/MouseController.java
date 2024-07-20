@@ -5,9 +5,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import org.json.simple.JSONObject;
 
 import gradle.model.EpsilonModel;
 import gradle.view.GameFrame;
@@ -23,6 +27,20 @@ public class MouseController implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+    }
+
+    private static boolean isSupportedType(Object value) {
+        return value instanceof Boolean ||
+                value instanceof Integer ||
+                value instanceof String ||
+                value instanceof Double ||
+                value instanceof Long ||
+                value instanceof ArrayList ||
+                value instanceof List ||
+                value instanceof Map ||
+                value instanceof double[] ||
+                value instanceof int[] ||
+                value instanceof Point2D;
     }
 
     @Override

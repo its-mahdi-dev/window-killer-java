@@ -51,12 +51,13 @@ public class TriangleEnemy extends EnemyModel {
         enemyModel.collectibleCount = 2;
         enemyModel.collectibleXP = 5;
         enemyModel.HP = 15;
-        enemyModel.attacks.replace("melee", 10);
+        enemyModel.attacks.replace("melee", Long.valueOf(10));
 
         enemyModel.setRelativePoints();
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;
     }
+    
 
     @Override
     public List<Model> getItems() {

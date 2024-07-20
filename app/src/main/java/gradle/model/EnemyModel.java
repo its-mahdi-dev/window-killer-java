@@ -30,16 +30,17 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
     public int collectibleCount;
     public double HP_time;
 
-    public Map<String, Long> times = new HashMap<>();
-    public Map<String, Integer> attacks = new HashMap<>();
+    public Map<String, Long> attacks = new HashMap<>();
     {
-        attacks.put("melee", 0);
-        attacks.put("ranged", 0);
-        attacks.put("aoe", 0);
-        attacks.put("drown", 0);
+        attacks.put("melee", 0L);
+        attacks.put("ranged", 0L);
+        attacks.put("aoe", 0L);
+        attacks.put("drown", 0L);
     }
 
     public EnemyModel() {
+        saveIgnore.add("xPoints");
+        saveIgnore.add("yPoints");
     }
 
     public void init(EnemyModel enemyModel, EnemyView enemyView) {
@@ -182,4 +183,5 @@ public abstract class EnemyModel extends Entity implements Collectible, Rotation
         anchor = new Point2D.Double(x, y);
         setRelativePoints();
     }
+
 }

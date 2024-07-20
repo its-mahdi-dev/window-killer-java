@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 
 import javax.swing.Timer;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 
@@ -147,6 +149,8 @@ public class EnemyController implements UPSController {
             GameController.createWave();
         }
 
+        save();
+
     }
 
     public static void checkOmenoctMove(EnemyModel enemyModel, Point2D direction) {
@@ -247,11 +251,11 @@ public class EnemyController implements UPSController {
             if (polygon.contains(EpsilonModel.getINSTANCE().anchor)) {
                 if (EpsilonModel.getINSTANCE().times.get("archmire") == null) {
                     EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
-                    EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("drown");
+                    EpsilonModel.getINSTANCE().decreasHp(enemyModel.attacks.get("drown").intValue());
                 } else {
                     if (System.currentTimeMillis() - EpsilonModel.getINSTANCE().times.get("archmire") > 1000) {
                         EpsilonModel.getINSTANCE().times.put("archmire", System.currentTimeMillis());
-                        EpsilonModel.getINSTANCE().HP -= enemyModel.attacks.get("drown");
+                        EpsilonModel.getINSTANCE().decreasHp(enemyModel.attacks.get("drown").intValue());
                     }
                 }
             }
@@ -281,9 +285,9 @@ public class EnemyController implements UPSController {
                 enemyModel.setImpact(newDirection, true, true);
                 if (SkillTreeController.activeSkills.get(SkillTypes.melampus)) {
                     if (random.nextInt(100) > 5)
-                        epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
+                        epsilonModel.decreasHp(enemyModel.attacks.get("melee").intValue());
                 } else
-                    epsilonModel.decreasHp(enemyModel.attacks.get("melee"));
+                    epsilonModel.decreasHp(enemyModel.attacks.get("melee").intValue());
             }
         }
 
@@ -357,7 +361,7 @@ public class EnemyController implements UPSController {
                     if (polygon.contains(enemy.anchor)) {
                         if (enemy.times.get("archmire") == null) {
                             enemy.times.put("archmire", System.currentTimeMillis());
-                            enemy.HP -= enemyModel.attacks.get("drown");
+                            enemy.HP -= enemyModel.attacks.get("drown").intValue();
                         } else {
                             if (System.currentTimeMillis() - enemy.times.get("archmire") > 1000) {
                                 enemy.times.put("archmire", System.currentTimeMillis());
@@ -788,5 +792,82 @@ public class EnemyController implements UPSController {
             // enemyModel.ableMove = true;
             enemyModel.hovering = true;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void save() {
+        JSONObject kJsonObject = new JSONObject();
+        JSONArray triangles = new JSONArray();
+        List<Model> copyTriangle = new ArrayList<>(TriangleEnemy.items);
+        for (Model enemyModel : copyTriangle) {
+            TriangleEnemy enemy = (TriangleEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            triangles.add(jsonObject);
+        }
+        kJsonObject.put("triangle", triangles);
+
+        JSONArray squares = new JSONArray();
+        List<Model> copySquare = new ArrayList<>(SquareEnemy.items);
+        for (Model enemyModel : copySquare) {
+            SquareEnemy enemy = (SquareEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            squares.add(jsonObject);
+        }
+        kJsonObject.put("square", squares);
+
+        JSONArray omenocts = new JSONArray();
+        List<Model> copyOmenoct = new ArrayList<>(OmenoctEnemy.items);
+        for (Model enemyModel : copyOmenoct) {
+            OmenoctEnemy enemy = (OmenoctEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            omenocts.add(jsonObject);
+        }
+        kJsonObject.put("omenoct", omenocts);
+
+        JSONArray necropicks = new JSONArray();
+        List<Model> copyNecropick = new ArrayList<>(NecropickEnemy.items);
+        for (Model enemyModel : copyNecropick) {
+            NecropickEnemy enemy = (NecropickEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            necropicks.add(jsonObject);
+        }
+        kJsonObject.put("necropick", necropicks);
+
+        JSONArray blackorbs = new JSONArray();
+        List<Model> copyBlackorb = new ArrayList<>(BlackorbEnemy.items);
+        for (Model enemyModel : copyBlackorb) {
+            BlackorbEnemy enemy = (BlackorbEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            blackorbs.add(jsonObject);
+        }
+        kJsonObject.put("blackorb", blackorbs);
+
+        JSONArray wyrms = new JSONArray();
+        List<Model> copyWyrm = new ArrayList<>(WyrmEnemy.items);
+        for (Model enemyModel : copyWyrm) {
+            WyrmEnemy enemy = (WyrmEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            wyrms.add(jsonObject);
+        }
+        kJsonObject.put("wyrm", wyrms);
+
+        JSONArray barricadoss = new JSONArray();
+        List<Model> copyBarricados = new ArrayList<>(BarricadosMiniboss.items);
+        for (Model enemyModel : copyBarricados) {
+            BarricadosMiniboss enemy = (BarricadosMiniboss) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            barricadoss.add(jsonObject);
+        }
+        kJsonObject.put("barricados", barricadoss);
+
+        JSONArray archmires = new JSONArray();
+        List<Model> copyArchmire = new ArrayList<>(ArchmireEnemy.items);
+        for (Model enemyModel : copyArchmire) {
+            ArchmireEnemy enemy = (ArchmireEnemy) enemyModel;
+            JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(enemy, enemy.saveIgnore);
+            archmires.add(jsonObject);
+        }
+        kJsonObject.put("archmire", archmires);
+        JsonHelper.writeJsonToFile(kJsonObject, "app/src/main/resources/database/enemies.json");
     }
 }

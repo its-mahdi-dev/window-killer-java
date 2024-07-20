@@ -62,7 +62,7 @@ public class WyrmEnemy extends EnemyModel {
         enemyModel.collectibleCount = 2;
         enemyModel.collectibleXP = 8;
         enemyModel.HP = 12;
-        enemyModel.attacks.replace("ranged", 8);
+        enemyModel.attacks.replace("ranged", Long.valueOf(8));
         enemyModel.hovering = false;
         enemyModel.ableMove = true;
         enemyModel.clockwise = true;
@@ -72,7 +72,7 @@ public class WyrmEnemy extends EnemyModel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
-                        enemyModel.attacks.get("ranged"));
+                        enemyModel.attacks.get("ranged").intValue());
                 shotModel.setDirection(Utils.getDirection(enemyModel.anchor,
                         EpsilonModel.getINSTANCE().anchor));
                 shotModel.rigid = false;
@@ -95,6 +95,8 @@ public class WyrmEnemy extends EnemyModel {
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;
     }
+
+   
 
     @Override
     public List<Model> getItems() {

@@ -32,7 +32,7 @@ public class BarricadosMiniboss extends EnemyModel {
     public GamePanel panel;
 
     public BarricadosMiniboss() {
-
+        // saveIgnore.add("panel");
     }
 
     public static EnemyModel create(Point2D anchor) {

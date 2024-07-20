@@ -19,10 +19,13 @@ public abstract class Model {
     public double angle;
     public long created_time;
     public ArrayList<GamePanel> currentPanels = new ArrayList<>();
-    
 
+    public List<String> saveIgnore = new ArrayList<>();
 
     public Model() {
+        saveIgnore.add("items");
+        saveIgnore.add("removedItems");
+        saveIgnore.add("saveIgnore");
         Id = UUID.randomUUID().toString();
         created_time = System.currentTimeMillis();
     }
@@ -51,20 +54,12 @@ public abstract class Model {
         }
     }
 
-
-
-   
-
     public Point2D getPanelAnchor() {
         if (currentPanels.size() > 0)
             return Utils.getRelatedPoint(anchor, currentPanels.get(0));
         else
             return anchor;
     }
-
-    
-
-    
 
     public abstract List<Model> getItems();
 

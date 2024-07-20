@@ -50,7 +50,7 @@ public class SquareEnemy extends EnemyModel {
         enemyModel.collectibleCount = 1;
         enemyModel.collectibleXP = 5;
         enemyModel.HP = 10;
-        enemyModel.attacks.replace("melee", 6);
+        enemyModel.attacks.replace("melee", Long.valueOf(6));
 
         enemyModel.setRelativePoints();
         enemyModel.init(enemyModel, enemyView);

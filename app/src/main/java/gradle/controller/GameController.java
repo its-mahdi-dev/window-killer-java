@@ -27,6 +27,14 @@ import gradle.view.Panels;
 import gradle.view.SettingsPanel;
 import gradle.view.StorePanel;
 import gradle.view.charecretsView.NavbarView;
+import gradle.view.charecretsView.enemies.ArchmireEnemyView;
+import gradle.view.charecretsView.enemies.BarricadosMinibossView;
+import gradle.view.charecretsView.enemies.BlackorbEnemyView;
+import gradle.view.charecretsView.enemies.NecropickEnemyView;
+import gradle.view.charecretsView.enemies.OmenoctEnemyView;
+import gradle.view.charecretsView.enemies.SquareEnemyView;
+import gradle.view.charecretsView.enemies.TriangleEnemyView;
+import gradle.view.charecretsView.enemies.WyrmEnemyView;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -50,6 +58,7 @@ public class GameController implements UPSController {
 
     public static final List<Thread> threads = new ArrayList<>();
     public static boolean isWin;
+    public static boolean load = true;
     public static final Map<Integer, Integer> waveNumbers = new HashMap<>();
     static {
         waveNumbers.put(1, 2);
@@ -132,11 +141,27 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
 
         EnemyController.setWaveMethods();
-        // waveNumber = 4;
-        createWave();
+        if (load) {
+            JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/database/enemies.json");
+            LoadUtils.setupEnemies(data, "archmire", ArchmireEnemy.class, EnemyType.archmire, ArchmireEnemyView.class);
+            LoadUtils.setupEnemies(data, "square", SquareEnemy.class, EnemyType.square, SquareEnemyView.class);
+            LoadUtils.setupEnemies(data, "triangle", TriangleEnemy.class, EnemyType.triangle, TriangleEnemyView.class);
+            LoadUtils.setupEnemies(data, "omenoct", OmenoctEnemy.class, EnemyType.omenoct, OmenoctEnemyView.class);
+            LoadUtils.setupEnemies(data, "necropick", NecropickEnemy.class, EnemyType.necropick,
+                    NecropickEnemyView.class);
+            LoadUtils.setupEnemies(data, "wyrm", WyrmEnemy.class, EnemyType.wyrm, WyrmEnemyView.class);
+            LoadUtils.setupEnemies(data, "barricados", BarricadosMiniboss.class, EnemyType.barricados,
+                    BarricadosMinibossView.class);
+            LoadUtils.setupEnemies(data, "blackorb", BlackorbEnemy.class, EnemyType.blackorb, BlackorbEnemyView.class);
+        } else {
+            waveNumber = 3;
+            createWave();
+        }
+        // waveNumber =3 ;
+        // createWave();
         // BossController.start();
         // TriangleEnemy.create(new Point2D.Double(700,500));
-        // ArchmireEnemy.create(new Point2D.Double(1000,500));
+        // ArchmireEnemy.create(new Point2D.Double(1000, 500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // BlackorbEnemy.create(new Point2D.Double(500, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));

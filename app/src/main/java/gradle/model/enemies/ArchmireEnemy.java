@@ -30,6 +30,8 @@ public class ArchmireEnemy extends EnemyModel {
     long lastPathUpdate = System.currentTimeMillis();
 
     public ArchmireEnemy() {
+        saveIgnore.add("pathHistory");
+        saveIgnore.add("geometryFactory");
 
     }
 
@@ -61,8 +63,8 @@ public class ArchmireEnemy extends EnemyModel {
         enemyModel.hovering = true;
         enemyModel.ableMove = true;
         ((ArchmireEnemy) enemyModel).maxSteps = 5 * 20;
-        enemyModel.attacks.replace("aoe", 2);
-        enemyModel.attacks.replace("drown", 10);
+        enemyModel.attacks.replace("aoe", Long.valueOf(2));
+        enemyModel.attacks.replace("drown", Long.valueOf(2));
         enemyModel.setRelativePoints();
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;

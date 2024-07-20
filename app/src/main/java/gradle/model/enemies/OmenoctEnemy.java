@@ -53,13 +53,13 @@ public class OmenoctEnemy extends EnemyModel {
         enemyModel.collectibleCount = 8;
         enemyModel.collectibleXP = 4;
         enemyModel.HP = 20;
-        enemyModel.attacks.replace("melee", 8);
-        enemyModel.attacks.replace("ranged", 4);
+        enemyModel.attacks.replace("melee", Long.valueOf(8));
+        enemyModel.attacks.replace("ranged", Long.valueOf(4));
         Timer shoTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ShotModel shotModel = ShotModel.create(enemyModel.anchor, ShotType.enemy,
-                        enemyModel.attacks.get("ranged"));
+                        enemyModel.attacks.get("ranged").intValue());
                 shotModel.setDirection(Utils.getDirection(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor));
             }
         });

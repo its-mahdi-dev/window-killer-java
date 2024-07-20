@@ -14,8 +14,6 @@ public class EpsilonModel extends Entity {
     public static final List<Model> removedItems = new ArrayList<>();
     public boolean shotStore;
     public int XP;
-    
-
 
     private EpsilonModel() {
         init();
@@ -32,7 +30,8 @@ public class EpsilonModel extends Entity {
     }
 
     public void init() {
-        anchor = new Point2D.Double(GameFrame.getINSTANCE().getWidth() / 2,GameFrame.getINSTANCE().getHeight() / 2);
+        saveIgnore.add("timers");
+        anchor = new Point2D.Double(GameFrame.getINSTANCE().getWidth() / 2, GameFrame.getINSTANCE().getHeight() / 2);
         w = Constants.EPSILON_DIAMETER;
         h = Constants.EPSILON_DIAMETER;
         max_speed = Constants.MOVE_SPEED + GameSettings.sensitivity * 2 / 10.0;

@@ -33,7 +33,7 @@ public class LoadUtils {
         return enemies;
     }
 
-    private static void populateEnemyFromJson(Object enemy, JSONObject jsonObject) {
+    public static void populateEnemyFromJson(Object enemy, JSONObject jsonObject) {
         Class<?> objClass = enemy.getClass();
 
         while (objClass != null) {

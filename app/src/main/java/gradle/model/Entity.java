@@ -123,7 +123,6 @@ public abstract class Entity extends Model {
             if (System.currentTimeMillis() - impact_time > 1000) {
                 ((WyrmEnemy) this).angleMove = 0;
                 ((WyrmEnemy) this).clockwise = !((WyrmEnemy) this).clockwise;
-                System.out.println(((WyrmEnemy) this).clockwise);
             }
             // }
         } else {

@@ -216,17 +216,17 @@ public class EnemyController implements UPSController {
             // System.out.println(
             // (enemyModel.anchor.getX() - enemyModel.w) + " " + (currentPanel.getX() +
             // currentPanel.getWidth()));
-            if (enemyModel.anchor.getX() + enemyModel.w > currentPanel.getX()
+            if (enemyModel.anchor.getX() + enemyModel.w - 5 > currentPanel.getX()
                     && enemyModel.anchor.getX() < currentPanel.getX() + currentPanel.getWidth() / 2)
                 newDirection = new Point2D.Double(-1, 0);
-            else if (enemyModel.anchor.getX() - enemyModel.w < currentPanel.getX() +
+            else if (enemyModel.anchor.getX() - enemyModel.w + 5 < currentPanel.getX() +
                     currentPanel.getWidth()
                     && enemyModel.anchor.getX() > currentPanel.getX() + currentPanel.getWidth() / 2)
                 newDirection = new Point2D.Double(1, 0);
-            else if (enemyModel.anchor.getY() + enemyModel.h > currentPanel.getY()
+            else if (enemyModel.anchor.getY() + enemyModel.h - 5 > currentPanel.getY()
                     && enemyModel.anchor.getY() < currentPanel.getY() + currentPanel.getHeight() / 2)
                 newDirection = new Point2D.Double(0, -1);
-            else if (enemyModel.anchor.getY() - enemyModel.h < currentPanel.getY() +
+            else if (enemyModel.anchor.getY() - enemyModel.h + 5 < currentPanel.getY() +
                     currentPanel.getHeight()
                     && enemyModel.anchor.getY() > currentPanel.getY() + currentPanel.getHeight() / 2)
                 newDirection = new Point2D.Double(0, 1);
@@ -554,7 +554,6 @@ public class EnemyController implements UPSController {
                     public void actionPerformed(ActionEvent e) {
                         if (GameSettings.isGameRun && !GameSettings.isPause) {
                             count++;
-                            System.out.println(deadEnemies);
                             Point2D randomPosition = randomEnemyPosition();
                             if (count % 3 == 0)
                                 OmenoctEnemy.create(randomPosition);
@@ -580,7 +579,6 @@ public class EnemyController implements UPSController {
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 BarricadosMiniboss.create(randomEnemyPosition());
-                NecropickEnemy.create(randomEnemyPosition());
                 creatTimer = new Timer(1700, new ActionListener() {
                     int count = 0;
 
@@ -588,11 +586,11 @@ public class EnemyController implements UPSController {
                     public void actionPerformed(ActionEvent e) {
                         if (GameSettings.isGameRun && !GameSettings.isPause) {
                             count++;
-                            System.out.println(deadEnemies);
+
                             Point2D randomPosition = randomEnemyPosition();
-                            if (count == 6)
-                                NecropickEnemy.create(randomPosition);
-                            else if (count % 3 == 0)
+                            if (count == 6 || count == 3)
+                                NecropickEnemy.create(randomEnemyPosition());
+                            if (count % 3 == 0)
                                 SquareEnemy.create(randomPosition);
                             else if (count % 3 == 1)
                                 ArchmireEnemy.create(randomPosition);
@@ -616,8 +614,8 @@ public class EnemyController implements UPSController {
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 // BarricadosMiniboss.create(randomEnemyPosition());
-                BlackorbEnemy.create(randomEnemyPosition());
-                NecropickEnemy.create(randomEnemyPosition());
+                // BlackorbEnemy.create(randomEnemyPosition());
+                // NecropickEnemy.create(randomEnemyPosition());
                 // OmenoctEnemy.create(randomEnemyPosition());
                 creatTimer = new Timer(1700, new ActionListener() {
                     int count = 0;
@@ -626,14 +624,17 @@ public class EnemyController implements UPSController {
                     public void actionPerformed(ActionEvent e) {
                         if (GameSettings.isGameRun && !GameSettings.isPause) {
                             count++;
-                            System.out.println(deadEnemies);
+
                             Point2D randomPosition = randomEnemyPosition();
-                            if (count % 3 == 0)
-                                TriangleEnemy.create(randomPosition);
-                            else if (count % 3 == 1)
-                                OmenoctEnemy.create(randomPosition);
-                            else if (count % 3 == 2)
-                                ArchmireEnemy.create(randomPosition);
+                            if (count == 3)
+                                BlackorbEnemy.create(randomEnemyPosition());
+                            if (count == 6)
+                                if (count % 3 == 0)
+                                    TriangleEnemy.create(randomPosition);
+                                else if (count % 3 == 1)
+                                    OmenoctEnemy.create(randomPosition);
+                                else if (count % 3 == 2)
+                                    ArchmireEnemy.create(randomPosition);
                         }
                     }
 
@@ -652,9 +653,9 @@ public class EnemyController implements UPSController {
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
                 BarricadosMiniboss.create(randomEnemyPosition());
-                BlackorbEnemy.create(randomEnemyPosition());
-                BlackorbEnemy.create(randomEnemyPosition());
-                NecropickEnemy.create(randomEnemyPosition());
+                // BlackorbEnemy.create(randomEnemyPosition());
+                // BlackorbEnemy.create(randomEnemyPosition());
+                // NecropickEnemy.create(randomEnemyPosition());
                 // OmenoctEnemy.create(randomEnemyPosition());
                 creatTimer = new Timer(1700, new ActionListener() {
                     int count = 0;
@@ -663,8 +664,12 @@ public class EnemyController implements UPSController {
                     public void actionPerformed(ActionEvent e) {
                         if (GameSettings.isGameRun && !GameSettings.isPause) {
                             count++;
-                            System.out.println(deadEnemies);
+
                             Point2D randomPosition = randomEnemyPosition();
+                            if (count == 2 || count == 4)
+                                BlackorbEnemy.create(randomEnemyPosition());
+                            if (count == 3)
+                                NecropickEnemy.create(randomEnemyPosition());
                             if (count % 3 == 0)
                                 SquareEnemy.create(randomPosition);
                             else if (count % 3 == 1)

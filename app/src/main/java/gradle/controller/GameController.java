@@ -58,14 +58,14 @@ public class GameController implements UPSController {
 
     public static final List<Thread> threads = new ArrayList<>();
     public static boolean isWin;
-    public static boolean load = true;
+    public static boolean load = false;
     public static final Map<Integer, Integer> waveNumbers = new HashMap<>();
     static {
         waveNumbers.put(1, 2);
         waveNumbers.put(2, 3);
         waveNumbers.put(3, 4);
         waveNumbers.put(4, 5);
-        waveNumbers.put(5, 6);
+        waveNumbers.put(5, 1);
     }
 
     public static long passTime = 0;
@@ -142,6 +142,8 @@ public class GameController implements UPSController {
 
         EnemyController.setWaveMethods();
         if (load) {
+            JSONObject epsilonData = JsonHelper.readJsonFromFile("app/src/main/resources/database/epsilon.json");
+            LoadUtils.populateEnemyFromJson(EpsilonModel.getINSTANCE(), epsilonData);
             JSONObject data = JsonHelper.readJsonFromFile("app/src/main/resources/database/enemies.json");
             LoadUtils.setupEnemies(data, "archmire", ArchmireEnemy.class, EnemyType.archmire, ArchmireEnemyView.class);
             LoadUtils.setupEnemies(data, "square", SquareEnemy.class, EnemyType.square, SquareEnemyView.class);
@@ -153,9 +155,11 @@ public class GameController implements UPSController {
             LoadUtils.setupEnemies(data, "barricados", BarricadosMiniboss.class, EnemyType.barricados,
                     BarricadosMinibossView.class);
             LoadUtils.setupEnemies(data, "blackorb", BlackorbEnemy.class, EnemyType.blackorb, BlackorbEnemyView.class);
+
         } else {
-            waveNumber = 3;
-            createWave();
+            // waveNumber = 4;
+            // createWave();
+            BossController.start();
         }
         // waveNumber =3 ;
         // createWave();

@@ -83,7 +83,6 @@ public class StoreController implements UPSController {
             public void store() {
                 EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
                 epsilonModel.HP = Math.min(100, epsilonModel.HP + 10);
-                System.out.println("here");
             }
 
             @Override

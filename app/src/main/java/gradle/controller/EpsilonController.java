@@ -6,7 +6,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import gradle.controller.StoreController.StoreTypes;
 import gradle.interfaces.UPSController;
@@ -18,6 +22,7 @@ import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
+import gradle.model.enemies.TriangleEnemy;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
@@ -69,6 +74,8 @@ public class EpsilonController implements UPSController {
             EpsilonCerbModel epsilonModel = (EpsilonCerbModel) EpsilonCerbModel.findById(epsilonView.getId());
             epsilonView.setUtil(epsilonModel);
         }
+        if (!GameSettings.isPause)
+            save();
     }
 
     public static void updateMovement() {
@@ -229,5 +236,16 @@ public class EpsilonController implements UPSController {
         if (currentGamePanels.size() == 0)
             currentGamePanels.add(epsilonModel.currentPanels.get(0));
         EpsilonModel.getINSTANCE().currentPanels = new ArrayList<>(currentGamePanels);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void save() {
+        JSONObject kJsonObject = new JSONObject();
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        JSONObject jsonObject = PropertyUtil.getPropertiesAsJSON(epsilonModel, epsilonModel.saveIgnore);
+        kJsonObject.put("epsilon", jsonObject);
+
+        JsonHelper.writeJsonToFile(kJsonObject, "app/src/main/resources/database/epsilon.json");
+
     }
 }

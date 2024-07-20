@@ -59,7 +59,7 @@ public class BossController implements UPSController {
         attacks.put("slap", false);
     }
     static {
-        attackTimes.put("squeeze", 20000);
+        attackTimes.put("squeeze", 10000);
         attackTimes.put("projectile", 20000);
         attackTimes.put("vomit", 20000);
         attackTimes.put("punch", 8000);
@@ -160,7 +160,6 @@ public class BossController implements UPSController {
             if (hands.HP <= 0) {
                 SmileyHandsModel.items.remove(i);
                 View view = SmileyHandsView.findView(hands.getId(), SmileyHandsView.items);
-                System.out.println(view);
                 SmileyHandsView.items.remove(view);
             }
         }

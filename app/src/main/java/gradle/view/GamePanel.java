@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import gradle.controller.Constants;
@@ -82,7 +83,9 @@ public class GamePanel extends JPanel {
         for (View epsilonView : EpsilonCerbView.items) {
             epsilonView.draw(g, this);
         }
-        for (View shotView : ShotView.items) {
+
+        java.util.List<View> shotViewCopy = new ArrayList<>(ShotView.items);
+        for (View shotView : shotViewCopy) {
             shotView.draw(g, this);
         }
 

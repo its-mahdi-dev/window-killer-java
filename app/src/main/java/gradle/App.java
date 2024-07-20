@@ -3,7 +3,6 @@
  */
 package gradle;
 
-
 import javax.swing.*;
 
 import org.json.simple.JSONObject;
@@ -12,8 +11,9 @@ import gradle.controller.JsonHelper;
 import gradle.controller.Utils;
 import gradle.view.GameFrame;
 import gradle.view.MainPanel;
+
 public class App {
-    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JSONObject settings = JsonHelper.readJsonFromFile("app/src/main/resources/data/settings.json");
@@ -24,6 +24,6 @@ public class App {
             GameFrame.getINSTANCE();
             MainPanel.getINSTANCE();
             GameFrame.getINSTANCE().repaint();
-        }); 
+        });
     }
 }

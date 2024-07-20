@@ -123,8 +123,8 @@ public class EpsilonController implements UPSController {
                     Constants.EPSILON_SHOT_POWER);
             Utils.playMusic("shot", false);
             shot.anchor = EpsilonModel.getINSTANCE().anchor;
-            Point2D shotGoal = new Point2D.Double(e.getX() + i * (Math.pow(-1, i) * 50),
-                    e.getY() + i * (Math.pow(-1, i) * 50));
+            Point2D shotGoal = new Point2D.Double(e.getX() + (i - 1) * 50,
+                    e.getY() + (i - 1) * 50);
             Point2D direction = Utils.getDirection(shot.anchor, shotGoal);
             shot.setDirection(direction);
             shot.rigid = true;

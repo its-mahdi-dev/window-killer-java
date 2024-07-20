@@ -12,6 +12,7 @@ import gradle.model.SmileyFistModel;
 import gradle.model.enemies.ArchmireEnemy;
 import gradle.model.enemies.BarricadosMiniboss;
 import gradle.model.enemies.BlackorbEnemy;
+import gradle.model.enemies.SquareEnemy;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -100,12 +101,13 @@ public class GameController implements UPSController {
         // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        SmileyModel.getINSTANCE();
-        new SmileyHandsModel();
-        new SmileyHandsModel();
-        SmileyFistModel.getINSTANCE();
-        GameSettings.bossRun = true;
+        // SmileyModel.getINSTANCE();
+        // new SmileyHandsModel();
+        // new SmileyHandsModel();
+        // SmileyFistModel.getINSTANCE();
+        // GameSettings.bossRun = true;
         // createWave();
+        SquareEnemy.create(new Point2D.Double(700,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));
@@ -119,7 +121,7 @@ public class GameController implements UPSController {
 
         GameFrame.getINSTANCE().repaint();
 
-        BossController.punchAttack();
+        // BossController.punchAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

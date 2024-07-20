@@ -4,6 +4,7 @@ import gradle.controller.Constants;
 import gradle.controller.GameController;
 import gradle.controller.GameSettings;
 import gradle.interfaces.UPSController;
+import gradle.view.StorePanel;
 
 public class UPSThread implements Runnable {
     private final UPSController controller;
@@ -18,7 +19,7 @@ public class UPSThread implements Runnable {
         while (running) {
             long startTime = System.nanoTime();
 
-            if (!GameSettings.isPause || controller instanceof GameController)
+            if (!GameSettings.isPause || controller instanceof GameController || controller instanceof StorePanel)
                 controller.check();
 
             long elapsedTime = System.nanoTime() - startTime;

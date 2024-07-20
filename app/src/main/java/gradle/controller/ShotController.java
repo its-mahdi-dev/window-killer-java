@@ -29,6 +29,7 @@ public class ShotController implements UPSController {
 
             if (shotModel.shotType == ShotType.epsilon) {
                 if (SmileyModel.items.size() > 0) {
+                    
                     for (Model model : BossModel.getAllBossEntities()) {
                         BossModel bossModel = (BossModel) model;
                         if (Utils.getDistance(shotModel.anchor, model.anchor) <= model.w / 2 + shotModel.w / 2) {
@@ -44,6 +45,7 @@ public class ShotController implements UPSController {
                         EnemyModel enemyModel = (EnemyModel) EnemyModel.getAllEnemies().get(j);
                         int archiveHP = enemyModel.HP;
                         if (checkEpsilonShot(enemyModel, shotModel)) {
+                            System.out.println("cikk");
                             enemyModel.decreasHp(shotModel.power + (SkillTreeController.enemy_hp_decrease)
                                     + (SkillTreeController.enemy_hp_decrease));
                             if (enemyModel.HP >= 0 || enemyModel.type == EnemyType.barricados)

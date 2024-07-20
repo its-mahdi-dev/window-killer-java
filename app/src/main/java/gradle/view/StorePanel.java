@@ -17,26 +17,27 @@ public class StorePanel extends JPanel {
     private static StorePanel INSTANCE;
     private static final int BOX_WIDTH = (int) Constants.STORE_PANEL_DIMENSION.getWidth() / 4;
     private static final int IMAGE_SIZE = (int) (BOX_WIDTH - BOX_WIDTH / 4);
-    private static final int BOX_HEIGHT = (int) (Constants.STORE_PANEL_DIMENSION.getHeight()/2  - Constants.STORE_PANEL_DIMENSION.getHeight()/8);
+    private static final int BOX_HEIGHT = (int) (Constants.STORE_PANEL_DIMENSION.getHeight() / 2
+            - Constants.STORE_PANEL_DIMENSION.getHeight() / 8);
     private static final Color BORDER_COLOR = Color.RED;
 
     double speed;
 
     String[] images = {
+        "app/src/main/java/gradle/assets/icons/wave.png",
+        "app/src/main/java/gradle/assets/icons/3-bullets.png",
             "app/src/main/java/gradle/assets/icons/add-health.png",
-            "app/src/main/java/gradle/assets/icons/3-bullets.png",
-            "app/src/main/java/gradle/assets/icons/wave.png",
             "app/src/main/java/gradle/assets/icons/wave.png",
             "app/src/main/java/gradle/assets/icons/wave.png",
             "app/src/main/java/gradle/assets/icons/wave.png"
     };
     String[] labels = {
-            "+10 HP",
-            "3 shots",
-            "wave",
-            "wave",
-            "wave",
-            "wave"
+            "Hephaestus",
+            "Athena",
+            "Apollo",
+            "Deimos",
+            "Hypnos",
+            "Phonoi"
     };
 
     public static int[] xp = { 5, 75, 100, 100, 100, 100 };
@@ -74,15 +75,17 @@ public class StorePanel extends JPanel {
         boxPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (enabled[boxIndex]) {
-                    GameSettings.isStore = false;
-                    GameSettings.isPause = false;
-                    StoreController.handleStore(boxIndex);
-                } else {
-                    String error_text = "you can't buy this item you wanna " + String.valueOf(xp[boxIndex] - epsilonXp)
-                            + " XP more";
-                    JOptionPane.showMessageDialog(null, error_text);
-                }
+                // if (enabled[boxIndex]) {
+                GameSettings.isStore = false;
+                GameSettings.isPause = false;
+                String result = StoreController.handleStore(boxIndex);
+                System.out.println(result);
+                // } else {
+                // String error_text = "you can't buy this item you wanna " +
+                // String.valueOf(xp[boxIndex] - epsilonXp)
+                // + " XP more";
+                // JOptionPane.showMessageDialog(null, error_text);
+                // }
             }
         });
         boxContainer.add(boxPanel);
@@ -111,11 +114,11 @@ public class StorePanel extends JPanel {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if (enabled[boxIndex]) {
-                        hovered = true;
-                        setBorder(BorderFactory.createCompoundBorder(new LineBorder(BORDER_COLOR),
-                                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-                    }
+                    // if (enabled[boxIndex]) {
+                    hovered = true;
+                    setBorder(BorderFactory.createCompoundBorder(new LineBorder(BORDER_COLOR),
+                            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    // }
                 }
 
                 @Override
@@ -186,7 +189,7 @@ public class StorePanel extends JPanel {
         FontMetrics fm = g.getFontMetrics();
         String text = String.valueOf(epsilonXp) + " XP  ";
         g.setFont(new Font("Consolas", Font.PLAIN, 20));
-        g.drawString(text, getWidth() / 2 - fm.stringWidth(text) / 2, BOX_HEIGHT*2 + 120);
+        g.drawString(text, getWidth() / 2 - fm.stringWidth(text) / 2, BOX_HEIGHT * 2 + 120);
     }
 
 }

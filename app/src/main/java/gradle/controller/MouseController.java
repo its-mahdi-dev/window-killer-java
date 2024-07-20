@@ -27,7 +27,6 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(GameSettings.isStore);
         if (GameSettings.massedUp) {
             Random random = new Random();
             int randomX = random.nextInt(GameFrame.getINSTANCE().getWidth());

@@ -49,7 +49,8 @@ public class GameController implements UPSController {
         NavbarView.getINSTANCE().setUtil();
         StorePanel.getINSTANCE().showOrHidePanel();
         if (GameSettings.isStore)
-            StorePanel.getINSTANCE().repaint();
+            if (GameSettings.isStore)
+                StorePanel.getINSTANCE().repaint();
         // Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().repaint();
     }
@@ -99,11 +100,12 @@ public class GameController implements UPSController {
         // Panels.getINSTANCE().addPanel(panel2);
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
-        // SmileyModel.getINSTANCE();
-        // new SmileyHandsModel();
-        // new SmileyHandsModel();
-        // SmileyFistModel.getINSTANCE();
-        createWave();
+        SmileyModel.getINSTANCE();
+        new SmileyHandsModel();
+        new SmileyHandsModel();
+        SmileyFistModel.getINSTANCE();
+        GameSettings.bossRun = true;
+        // createWave();
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // WyrmEnemy.create(new Point2D.Double(400, 400));
         // WyrmEnemy.create(new Point2D.Double(500,400));
@@ -117,7 +119,7 @@ public class GameController implements UPSController {
 
         GameFrame.getINSTANCE().repaint();
 
-        // BossController.punchAttack();
+        BossController.punchAttack();
 
         MainPanel.getINSTANCE().setVisible(false);
         // new Timer().scheduleAtFixedRate(new TimerTask() {

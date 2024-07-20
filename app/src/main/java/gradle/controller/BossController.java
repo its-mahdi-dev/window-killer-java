@@ -1,5 +1,6 @@
 package gradle.controller;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -260,8 +261,10 @@ public class BossController implements UPSController {
         SmileyFistModel fist = SmileyFistModel.getINSTANCE();
         GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
         fist.panel.rigid = true;
-        fist.anchor = new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() + fist.panel.getWidth() + 40,
-                epsilonPanel.getY() + epsilonPanel.getHeight() / 2);
+        for (Model hand : SmileyHandsModel.items)
+            ((SmileyHandsModel) hand).panel.rigid = true;
+        // fist.anchor = new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() + fist.panel.getWidth() + 40,
+        //         epsilonPanel.getY() + epsilonPanel.getHeight() / 2);
 
     }
 
@@ -270,15 +273,36 @@ public class BossController implements UPSController {
         GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
         // epsilonPanel.speed = fist.speed;
         if (isPunching) {
-            // Point2D newDirection = Utils.getDirection(fist.anchor,new
-            // Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() + ));
-        } else {
-            Point2D newDirection = Utils.getDirection(fist.anchor, new Point2D.Double(
-                    epsilonPanel.getX() + epsilonPanel.getWidth(), epsilonPanel.getY() + epsilonPanel.getHeight() / 2));
+            Point2D newDirection = Utils.getDirection(fist.anchor,
+                    new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() + fist.panel.getWidth() + 40,
+                            epsilonPanel.getY() + epsilonPanel.getHeight() / 2));
             fist.setDirection(newDirection);
-            if (Utils.getDistance(fist.anchor, new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth(),
-                    epsilonPanel.getY() + epsilonPanel.getHeight() / 2)) <= 2) {
-                epsilonPanel.setSize(epsilonPanel.getWidth() - (int) (newDirection.getX() * fist.speed),
+            if (Utils.getDistance(new Point2D.Double(fist.anchor.getX() - fist.panel.getWidth() / 2,
+                    fist.anchor.getY()),
+                    new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() + fist.panel.getWidth() + 40,
+                            epsilonPanel.getY() + epsilonPanel.getHeight() / 2)) <= 2) {
+                isPunching = false;
+            }
+
+        } else {
+            Point2D newDirection = Utils.getDirection(
+                    new Point2D.Double(fist.anchor.getX() - fist.panel.getWidth() / 2,
+                            fist.anchor.getY()),
+                    new Point2D.Double(
+                            epsilonPanel.getX() + epsilonPanel.getWidth(),
+                            epsilonPanel.getY() + epsilonPanel.getHeight() / 2));
+            fist.setDirection(newDirection);
+
+            // epsilonPanel.availableDimension = new Dimension((int)
+            // Constants.PANEL_SIZE.getWidth() - 100,
+            // (int) Constants.PANEL_SIZE.getHeight());
+            if (Utils.getDistance(
+                    new Point2D.Double(fist.anchor.getX() - fist.panel.getWidth() / 2,
+                            fist.anchor.getY()),
+                    new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth(),
+                            epsilonPanel.getY() + epsilonPanel.getHeight() / 2)) <= 2
+                    && epsilonPanel.getWidth() > epsilonPanel.availableDimension.getWidth() - 150) {
+                epsilonPanel.setSize(epsilonPanel.getWidth() - 10,
                         epsilonPanel.getHeight());
             }
         }

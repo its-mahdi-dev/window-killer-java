@@ -18,10 +18,12 @@ public class GamePanelThread implements Runnable {
     public void run() {
         while (running) {
             long startTime = System.nanoTime();
-            gamePanel.repaint();
-            if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 &&
-                    !GameSettings.isPause && !gamePanel.isometric)
-                gamePanel.changeSize();
+            if (!GameSettings.isPause) {
+                gamePanel.repaint();
+                if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 &&
+                        !GameSettings.isPause && !gamePanel.isometric)
+                    gamePanel.changeSize();
+            }
 
             long elapsedTime = System.nanoTime() - startTime;
             long sleepTime = ((long) Constants.FRAME_UPDATE_TIME * 1_000_000L - elapsedTime) / 1_000_000L;

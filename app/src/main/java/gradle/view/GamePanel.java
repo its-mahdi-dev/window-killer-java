@@ -15,6 +15,7 @@ import gradle.view.charecretsView.SmileyHandsView;
 import gradle.view.charecretsView.SmileyView;
 import gradle.view.charecretsView.CollectibleView;
 import gradle.view.charecretsView.EnemyView;
+import gradle.view.charecretsView.EpsilonCerbView;
 import gradle.view.charecretsView.EpsilonVertexView;
 import gradle.view.charecretsView.EpsilonView;
 import gradle.view.charecretsView.NavbarView;
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel {
     double velocity = Constants.CHANGE_FRAME_SPEED / Constants.ACCELERATION;
     public GamePanelThread panelThread;
     private String Id;
+    public Dimension availableDimension = Constants.PANEL_SIZE;
 
     public String getId() {
         return Id;
@@ -70,6 +72,9 @@ public class GamePanel extends JPanel {
             epsilonView.draw(g, this);
         }
         for (View epsilonView : EpsilonVertexView.items) {
+            epsilonView.draw(g, this);
+        }
+        for (View epsilonView : EpsilonCerbView.items) {
             epsilonView.draw(g, this);
         }
         for (View shotView : ShotView.items) {
@@ -118,19 +123,23 @@ public class GamePanel extends JPanel {
         if (isChanging) {
             speed -= velocity;
         } else {
-            if (getWidth() > Constants.PANEL_SIZE.getWidth()
-                    && getHeight() > Constants.PANEL_SIZE.getHeight()) {
+            if (getWidth() > availableDimension.getWidth()
+                    && getHeight() > availableDimension.getHeight()) {
                 speed = Constants.CHANGE_FRAME_SPEED;
                 location = new Point2D.Double(1, 1);
                 size = new Point2D.Double(-1, -1);
-            } else if (getHeight() > Constants.PANEL_SIZE.getHeight()) {
+            } else if (getHeight() > availableDimension.getHeight()) {
                 speed = Constants.CHANGE_FRAME_SPEED;
                 location = new Point2D.Double(0, 1);
                 size = new Point2D.Double(0, -1);
-            } else if (getWidth() > Constants.PANEL_SIZE.getWidth()) {
+            } else if (getWidth() > availableDimension.getWidth()) {
                 speed = Constants.CHANGE_FRAME_SPEED;
                 location = new Point2D.Double(1, 0);
                 size = new Point2D.Double(-1, 0);
+            } else if (getWidth() < availableDimension.getWidth()) {
+                speed = Constants.CHANGE_FRAME_SPEED;
+                location = new Point2D.Double(1, 0);
+                size = new Point2D.Double(+1, 0);
             } else {
                 speed = 0;
                 location = new Point2D.Double(0, 0);

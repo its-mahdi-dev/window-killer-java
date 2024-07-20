@@ -26,7 +26,7 @@ public class SmileyModel extends BossModel {
         h = Constants.BOSS_HEAD_DIAMETER;
         minRadius = Constants.BOSS_MINRADIUS;
         max_speed = Constants.BOSS_HAND_SPEED;
-        
+
         angleChange = max_speed / minRadius;
         vomitRadius = Constants.BOSS_VOMIT_RADIUS;
         panel = new GamePanel();
@@ -34,8 +34,9 @@ public class SmileyModel extends BossModel {
         int locX = EpsilonModel.getINSTANCE().currentPanels.get(0).getX()
                 + EpsilonModel.getINSTANCE().currentPanels.get(0).getWidth() / 2;
         int locY = EpsilonModel.getINSTANCE().currentPanels.get(0).getY()
-                - panel.getHeight() /2;
+                - panel.getHeight() / 2;
 
+        panel.isometric = true;
         angleMove = Math.toRadians(50);
         anchor = new Point2D.Double(locX, locY);
         firstAnchor = anchor;

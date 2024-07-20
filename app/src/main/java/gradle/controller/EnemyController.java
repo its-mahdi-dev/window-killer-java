@@ -48,6 +48,11 @@ public class EnemyController implements UPSController {
             for (Model model : EnemyModel.getAllEnemies()) {
                 EnemyModel enemyModel = (EnemyModel) model;
 
+                if (StoreController.itemsActive.get(StoreTypes.hypnos))
+                    enemyModel.ableMove = false;
+                else
+                    enemyModel.ableMove = true;
+
                 Point2D direction = Utils.getDirection(enemyModel.anchor,
                         EpsilonModel.getINSTANCE().anchor);
                 double distance = Utils.getDistance(enemyModel.anchor, EpsilonModel.getINSTANCE().anchor);
@@ -78,7 +83,8 @@ public class EnemyController implements UPSController {
                         enemyModel.move();
                     }
                 }
-                checkEnemyAbilities(enemyModel);
+                if (!StoreController.itemsActive.get(StoreTypes.hypnos))
+                    checkEnemyAbilities(enemyModel);
                 if (enemyModel.ableMove)
                     setPoints(enemyModel);
                 if (enemyModel.type == EnemyType.archmire)
@@ -379,6 +385,7 @@ public class EnemyController implements UPSController {
                         }
                     }
                 }
+
             }
         }
 
@@ -394,15 +401,18 @@ public class EnemyController implements UPSController {
                 epsilonModel.setImpact(newDirection, true, true);
             }
         }
-        for (Polygon polygon : enemyModel.getOrbsPolygon()) {
-            if (polygon.contains(epsilonModel.anchor)) {
-                if (epsilonModel.times.get("blackorb") == null) {
-                    epsilonModel.times.put("blackorb", System.currentTimeMillis());
-                    epsilonModel.HP -= enemyModel.attacks.get("laser");
-                } else {
-                    if (System.currentTimeMillis() - epsilonModel.times.get("blackorb") > 1000) {
+
+        if (!StoreController.itemsActive.get(StoreTypes.hypnos)) {
+            for (Polygon polygon : enemyModel.getOrbsPolygon()) {
+                if (polygon.contains(epsilonModel.anchor)) {
+                    if (epsilonModel.times.get("blackorb") == null) {
                         epsilonModel.times.put("blackorb", System.currentTimeMillis());
                         epsilonModel.HP -= enemyModel.attacks.get("laser");
+                    } else {
+                        if (System.currentTimeMillis() - epsilonModel.times.get("blackorb") > 1000) {
+                            epsilonModel.times.put("blackorb", System.currentTimeMillis());
+                            epsilonModel.HP -= enemyModel.attacks.get("laser");
+                        }
                     }
                 }
             }

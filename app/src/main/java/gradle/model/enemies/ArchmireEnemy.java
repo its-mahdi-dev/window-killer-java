@@ -50,7 +50,7 @@ public class ArchmireEnemy extends EnemyModel {
         enemyModel.pathHistory = new LinkedList<>();
         enemyModel.anchor = anchor;
         enemyModel.type = EnemyType.archmire;
-        enemyModel.max_speed = Constants.ENEMY_SPEED / 2 + (GameSettings.level / 5);
+        enemyModel.max_speed = Constants.ENEMY_SPEED / 3 + (GameSettings.level / 5);
         enemyModel.impact_speed = 1.5;
         enemyModel.isMoving = true;
 

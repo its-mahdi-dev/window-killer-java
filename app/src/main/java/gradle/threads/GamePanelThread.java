@@ -2,10 +2,12 @@ package gradle.threads;
 
 import gradle.controller.Constants;
 import gradle.controller.GameSettings;
+import gradle.controller.StoreController;
 import gradle.model.EpsilonModel;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.EnemyView;
 
+import gradle.controller.StoreController.StoreTypes;
 public class GamePanelThread implements Runnable {
     private final GamePanel gamePanel;
     private volatile boolean running = true;
@@ -21,7 +23,7 @@ public class GamePanelThread implements Runnable {
             if (!GameSettings.isPause) {
                 gamePanel.repaint();
                 if (EpsilonModel.getINSTANCE().currentPanels.size() <= 1 &&
-                        !GameSettings.isPause && !gamePanel.isometric)
+                        !GameSettings.isPause && !gamePanel.isometric && !StoreController.itemsActive.get(StoreTypes.hypnos))
                     gamePanel.changeSize();
             }
 

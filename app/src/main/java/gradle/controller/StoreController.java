@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gradle.interfaces.UPSController;
+import gradle.model.EnemyModel;
 import gradle.model.EpsilonModel;
+import gradle.model.Model;
 import gradle.view.StorePanel;
 
 public class StoreController implements UPSController {
@@ -102,12 +104,18 @@ public class StoreController implements UPSController {
         itemsInterface.put(StoreTypes.hypnos, new Store() {
             @Override
             public void store() {
-
+                for(Model model : EnemyModel.getAllEnemies()){
+                    EnemyModel enemyModel = (EnemyModel) model;
+                    if(enemyModel.timers.get("shotTimer") != null) enemyModel.timers.get("shotTimer").stop();
+                }
             }
 
             @Override
             public void remove() {
-
+                for(Model model : EnemyModel.getAllEnemies()){
+                    EnemyModel enemyModel = (EnemyModel) model;
+                    if(enemyModel.timers.get("shotTimer") != null) enemyModel.timers.get("shotTimer").start();
+                }
             }
         });
         itemsInterface.put(StoreTypes.phonoi, new Store() {
@@ -124,7 +132,7 @@ public class StoreController implements UPSController {
 
     }
 
-    enum StoreTypes {
+    public enum StoreTypes {
         hephaestus, athena, apollo, deimos, hypnos, phonoi
     }
 

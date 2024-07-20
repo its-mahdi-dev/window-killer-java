@@ -132,9 +132,9 @@ public class GameController implements UPSController {
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
 
         EnemyController.setWaveMethods();
-        waveNumber = 4;
-        // createWave();
-        BossController.start();
+        // waveNumber = 4;
+        createWave();
+        // BossController.start();
         // TriangleEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
@@ -214,8 +214,9 @@ public class GameController implements UPSController {
         Utils.playMusic("win", false);
 
         String msg = String.format(" shot number: %d \n shot success numbers: %d \n  killes: %d \n" + //
-                        " XP: %d \n time: %s",
-                EpsilonController.shotsNumber, EpsilonController.shotsSuccessNumber,EpsilonController.enemyDeadEnemies,EpsilonModel.getINSTANCE().XP,
+                " XP: %d \n time: %s",
+                EpsilonController.shotsNumber, EpsilonController.shotsSuccessNumber, EpsilonController.enemyDeadEnemies,
+                EpsilonModel.getINSTANCE().XP,
                 Utils.convertSecondsToTime(GameController.passTime));
         EpsilonModel.getINSTANCE().currentPanels.get(0).showMsg(msg);
         EpsilonModel.getINSTANCE().anchor = new Point2D.Double(

@@ -58,6 +58,8 @@ public class EnemyController implements UPSController {
 
     @Override
     public void check() {
+        if (GameSettings.bossRun)
+            return;
 
         // if (!isCreating) {
         removedEnemies = new ArrayList<>();
@@ -117,7 +119,11 @@ public class EnemyController implements UPSController {
             if (enemyModel.HP <= 0 && enemyModel.type != EnemyType.barricados)
                 removedEnemies.add(enemyModel);
         }
-
+        if (EnemyModel.getAllEnemies().size() == BarricadosMiniboss.items.size() && !isCreating) {
+            for (Model barModel : BarricadosMiniboss.items) {
+                removedEnemies.add((EnemyModel) barModel);
+            }
+        }
         for (EnemyModel enemyModel : removedEnemies) {
             remove(enemyModel.getId());
             deadEnemies++;
@@ -585,7 +591,7 @@ public class EnemyController implements UPSController {
                             else if (count % 3 == 1)
                                 ArchmireEnemy.create(randomPosition);
                             else if (count % 3 == 2)
-                                OmenoctEnemy.create(randomPosition);
+                                WyrmEnemy.create(randomPosition);
                         }
                     }
 
@@ -602,10 +608,10 @@ public class EnemyController implements UPSController {
                 waveStopNumber = GameController.waveNumbers.get(4) + ((int) GameSettings.level * 2);
                 deadEnemies = 0;
                 System.out.println("stoppp" + waveStopNumber);
-                BarricadosMiniboss.create(randomEnemyPosition());
+                // BarricadosMiniboss.create(randomEnemyPosition());
                 BlackorbEnemy.create(randomEnemyPosition());
                 NecropickEnemy.create(randomEnemyPosition());
-                OmenoctEnemy.create(randomEnemyPosition());
+                // OmenoctEnemy.create(randomEnemyPosition());
                 creatTimer = new Timer(1700, new ActionListener() {
                     int count = 0;
 
@@ -618,7 +624,7 @@ public class EnemyController implements UPSController {
                             if (count % 3 == 0)
                                 TriangleEnemy.create(randomPosition);
                             else if (count % 3 == 1)
-                                WyrmEnemy.create(randomPosition);
+                                OmenoctEnemy.create(randomPosition);
                             else if (count % 3 == 2)
                                 ArchmireEnemy.create(randomPosition);
                         }
@@ -641,7 +647,7 @@ public class EnemyController implements UPSController {
                 BlackorbEnemy.create(randomEnemyPosition());
                 BlackorbEnemy.create(randomEnemyPosition());
                 NecropickEnemy.create(randomEnemyPosition());
-                OmenoctEnemy.create(randomEnemyPosition());
+                // OmenoctEnemy.create(randomEnemyPosition());
                 creatTimer = new Timer(1700, new ActionListener() {
                     int count = 0;
 

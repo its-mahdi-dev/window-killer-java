@@ -6,6 +6,7 @@ import java.util.List;
 import java.awt.geom.Point2D;
 import gradle.controller.Constants;
 import gradle.model.enemies.ArchmireEnemy;
+import gradle.model.enemies.BarricadosMiniboss;
 import gradle.view.Panels;
 import gradle.view.charecretsView.EnemyView;
 import gradle.view.charecretsView.EpsilonView;
@@ -24,6 +25,7 @@ public class ShotModel extends Entity {
     }
 
     public static ShotModel create(Point2D anchor, ShotType type, int power) {
+        System.out.println(BarricadosMiniboss.items.size() + " ->" + EnemyModel.getAllEnemies().size());
         ShotModel shotModel;
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {

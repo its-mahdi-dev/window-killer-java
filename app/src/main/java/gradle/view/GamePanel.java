@@ -100,7 +100,6 @@ public class GamePanel extends JPanel {
         }
         if (SmileyFistView.items.size() > 0)
             SmileyFistView.items.get(0).draw(g, this);
-
     }
 
     public void changeSize(Point2D location, Point2D size) {

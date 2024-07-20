@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -67,7 +68,10 @@ public class BarricadosMiniboss extends EnemyModel {
         enemyModel.setPanelAnchor();
         enemyModel.panel.setSize(enemyModel.w + 20, enemyModel.h + 20);
         enemyModel.panel.isometric = true;
-        enemyModel.panel.rigid = true;
+        Random random = new Random();
+        int rand = random.nextInt(2);
+        if (rand == 0)
+            enemyModel.panel.rigid = true;
         Panels.getINSTANCE().addPanel(enemyModel.panel);
         enemyModel.init(enemyModel, enemyView);
         return enemyModel;

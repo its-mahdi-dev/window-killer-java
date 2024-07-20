@@ -25,6 +25,7 @@ import gradle.model.Model;
 import gradle.model.ShotModel;
 import gradle.model.ShotType;
 import gradle.model.SmileyFistModel;
+import gradle.view.GameFrame;
 import gradle.view.GamePanel;
 import gradle.view.charecretsView.SmileyHandsView;
 import gradle.view.charecretsView.SmileyView;
@@ -76,6 +77,26 @@ public class BossController implements UPSController {
 
     interface Removable {
         public void remove();
+    }
+
+    public static void start() {
+        EnemyController.removeAll();
+        CollectibleController.removeAllCollectible();
+        GamePanel epsilonPanel = EpsilonModel.getINSTANCE().currentPanels.get(0);
+        epsilonPanel.setSize(Constants.PANEL_SIZE);
+        epsilonPanel.setLocationToCenter(GameFrame.getINSTANCE());
+        EpsilonModel.getINSTANCE().anchor = new Point2D.Double(epsilonPanel.getX() + epsilonPanel.getWidth() / 2,
+                epsilonPanel.getY() + epsilonPanel.getHeight() / 2);
+        EpsilonModel.getINSTANCE().ableMove = true;
+        EpsilonModel.getINSTANCE().direction = new Point2D.Double(0, 0);
+        for (Timer timer : EpsilonModel.getINSTANCE().timers.values())
+            timer.stop();
+        System.out.println(SmileyHandsModel.items.size());
+        SmileyModel.getINSTANCE();
+        new SmileyHandsModel();
+        new SmileyHandsModel();
+        // SmileyFistModel.getINSTANCE();
+        GameSettings.bossRun = true;
     }
 
     @Override

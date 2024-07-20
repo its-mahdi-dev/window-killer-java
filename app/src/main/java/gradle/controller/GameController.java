@@ -118,14 +118,9 @@ public class GameController implements UPSController {
         Panels.getINSTANCE().repaint();
         GameFrame.getINSTANCE().add(Panels.getINSTANCE());
 
-        SmileyModel.getINSTANCE();
-        new SmileyHandsModel();
-        new SmileyHandsModel();
-        // SmileyFistModel.getINSTANCE();
-        GameSettings.bossRun = true;
-
         EnemyController.setWaveMethods();
-        // createWave();
+        waveNumber = 4;
+        createWave();
         // TriangleEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
@@ -185,8 +180,8 @@ public class GameController implements UPSController {
 
     public static void createWave() {
         Utils.playMusic("nextLevel", false);
-        if (waveNumber == 6) {
-            win();
+        if (waveNumber == 5 && !GameSettings.bossRun) {
+            BossController.start();
         } else {
             ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
             waveNumber++;

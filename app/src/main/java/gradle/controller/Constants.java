@@ -69,4 +69,5 @@ public class Constants {
         public static final int BOSS_MINRADIUS = 300;
         public static final int BOSS_VOMIT_RADIUS = 60;
         public static final int DEIMOS_RADUIS = 200;
+        static final int CERB_POWER = 10;
 }

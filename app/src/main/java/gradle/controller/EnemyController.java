@@ -24,6 +24,7 @@ import gradle.controller.StoreController.StoreTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.EnemyModel;
 import gradle.model.EnemyType;
+import gradle.model.EpsilonCerbModel;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
@@ -109,6 +110,7 @@ public class EnemyController implements UPSController {
             if (enemyModel.type != EnemyType.blackorb) {
                 checkEnemyCollision(enemyModel);
                 checkEpsilonColision(enemyModel);
+                checkEpsilonCerbColision(enemyModel);
             } else {
                 checkBlackOrbCollision((BlackorbEnemy) enemyModel);
             }
@@ -302,6 +304,39 @@ public class EnemyController implements UPSController {
             epsilonModel.HP += 3;
         }
 
+    }
+
+    private static void checkEpsilonCerbColision(EnemyModel enemyModel) {
+
+        EpsilonModel epsilonModel = EpsilonModel.getINSTANCE();
+        int archiveHP = enemyModel.HP;
+        for (Model cerberus : EpsilonCerbModel.items) {
+            boolean decreas = false;
+            EpsilonCerbModel epsilonCerbModel = (EpsilonCerbModel) cerberus;
+            Point2D[] point2ds = Utils.getNearestPoints(enemyModel.xPoints, enemyModel.yPoints,
+                    epsilonCerbModel.anchor);
+
+            for (int i = 0; i < enemyModel.xPoints.length; i++) {
+                if (Math.abs(epsilonCerbModel.anchor.getX() - enemyModel.xPoints[i]) <= epsilonCerbModel.w / 2
+                        && Math.abs(epsilonCerbModel.anchor.getY() - enemyModel.yPoints[i]) <= epsilonCerbModel.w / 2) {
+                    decreas = true;
+                }
+            }
+
+            if (Utils.getDistance(point2ds[0], point2ds[1], epsilonCerbModel.anchor) < epsilonCerbModel.w / 2) {
+                if (Utils.isPerpendicular(point2ds[0], point2ds[1], epsilonCerbModel.anchor)) {
+                    decreas = true;
+                }
+            }
+            if (System.currentTimeMillis() - epsilonCerbModel.lastAttack > 15000 && decreas) {
+                epsilonCerbModel.lastAttack = System.currentTimeMillis();
+                enemyModel.decreasHp(Constants.CERB_POWER + SkillTreeController.enemy_hp_collision_decrease);
+            }
+        }
+
+        if (enemyModel.HP < archiveHP && SkillTreeController.activeSkills.get(SkillTypes.chiron)) {
+            epsilonModel.HP += 3;
+        }
     }
 
     public static void checkEnemyCollision(EnemyModel enemyModel) {

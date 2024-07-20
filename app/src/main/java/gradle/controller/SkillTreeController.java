@@ -9,6 +9,7 @@ import javax.swing.Timer;
 import org.json.simple.JSONObject;
 
 import gradle.interfaces.UPSController;
+import gradle.model.EpsilonCerbModel;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 
@@ -93,7 +94,9 @@ public class SkillTreeController implements UPSController {
         skillInterfaces.put(SkillTypes.cerberus, new Skill() {
             @Override
             public void skill() {
-
+                EpsilonCerbModel.create();
+                EpsilonCerbModel.create();
+                EpsilonCerbModel.create();
             }
         });
         skillInterfaces.put(SkillTypes.melampus, new Skill() {

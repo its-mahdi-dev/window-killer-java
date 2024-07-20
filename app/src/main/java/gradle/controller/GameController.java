@@ -16,6 +16,7 @@ import gradle.model.enemies.BlackorbEnemy;
 import gradle.model.enemies.NecropickEnemy;
 import gradle.model.enemies.OmenoctEnemy;
 import gradle.model.enemies.SquareEnemy;
+import gradle.model.enemies.TriangleEnemy;
 import gradle.model.enemies.WyrmEnemy;
 import gradle.threads.GamePanelThread;
 import gradle.threads.UPSThread;
@@ -41,6 +42,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.locationtech.jts.awt.PointShapeFactory.Triangle;
 
 public class GameController implements UPSController {
 
@@ -122,8 +124,8 @@ public class GameController implements UPSController {
         // GameSettings.bossRun = true;
 
         EnemyController.setWaveMethods();
-        createWave();
-        // NecropickEnemy.create(new Point2D.Double(700,500));
+        // createWave();
+        TriangleEnemy.create(new Point2D.Double(700,500));
         // ArchmireEnemy.create(new Point2D.Double(1000,500));
         // EnemyModel.create(new Point2D.Double(1100, 400), EnemyType.necropick);
         // BlackorbEnemy.create(new Point2D.Double(500, 400));

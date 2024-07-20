@@ -12,6 +12,7 @@ import gradle.controller.StoreController.StoreTypes;
 import gradle.interfaces.UPSController;
 import gradle.model.CollectibleModel;
 import gradle.model.EnemyType;
+import gradle.model.EpsilonCerbModel;
 import gradle.model.EpsilonModel;
 import gradle.model.EpsilonVertexModel;
 import gradle.model.Model;
@@ -20,6 +21,7 @@ import gradle.model.ShotType;
 import gradle.view.GamePanel;
 import gradle.view.Panels;
 import gradle.view.charecretsView.CollectibleView;
+import gradle.view.charecretsView.EpsilonCerbView;
 import gradle.view.charecretsView.EpsilonVertexView;
 import gradle.view.charecretsView.EpsilonView;
 
@@ -50,12 +52,18 @@ public class EpsilonController implements UPSController {
         EpsilonModel.getINSTANCE().move();
         checkWallImpact();
         updateVertextAnchor();
+        updateCerbAnchor();
         setCurrentPanel();
 
         EpsilonView.items.get(0).setUtil(EpsilonModel.getINSTANCE());
         for (int i = 0; i < EpsilonVertexView.items.size(); i++) {
             EpsilonVertexView epsilonView = (EpsilonVertexView) EpsilonVertexView.items.get(i);
             EpsilonVertexModel epsilonModel = (EpsilonVertexModel) EpsilonVertexModel.findById(epsilonView.getId());
+            epsilonView.setUtil(epsilonModel);
+        }
+        for (int i = 0; i < EpsilonCerbView.items.size(); i++) {
+            EpsilonCerbView epsilonView = (EpsilonCerbView) EpsilonCerbView.items.get(i);
+            EpsilonCerbModel epsilonModel = (EpsilonCerbModel) EpsilonCerbModel.findById(epsilonView.getId());
             epsilonView.setUtil(epsilonModel);
         }
     }
@@ -176,6 +184,12 @@ public class EpsilonController implements UPSController {
                         epsilonModel.setImpact(new Point2D.Double(0, -1), false);
                 }
             }
+        }
+    }
+
+    public static void updateCerbAnchor() {
+        for (Model cerbModel : EpsilonCerbModel.items) {
+            ((EpsilonCerbModel) cerbModel).setRealAnchor();
         }
     }
 

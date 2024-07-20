@@ -141,7 +141,7 @@ public class GameController implements UPSController {
 
         GameFrame.getINSTANCE().repaint();
 
-        BossController.squeezeAttack();
+        // BossController.punchAttack();
         // BossController.rapidAttack();
 
         MainPanel.getINSTANCE().setVisible(false);

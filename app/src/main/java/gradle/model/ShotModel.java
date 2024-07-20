@@ -28,8 +28,7 @@ public class ShotModel extends Entity {
         ShotView shotView;
         if (ShotModel.removedItems.size() > 0) {
             shotModel = (ShotModel) ShotModel.removedItems.get(0);
-            shotView = (ShotView) ShotView.findById(shotModel.getId(),
-                    ShotView.removedItems);
+            shotView = (ShotView) ShotView.removedItems.get(0);
             ShotView.removedItems.remove(shotView);
             ShotModel.removedItems.remove(shotModel);
 
